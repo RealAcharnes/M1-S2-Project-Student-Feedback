@@ -3,6 +3,7 @@ import { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import Question from './components/question';
 // import axios from 'axios';
 
 import AuthService from "./services/auth.service";
@@ -115,6 +116,8 @@ class App extends Component {
              <Route path="/admin" component={BoardAdmin} />
            </Switch>
          </div>
+
+         <Question/>
 
       </div>
     );
