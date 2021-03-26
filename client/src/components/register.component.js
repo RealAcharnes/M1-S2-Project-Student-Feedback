@@ -10,7 +10,7 @@ const required = (value) => {
     if (!value) {
         return (
             <div className="alert alert-danger" role="alert">
-                Ce champ est requis !
+                Ce champ est obligatoire !
             </div>
         );
     }

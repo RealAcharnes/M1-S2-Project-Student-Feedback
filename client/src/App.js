@@ -30,6 +30,7 @@ class App extends Component {
     const user = AuthService.getCurrentUser();
 
     if (user) {
+      console.log(user);
       this.setState({
         currentUser: user,
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
@@ -83,7 +84,7 @@ class App extends Component {
               </li>
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
+                  Déconnexion
                 </a>
               </li>
             </div>
