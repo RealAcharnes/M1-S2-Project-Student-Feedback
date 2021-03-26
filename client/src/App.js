@@ -117,7 +117,7 @@ class App extends Component {
            </Switch>
          </div>
 
-         <Question/>
+         <Question formType="question"/>
 
       </div>
     );
