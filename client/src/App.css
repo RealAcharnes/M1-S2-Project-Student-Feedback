@@ -30,3 +30,13 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
+.success {
+  color: green;
+}
+
+.itsanerror {
+  color : red;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
