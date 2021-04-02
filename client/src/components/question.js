@@ -37,6 +37,9 @@ function Question({formType, choice}){
                         <div className="Reason">
                             { Switch(answerValue)}
                         </div>
+                        <div className="Submit">
+                            <button type="sumbit">Envoyer</button>
+                        </div>
                     </form>
                 </div>
             );
@@ -168,7 +171,6 @@ function OtherReason(value){
         return (
             <div>
             <textarea name="otherReason" placeholder="Veuillez saisir une autre raison" onChange={(e) => reason= e.target.value}/>
-            <button name="test" onClick={() => alert(reason)}>Envoyer</button>
             </div>
         );
     }    
