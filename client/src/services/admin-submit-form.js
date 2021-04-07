@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/v1/postform/";
+const API_URL = "http://localhost:5050/api/postform/";
 
 class PostForm {
     submit(title, questions) {

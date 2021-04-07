@@ -36,6 +36,26 @@ const vusername = value => {
   }
 };
 
+const vlastname = value => {
+  if (value.length < 3 || value.length > 50) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
+      </div>
+    );
+  }
+};
+
+const vfirstname = value => {
+  if (value.length < 3 || value.length > 50) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
+      </div>
+    );
+  }
+};
+
 const vpassword = value => {
   if (value.length < 6 || value.length > 50) {
     return (
@@ -45,27 +65,52 @@ const vpassword = value => {
     );
   }
 };
+const vpasswordConfirmation = value => {
+  if (value.length < 3 || value.length > 50) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
+      </div>
+    );
+  }
+};
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeFirstname = this.onChangeFirstname.bind(this);
+    this.onChangeLastname = this.onChangeLastname.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangePasswordConfirmation = this.onChangePasswordConfirmation.bind(this);
 
     this.state = {
-      username: "",
+      lastname: "",
+      firstname: "",
       email: "",
       password: "",
+      password_confirmation: "",
       successful: false,
       message: ""
     };
   }
 
-  onChangeUsername(e) {
+  // onChangeUsername(e) {
+  //   this.setState({
+  //     username: e.target.value
+  //   });
+  // }
+
+  onChangeFirstname(e) {
     this.setState({
-      username: e.target.value
+      firstname: e.target.value
+    });
+  }
+
+  onChangeLastname(e) {
+    this.setState({
+      lastname: e.target.value
     });
   }
 
@@ -81,6 +126,11 @@ export default class Register extends Component {
     });
   }
 
+  onChangePasswordConfirmation(e) {
+    this.setState({
+      password_confirmation: e.target.value
+    });
+  }
   handleRegister(e) {
     e.preventDefault();
 
@@ -93,15 +143,19 @@ export default class Register extends Component {
 
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.register(
-        this.state.username,
+        this.state.firstname,
+        this.state.lastname,
         this.state.email,
-        this.state.password
+        this.state.password,
+        this.state.password_confirmation,
       ).then(
         response => {
           this.setState({
             message: response.data.message,
             successful: true
           });
+
+          console.log(this.state);
         },
         error => {
           const resMessage =
@@ -115,6 +169,7 @@ export default class Register extends Component {
             successful: false,
             message: resMessage
           });
+          console.log(this.state);
         }
       );
     }
@@ -134,14 +189,26 @@ export default class Register extends Component {
             {!this.state.successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="username">Nom d'utilisateur</label>
+                  <label htmlFor="firstname">Prenom</label>
                   <Input
                     type="text"
                     className="form-control"
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.onChangeUsername}
-                    validations={[required, vusername]}
+                    name="firstname"
+                    value={this.state.firstname}
+                    onChange={this.onChangeFirstname}
+                    validations={[required, vfirstname]}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="lastname">Nom</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="lastname"
+                    value={this.state.lastname}
+                    onChange={this.onChangeLastname}
+                    validations={[required, vlastname]}
                   />
                 </div>
 
@@ -166,6 +233,18 @@ export default class Register extends Component {
                     value={this.state.password}
                     onChange={this.onChangePassword}
                     validations={[required, vpassword]}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="password_confirmation">Confirmer Mot de passe</label>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="password_confirmation"
+                    value={this.state.password_confirmation}
+                    onChange={this.onChangePasswordConfirmation}
+                    validations={[required, vpasswordConfirmation]}
                   />
                 </div>
 

@@ -1,16 +1,18 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/v1/auth/";
+const API_URL = "http://localhost:5050/api/";
 
 class AuthService {
-  login(username, password) {
+  login(email, password) {
     return axios
       .post(API_URL + "signin", {
-        username,
+        email,
         password
       })
       .then(response => {
-        if (response.data.accessToken) {
+      console.log(response.data);
+
+        if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
 
@@ -22,19 +24,13 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, password) {
+  register(firstname, lastname, email, password, password_confirmation) {
     return axios.post(API_URL + "signup", {
-      username,
-      email,
-      password
-    });
-  }
-
-  adminRegister(username, email, roles) {
-    return axios.post(API_URL + "adminsignup", {
-      username,
-      email,
-      roles
+      firstname, 
+      lastname, 
+      email, 
+      password, 
+      password_confirmation
     });
   }
 
