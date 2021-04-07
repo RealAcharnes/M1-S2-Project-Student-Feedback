@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PostForm from "../services/admin-submit-form";
 
 
-// Here is 3 constants related to the visual of our custom button
+// Here is 5 constants related to the visual of our custom button
 const StyledButtonAddExplanation = withStyles({
   root: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -166,7 +166,7 @@ class MyForm extends Component {
         <Form>
 
           <div className="form-group">
-            <label htmlFor="question">Question</label>
+            <label htmlFor="question"><strong>Question</strong></label>
             <Input
               type="text"
               className="form-control"
@@ -205,13 +205,11 @@ export default class BoardAdmin extends Component {
     this.state = {
       title: '',
       questions: [
-        // ['', []]
         {
           question_id: '',
           question_title: '',
           question_options: []
         }
-      
       ],
       message: ''
     };
@@ -228,7 +226,6 @@ export default class BoardAdmin extends Component {
 
   handleExplanationChange(indexQuestion, indexExplanation, explanation){
     let questions = [...this.state.questions];
-     //questions[indexQuestion][1][indexExplanation] = explanation;
     questions[indexQuestion].question_options[indexExplanation].options_text = explanation;
     
     let alphabet = String.fromCharCode(96 + (indexExplanation+1));
@@ -311,20 +308,22 @@ export default class BoardAdmin extends Component {
   createQuestionUI(){
 
     return(this.state.questions.map((element, indexQuestion) => 
-      <div className="container" key={indexQuestion}>
-        
-        <MyForm 
-          onQuestionChange = {this.handleQuestionChange.bind(this, indexQuestion)}
-          onTitleChange = {this.handleTitleChange}
-          onExplanationChange = {this.handleExplanationChange.bind(this, indexQuestion)}
-          onAddExplanationClick = {this.handleAddExplanationClick.bind(this, indexQuestion)}
-          onRemoveExplanationClick = {this.handleRemoveExplanationClick.bind(this, indexQuestion)}
-          explanations = {this.state.questions[indexQuestion].question_options}
-        />
-        <StyledButtonDelQuestion
-          variant = "contained" onClick = {this.onClickDelQuestion.bind(this, indexQuestion)}>Supprimer cette question
-        </StyledButtonDelQuestion>
-        
+      <div className="questionContainer">
+        <div className="container" key={indexQuestion}>
+          <MyForm 
+            onQuestionChange = {this.handleQuestionChange.bind(this, indexQuestion)}
+            onTitleChange = {this.handleTitleChange}
+            onExplanationChange = {this.handleExplanationChange.bind(this, indexQuestion)}
+            onAddExplanationClick = {this.handleAddExplanationClick.bind(this, indexQuestion)}
+            onRemoveExplanationClick = {this.handleRemoveExplanationClick.bind(this, indexQuestion)}
+            explanations = {this.state.questions[indexQuestion].question_options}
+          />
+          <div className="delQuestion">
+            <StyledButtonDelQuestion
+              variant = "contained" onClick = {this.onClickDelQuestion.bind(this, indexQuestion)}>Supprimer cette question
+            </StyledButtonDelQuestion>
+          </div>
+        </div>
       </div>
       )
     )
@@ -356,51 +355,54 @@ export default class BoardAdmin extends Component {
     const title = this.state.title;
 
     return (
-      <div>
+      <div className="mainTeacherForm">
+        <div className="container pt-3">
 
-        <div className="container">
-          <header className="jumbotron">
-            <h3>Création de nouvelles questions</h3>
-          </header>
-        </div>
-
-        <Form>
           <div className="container">
-            <div className="form-group">
-              <label htmlFor="form-title">Titre du formulaire</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="form-title"
-                  value = {title}
-                  onChange = {this.onChangeTitle}
-                  validations = {[required]}
-                  autoComplete = "off"
-                />
+            <header className="jumbotron">
+              <h3>Création de nouvelles questions</h3>
+            </header>
+          </div>
+
+          <Form>
+            <div className="container">
+              <div className="form-group">
+                <label htmlFor="form-title"><strong>Titre du formulaire</strong></label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="form-title"
+                    value = {title}
+                    onChange = {this.onChangeTitle}
+                    validations = {[required]}
+                    autoComplete = "off"
+                  />
+              </div>
             </div>
-          </div>
-          
 
-          {this.createQuestionUI()}
 
-          <div className="container">
-            <br></br>
-            <StyledButtonAddQuestion
-                variant = "contained" onClick = {this.onClickAddQuestion}>Ajouter une question
-            </StyledButtonAddQuestion>
-            <br></br><br></br>
-            <StyledButtonSubmit
-              variant = "contained" onClick = {this.handleSubmit}>Valider
-            </StyledButtonSubmit>
-          </div>
-        </Form>
+            {this.createQuestionUI()}
 
-        { this.state.message && 
-          <div className="container">
-            <div className="itsanerror"><h3>Une erreur est survenu lors de l'envoi du formulaire</h3></div>
-          </div>
-        }
-      
+
+            <div className="container">
+              <br></br>
+              <StyledButtonAddQuestion
+                  variant = "contained" onClick = {this.onClickAddQuestion}>Ajouter une question
+              </StyledButtonAddQuestion>
+              <br></br><br></br>
+              <StyledButtonSubmit
+                variant = "contained" onClick = {this.handleSubmit}>Valider
+              </StyledButtonSubmit>
+            </div>
+          </Form>
+
+          { this.state.message && 
+            <div className="container">
+              <div className="itsanerror"><h3>Une erreur est survenu lors de l'envoi du formulaire</h3></div>
+            </div>
+          }
+
+        </div>
       </div>
     );
   }

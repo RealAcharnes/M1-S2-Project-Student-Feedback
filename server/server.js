@@ -22,8 +22,13 @@ mongoose
 })
     .then (() => console.log('Mongodb Database is Connected'))
 
-//middlewares
-app.use(bodyParser.json());
+// Configure the bodyParser middleware
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
+
+// Configure the CORs middleware
 app.use(cors());
 
 //routes middleware

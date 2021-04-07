@@ -26,7 +26,7 @@ const email = value => {
   }
 };
 
-const vlastname = value => {
+const vusername = value => {
   if (value.length < 3 || value.length > 50) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -36,71 +36,30 @@ const vlastname = value => {
   }
 };
 
-const vfirstname = value => {
-  if (value.length < 3 || value.length > 50) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
-      </div>
-    );
-  }
-};
 
-const vpassword = value => {
-  if (value.length < 6 || value.length > 50) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Le mot de passe doit contenir entre 6 et 50 charactères.
-      </div>
-    );
-  }
-};
-const vpasswordConfirmation = value => {
-  if (value.length < 3 || value.length > 50) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
-      </div>
-    );
-  }
-};
-
-export default class Register extends Component {
+export default class AdminRegister extends Component {
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
-    this.onChangeFirstname = this.onChangeFirstname.bind(this);
-    this.onChangeLastname = this.onChangeLastname.bind(this);
+    this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.onChangePasswordConfirmation = this.onChangePasswordConfirmation.bind(this);
+    this.onChangeCheckbox = this.onChangeCheckbox.bind(this);
 
     this.state = {
-      lastname: "",
-      firstname: "",
+      username: "",
       email: "",
-      password: "",
-      password_confirmation: "",
+      admin: false,
+      teacher: false,
+      roles : [],
       successful: false,
-      message: ""
+      message: "",
+      noRoleError: false,
     };
   }
 
-  // onChangeUsername(e) {
-  //   this.setState({
-  //     username: e.target.value
-  //   });
-  // }
-
-  onChangeFirstname(e) {
+  onChangeUsername(e) {
     this.setState({
-      firstname: e.target.value
-    });
-  }
-
-  onChangeLastname(e) {
-    this.setState({
-      lastname: e.target.value
+      username: e.target.value
     });
   }
 
@@ -110,17 +69,16 @@ export default class Register extends Component {
     });
   }
 
-  onChangePassword(e) {
+  onChangeCheckbox(e) {
+    let target = e.target;
+    let value = target.checked;
+    let name = target.name;
     this.setState({
-      password: e.target.value
-    });
+        [name]: value,
+        noRoleError: false
+    })
   }
 
-  onChangePasswordConfirmation(e) {
-    this.setState({
-      password_confirmation: e.target.value
-    });
-  }
   handleRegister(e) {
     e.preventDefault();
 
@@ -131,21 +89,35 @@ export default class Register extends Component {
 
     this.form.validateAll();
 
+    if (!this.state.admin && !this.state.teacher) {
+      return (this.setState({
+        noRoleError: true
+      }))
+    }
+    else {
+      let roles = this.state.roles;
+      if (this.state.admin) {
+        roles.push("ROLE_ADMIN");
+      }
+      if (this.state.teacher) {
+        roles.push("ROLE_TEACHER")
+      }
+      this.setState({
+        roles
+      })
+    }
+
     if (this.checkBtn.context._errors.length === 0) {
-      AuthService.register(
-        this.state.firstname,
-        this.state.lastname,
+      AuthService.adminRegister(
+        this.state.username,
         this.state.email,
-        this.state.password,
-        this.state.password_confirmation,
+        this.state.roles,
       ).then(
         response => {
           this.setState({
             message: response.data.message,
             successful: true
           });
-
-          console.log(this.state);
         },
         error => {
           const resMessage =
@@ -159,7 +131,6 @@ export default class Register extends Component {
             successful: false,
             message: resMessage
           });
-          console.log(this.state);
         }
       );
     }
@@ -179,26 +150,14 @@ export default class Register extends Component {
             {!this.state.successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="firstname">Prenom</label>
+                  <label htmlFor="username">Nom d'utilisateur</label>
                   <Input
                     type="text"
                     className="form-control"
-                    name="firstname"
-                    value={this.state.firstname}
-                    onChange={this.onChangeFirstname}
-                    validations={[required, vfirstname]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="lastname">Nom</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="lastname"
-                    value={this.state.lastname}
-                    onChange={this.onChangeLastname}
-                    validations={[required, vlastname]}
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.onChangeUsername}
+                    validations={[required, vusername]}
                   />
                 </div>
 
@@ -215,27 +174,36 @@ export default class Register extends Component {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="password">Mot de passe</label>
-                  <Input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.onChangePassword}
-                    validations={[required, vpassword]}
-                  />
-                </div>
+                  <div className="form-check">
+                    <Input
+                      type="checkbox"
+                      className="form-check-input"
+                      name="teacher"
+                      checked={this.state.teacher}
+                      onChange={this.onChangeCheckbox}
+                    />
+                    <label className="form-check-label">
+                    Professeur
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <Input
+                      type="checkbox"
+                      className="form-check-input"
+                      name="admin"
+                      checked={this.state.admin}
+                      onChange={this.onChangeCheckbox}
+                    />
+                    <label className="form-check-label">
+                    Administrateur
+                    </label>
+                  </div>
 
-                <div className="form-group">
-                  <label htmlFor="password_confirmation">Confirmer Mot de passe</label>
-                  <Input
-                    type="password"
-                    className="form-control"
-                    name="password_confirmation"
-                    value={this.state.password_confirmation}
-                    onChange={this.onChangePasswordConfirmation}
-                    validations={[required, vpasswordConfirmation]}
-                  />
+                  {this.state.noRoleError && 
+                    <div className="container">
+                      <div className="itsanerror">Vous devez sélectionner au moins un rôle</div>
+                    </div>
+                  }
                 </div>
 
                 <div className="form-group">
