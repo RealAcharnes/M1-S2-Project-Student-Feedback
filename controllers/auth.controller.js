@@ -6,7 +6,7 @@ const {
     createJWT,
  } = require("../utils/auth.util"); 
 const Quiz = require('../models/Quiz');
-const Q = require('../models/Q');
+// const Q = require('../models/Q');
 const History = require('../models/History');
 
 
@@ -469,9 +469,9 @@ exports.submitTeacherForm = (req, res, next) => {
   // })
 
   // ne pas mettre en commentaire si vous voulez voir les informations qui arrivent de la requete POST
-  console.log(req.body);
-  console.log("--------------------------")
-  console.log(req.body.questions);
+  // console.log(req.body);
+  // console.log("--------------------------")
+  // console.log(req.body.questions);
 };
 
   // exports.authenticated = (req, res) => {
