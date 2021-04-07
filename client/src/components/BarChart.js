@@ -1,5 +1,4 @@
 import { Bar } from 'react-chartjs-2';
-import { Utils } from 'react-chartjs-2';
 
 
 const BarChart = ( props ) => {
