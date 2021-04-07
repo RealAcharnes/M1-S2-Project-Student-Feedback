@@ -10,6 +10,10 @@
     "dev": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\"",
     "client:build": "cd client && npm run build"
   },
+  "engines": {
+    "node": "14.15.4",
+    "npm": "7.6.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback.git"
