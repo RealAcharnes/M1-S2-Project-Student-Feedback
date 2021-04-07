@@ -11,6 +11,7 @@ const { db } = require('./models/User');
 
 // app
 const app = express();
+console.log("TESTTT");
 
 // Set our backend port to be either an environment variable or port 5000
 const port = process.env.PORT || 5050;
