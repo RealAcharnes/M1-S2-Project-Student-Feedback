@@ -6,7 +6,7 @@ const {
     createJWT,
  } = require("../utils/auth.util"); 
 const Quiz = require('../models/Quiz');
-// const Q = require('../models/Q');
+const Q = require('../models/Q');
 const History = require('../models/History');
 
 

@@ -1,13 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
 
 //import routes
 const authRoutes = require('./routes/auth');
-// const { db } = require('./models/User');
+const { db } = require('./models/User');
 
 // app
 const app = express();
