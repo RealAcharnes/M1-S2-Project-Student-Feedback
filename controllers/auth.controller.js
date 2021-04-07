@@ -7,7 +7,7 @@ const {
  } = require("../utils/auth.util"); 
 const Quiz = require('../models/Quiz');
 const Q = require('../models/Q');
-const History = require('../models/History');
+const History = require('../models/history');
 
 
  const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;

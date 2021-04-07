@@ -14,4 +14,4 @@ let quizSchema = new Schema({
     collection: 'history'
 })
 
-module.exports = mongoose.model('History', quizSchema);
+module.exports = mongoose.model('history', quizSchema);
