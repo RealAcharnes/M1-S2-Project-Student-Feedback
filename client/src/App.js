@@ -14,6 +14,7 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardAdmin from "./components/board-admin.component";
 import PostSubmitForm from "./components/postSubmitForm.component";
+import AdminRegister from "./components/admin-register.component";
 
 class App extends Component {
   constructor(props) {
@@ -59,9 +60,17 @@ class App extends Component {
              </li>
 
              {showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/admin"} className="nav-link">
+                    Tableau Administrateur
+                  </Link>
+                </li>
+             )}
+
+             {showAdminBoard && (
                <li className="nav-item">
-                 <Link to={"/admin"} className="nav-link">
-                   Tableau Administrateur
+                 <Link to={"/adminRegister"} className="nav-link">
+                   Ajouter un compte
                  </Link>
                </li>
              )}
@@ -106,17 +115,19 @@ class App extends Component {
 
           </nav>
 
-          <div className="container mt-3">
-           <Switch>
-             <Route exact path="/home" component={Home} />
-             <Route exact path="/login" component={Login} />
-             <Route exact path="/register" component={Register} />
-             <Route exact path="/profile" component={Profile} />
-             <Route path="/user" component={BoardUser} />
-             <Route path="/admin" component={BoardAdmin} />
-             <Route path="/postSubmitForm" component={PostSubmitForm} />
-           </Switch>
-         </div>
+          
+          <Switch>
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/adminRegister" component={AdminRegister} />
+            <Route exact path="/profile" component={Profile} />
+            <Route path="/user" component={BoardUser} />
+            <Route path="/admin" component={BoardAdmin} />
+            <Route path="/postSubmitForm" component={PostSubmitForm} />
+          </Switch>
+          
+         
 
       </div>
     );
