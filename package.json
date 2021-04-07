@@ -2,7 +2,7 @@
   "name": "m1-s2-project-student-feedback",
   "version": "1.0.0",
   "description": "m1-s2-project-student-feedback backend",
-  "main": "server/server.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd client && npm start",
