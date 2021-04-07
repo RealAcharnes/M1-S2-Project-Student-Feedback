@@ -2,11 +2,11 @@
   "name": "m1-s2-project-student-feedback",
   "version": "1.0.0",
   "description": "m1-s2-project-student-feedback backend",
-  "main": "server.js",
+  "main": "ser123.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd client && npm start",
-    "server": "nodemon server.js",
+    "server": "nodemon ser123.js",
     "dev": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\"",
     "client:build": "cd client && npm run build"
   },
