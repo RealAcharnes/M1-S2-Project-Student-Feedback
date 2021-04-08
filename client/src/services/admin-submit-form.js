@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://connect-dublin.heroku.com/api/v3postform/";
+const API_URL = "/api/postform/";
 
 class PostForm {
     submit(title, questions) {
