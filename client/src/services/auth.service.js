@@ -34,9 +34,10 @@ class AuthService {
     });
   }
 
-  adminRegister(username, email, roles) {
-    return axios.post(API_URL + "adminsignup", {
-      username,
+  adminRegister(firstname, lastname, email, roles) {
+    return axios.post(API_URL + "signup", {
+      firstname,
+      lastname,
       email,
       roles
     });

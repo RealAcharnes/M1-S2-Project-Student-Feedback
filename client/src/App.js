@@ -37,7 +37,7 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        showAdminBoard: "ROLE_ADMIN",
+        showAdminBoard: user.message.roles.includes("ROLE_ADMIN"),
       });
     }
   }

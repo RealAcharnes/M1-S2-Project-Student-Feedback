@@ -13,73 +13,104 @@ const History = require('../models/history');
  const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
  exports.signup = (req, res, next) => {
-    let { firstname, lastname, email, password, password_confirmation } = req.body;
-    
-    let errors = [];
-    if (!firstname) {
+
+  function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  let { firstname, lastname, email, password, password_confirmation, roles} = req.body;
+  
+  console.log(firstname,lastname,email,password,roles);
+
+  // if (!req.body.lastname){
+  //   lastname= "TESTLASTNAME"; // DELETE AFTER 
+  // }
+  
+  if (!req.body.password){
+    password= makeid(5); // DELETE AFTER 
+    password_confirmation= password;
+  }
+
+  if (!req.body.roles){
+    roles = ["ROLE_STUDENT"]
+  }
+  
+  
+  console.log(firstname,lastname,email,password,roles);
+
+  let errors = [];
+  if (!firstname) {
+    errors.push({ name: "required" });
+  }
+  if (!lastname) {
       errors.push({ name: "required" });
     }
-    if (!lastname) {
-        errors.push({ name: "required" });
-      }
-    if (!email) {
-      errors.push({ email: "required" });
-    }
-    if (!emailRegexp.test(email)) {
-      errors.push({ email: "invalid" });
-    }
-    if (!password) {
-      errors.push({ password: "required" });
-    }
-    if (!password_confirmation) {
-      errors.push({
-       password_confirmation: "required",
-      });
-    }
-    if (password != password_confirmation) {
-      errors.push({ password: "mismatch" });
-    }
-    if (errors.length > 0) {
-      return res.status(422).json({ errors: errors });
-    }
-    
-    User.findOne({email: email})
-     .then(user=>{
-        if(user){
-           return res.status(422).json({ errors: [{ user: "email already exists" }] });
-        }
-        else {
-           const user = new User({
-             firstname: firstname,
-             lastname: lastname,
-             email: email,
-             password: password,
-           });
-           
-           bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
-           if (err) throw err;
-           user.password = hash;
-           user.save()
-               .then(response => {
-                  res.status(200).json({
-                    success: true,
-                    result: response
-                  })
-               })
-               .catch(err => {
-                 res.status(500).json({
-                    errors: [{ error: err }]
-                 });
-              });
-           });
-        });
-       }
-    }).catch(err =>{
-        res.status(500).json({
-          errors: [{ error: 'Something went wrong' }]
-        });
-    })
+  if (!email) {
+    errors.push({ email: "required" });
   }
+  if (!emailRegexp.test(email)) {
+    errors.push({ email: "invalid" });
+  }
+  if (!password) {
+    errors.push({ password: "required" });
+  }
+  if (!password_confirmation) {
+    errors.push({
+     password_confirmation: "required",
+    });
+  }
+  if (password != password_confirmation) {
+    errors.push({ password: "mismatch" });
+  }
+  if (errors.length > 0) {
+    return res.status(422).json({ errors: errors });
+  }
+  
+  User.findOne({email: email})
+   .then(user=>{
+      if(user){
+         return res.status(423).json({ errors: [{ user: "email already exists" }] });
+      }
+      else {
+        const user = new User({
+           firstname: firstname,
+           lastname: lastname,
+           email: email,
+           password: password,
+           roles : roles,
+         });
+
+
+         bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
+         if (err) throw err;
+         user.password = hash;
+         user.save()
+             .then(response => {
+                res.status(200).json({
+                  success: true,
+                  result: response
+                })
+             })
+             .catch(err => {
+               res.status(500).json({
+                  errors: [{ error: err }]
+               });
+            });
+         });
+      });
+     }
+  }).catch(err =>{
+      res.status(500).json({
+        errors: [{ error: 'Something went wrong' }]
+      });
+  })
+}
 
 
   exports.signin = (req, res) => {
@@ -240,10 +271,10 @@ exports.question = (req, res, next) => {
   };
 
 // Find a single Quiz with an id
-exports.findOne = (req, res) => {
-  const id = req.params.id;
+exports.searchQuiz = (req, res) => {
+  const search = req.params.id;
 
-  Quiz.findById(id)
+  Quiz.find({quiz_id : search})
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found Tutorial with id " + id });
