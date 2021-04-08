@@ -120,7 +120,7 @@ const History = require('../models/history');
         user._id,
         3600
       );
-      jwt.verify(access_token, process.env.TOKEN_SECRET, (err,decoded) => {
+      jwt.verify(access_token, kwakuantwiaddo, (err,decoded) => {
         if (err) {
            res.status(500).json({ 
             success: false, 
@@ -485,7 +485,7 @@ exports.submitTeacherForm = (req, res, next) => {
   //     res.send(" Please login")
   //   }
   //   else{
-  //     jwt.verify(access_token, process.env.TOKEN_SECRET, (err,decoded) => {
+  //     jwt.verify(access_token, kwakuantwiaddo, (err,decoded) => {
   //       if (err) {
   //          res.status(500).json({ errors: err });
   //       }
