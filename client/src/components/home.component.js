@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import UserService from "../services/user.service";
 
 export default class Home extends Component {
   constructor(props) {
@@ -11,21 +10,24 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    UserService.getPublicContent().then(
-      response => {
-        this.setState({
-          content: response.data.body
-        });
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response && error.response.data) ||
-            error.message ||
-            error.toString()
-        });
-      }
-    );
+    // UserService.getPublicContent().then(
+    //   response => {
+    //     this.setState({
+    //       content: response.data.body
+    //     });
+    //   },
+    //   error => {
+    //     this.setState({
+    //       content:
+    //         (error.response && error.response.data) ||
+    //         error.message ||
+    //         error.toString()
+    //     });
+    //   }
+    // );
+    this.setState({
+      content: "Bienvenue dans votre application de Neuroéducation"
+    })
   }
 
   render() {

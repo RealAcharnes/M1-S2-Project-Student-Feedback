@@ -1,16 +1,18 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/auth/";
+const API_URL = "https://connect-dublin.heroku.com/api/v3";
 
 class AuthService {
-  login(username, password) {
+  login(email, password) {
     return axios
       .post(API_URL + "signin", {
-        username,
+        email,
         password
       })
       .then(response => {
-        if (response.data.accessToken) {
+      console.log(response.data);
+
+        if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
 
@@ -22,11 +24,21 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, password) {
+  register(firstname, lastname, email, password, password_confirmation) {
     return axios.post(API_URL + "signup", {
+      firstname, 
+      lastname, 
+      email, 
+      password, 
+      password_confirmation
+    });
+  }
+
+  adminRegister(username, email, roles) {
+    return axios.post(API_URL + "adminsignup", {
       username,
       email,
-      password
+      roles
     });
   }
 

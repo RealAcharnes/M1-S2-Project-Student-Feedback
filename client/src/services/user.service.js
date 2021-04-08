@@ -1,11 +1,10 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://localhost:5000/api/v1/test/';
+const API_URL = 'https://connect-dublin.heroku.com/api/v3/test/';
 
 class UserService {
   getPublicContent() {
-    //console.log(axios.get(API_URL + 'all'));
     return axios.get(API_URL + 'all');
   }
 

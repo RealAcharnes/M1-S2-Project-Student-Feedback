@@ -10,9 +10,14 @@ import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
+import Home2 from "./components/home2.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardAdmin from "./components/board-admin.component";
+import PostSubmitForm from "./components/postSubmitForm.component";
+import AllAnswers from "./components/all-answers.component";
+import AllQuestions from './components/allquestions.component';
+import AdminRegister from "./components/admin-register.component";
 
 class App extends Component {
   constructor(props) {
@@ -32,7 +37,7 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+        showAdminBoard: "ROLE_ADMIN",
       });
     }
   }
@@ -58,11 +63,41 @@ class App extends Component {
              </li>
 
              {showAdminBoard && (
+              <div>
+                <li className="nav-item">
+                  <Link to={"/admin"} className="nav-link">
+                    Tableau Administrateur
+                  </Link>
+                </li>
+               </div> 
+             )}
+
+             {showAdminBoard && (
                <li className="nav-item">
-                 <Link to={"/admin"} className="nav-link">
-                   Tableau Administrateur
+                 <Link to={"/adminRegister"} className="nav-link">
+                   Ajouter un compte
                  </Link>
                </li>
+             )}
+
+            {showAdminBoard && (
+              <div>
+                <li className="nav-item">
+                  <Link to={"/questions"} className="nav-link">
+                    Questions Page
+                  </Link>
+                </li>
+               </div> 
+             )}
+
+            {showAdminBoard && (
+              <div>
+                <li className="nav-item">
+                  <Link to={"/answers"} className="nav-link">
+                    Answers Page
+                  </Link>
+                </li>
+               </div> 
              )}
 
               {currentUser && (
@@ -83,7 +118,7 @@ class App extends Component {
               </li>
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
+                  Déconnexion
                 </a>
               </li>
             </div>
@@ -105,16 +140,21 @@ class App extends Component {
 
           </nav>
 
-          <div className="container mt-3">
-           <Switch>
-             <Route exact path="/home" component={Home} />
-             <Route exact path="/login" component={Login} />
-             <Route exact path="/register" component={Register} />
-             <Route exact path="/profile" component={Profile} />
-             <Route path="/user" component={BoardUser} />
-             <Route path="/admin" component={BoardAdmin} />
-           </Switch>
-         </div>
+          
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/home" component={Home2} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/adminRegister" component={AdminRegister} />
+            <Route exact path="/profile" component={Profile} />
+            <Route path="/user" component={BoardUser} />
+            <Route path="/questions" component={AllQuestions} />
+            <Route path="/answers" component={AllAnswers} />
+            <Route path="/admin" component={BoardAdmin} />
+            <Route path="/postSubmitForm" component={PostSubmitForm} />
+          </Switch>
+         
 
       </div>
     );
