@@ -23,7 +23,7 @@ const AllAnswers = () => {
 
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
     useEffect(() => {
-        Axios.get('http://localhost:5050/api/findAllAnswered').then((response) => {
+        Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllAnswered').then((response) => {
           console.log(response.data);
           setallAnswers(response.data) 
         })
@@ -45,7 +45,7 @@ const AllAnswers = () => {
 
     // RETRIEVE GROUPPED DATA FROM THE DATABASE BY SELECTED QUIZ ID 
     const getStats = (quiz_id) => {
-        Axios.get(`http://localhost:5050/api/groupStats/${quiz_id}`)
+        Axios.get(`https://neuroeducation-feedback.herokuapp.com/api/groupStats/${quiz_id}`)
         .then(response => {
             if(response){
             // SET GROUPPED ANSWERS "FOR EACH STUDENT" ARRAY

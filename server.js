@@ -14,7 +14,7 @@ const { db } = require('./models/User');
 const app = express();
 
 // Set our backend port to be either an environment variable or port 5000
-const port = process.env.PORT || 5050;
+const port = process.env.PORT || 443;
 
 // connect mongodb database
 mongoose

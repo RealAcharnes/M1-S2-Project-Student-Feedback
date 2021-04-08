@@ -14,7 +14,7 @@ const AllQuestions = () => {
     
     // LOAD ALL QUIZZES FROM DATABASE ON PAGE REFRESH AND SET RESPONSE INTO AN ARRAY
     useEffect(() => {
-        Axios.get('http://localhost:5050/api/findAllQ').then((response) => {
+        Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllQ').then((response) => {
           console.log(response.data);
           setallQuizzes(response.data) 
         })
@@ -86,7 +86,7 @@ const AllQuestions = () => {
         console.log("Radio Answer: ", radioOptions);
         console.log("CheckedItems: ", checkedItems);
         console.log("Final: ", answers);
-        Axios.post('http://localhost:5050/api/history', {
+        Axios.post('https://neuroeducation-feedback.herokuapp.com/api/history', {
             answers
           }).then((res) => {
                 console.log(res);
@@ -106,7 +106,7 @@ const AllQuestions = () => {
 
     //DELETE SLECTED QUIZ WITH THE QUIZ ID FROM DAATABASE
     const onDelete = (id) => {
-        Axios.delete(`http://localhost:5050/api/delete/${id}`)
+        Axios.delete(`https://neuroeducation-feedback.herokuapp.com/api/delete/${id}`)
         .then((res) => {
             console.log(res)
             setallQuizzes(allQuizzes.filter((question) => question._id !== id))

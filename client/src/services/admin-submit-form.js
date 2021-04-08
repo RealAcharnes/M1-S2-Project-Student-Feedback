@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/postform/";
+const API_URL = "https://neuroeducation-feedback.herokuapp.com/api/postform/";
 
 class PostForm {
     submit(title, questions) {
