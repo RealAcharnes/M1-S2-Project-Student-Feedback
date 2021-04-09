@@ -80,7 +80,7 @@ const History = require('../models/history');
         const user = new User({
            firstname: firstname,
            lastname: lastname,
-           email: email,
+           email: email.toLowerCase(),
            password: password,
            roles : roles,
          });
@@ -114,7 +114,7 @@ const History = require('../models/history');
 
   exports.signin = (req, res) => {
     let { email, password } = req.body;
-
+    email = email.toLowerCase();
     let errors = [];
     if (!email) {
       errors.push({ email: "required" });
