@@ -86,7 +86,7 @@ class App extends Component {
               <div>
                 <li className="nav-item">
                   <Link to={"/questions"} className="nav-link">
-                    Questions Page
+                    Page Questions
                   </Link>
                 </li>
                </div> 
@@ -96,7 +96,7 @@ class App extends Component {
               <div>
                 <li className="nav-item">
                   <Link to={"/answers"} className="nav-link">
-                    Answers Page
+                    Page Réponses
                   </Link>
                 </li>
                </div> 
