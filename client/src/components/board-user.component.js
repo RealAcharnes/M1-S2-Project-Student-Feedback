@@ -34,6 +34,7 @@ const BoardUser = () => {
   const [checkedItems, setCheckedItems] = useState([]); 
   const [currentUser] = useState(AuthService.getCurrentUser()) ;
   const [allQuizzes, setallQuizzes] = useState([]);
+  const [displayAllAnswered, setdisplayAllAnswered] = useState(false);
 
 
   // LOAD ALL QUIZZES ANSWERED BY CURRENT STUDENT FROM DATABASE 
@@ -106,6 +107,7 @@ const BoardUser = () => {
   const submitAnswers = () =>{
     setmessage("");
     setsuccessful(false);
+    setdisplayAllAnswered(false);
     const answers = {
         quiz_id : currentQuiz.quiz_id,
         quiz_answers : {
@@ -122,17 +124,21 @@ const BoardUser = () => {
           console.log(res);
           if(res){
               //   window.location.reload(false);
+              setcurrentQuiz(null);
               setCheckedItems([]);
               setradioOptions({});
-              setcurrentQuiz(null);
+              setallQuizzes([...allQuizzes, answers])
               setmessage('Answers Submitted');
               setsuccessful(true);
+              setdisplayAllAnswered(true);
+              
           }
       }).catch(err => {
+          setcurrentQuiz(null)  
           setsuccessful(false);
           console.log(err.response.data.message|| err.response.data.message[0].error);   
           setmessage(err.response.data.message|| err.response.data.message[0].error);
-          setcurrentQuiz(null)         
+                 
       });
   }
 
@@ -140,6 +146,7 @@ const BoardUser = () => {
     e.preventDefault();
     setmessage("");
     setsuccessful(false);
+    setdisplayAllAnswered(false);
 
     // this.form.validateAll();
 
@@ -170,7 +177,7 @@ return (
   <div className="row">
     <div className="col-xs-12 col-sm-12 col-md-6">
     <div className={!successful || message ? "card card-container" : ""}>
-        {!successful && (
+        {(!successful || displayAllAnswered)  && (
           <div >
             <div className="form-group">
               <label htmlFor="search">Search for Quiz</label>
@@ -208,7 +215,7 @@ return (
 
       <div className="col-xs-12 col-sm-12 col-md-6">
     <div className={!successful || message ? "card card-container" : ""}>
-        {!successful && allQuizzes && (
+        {(displayAllAnswered || !successful )  && allQuizzes && (
           <div >
             <h4>Quizzes Already Answered</h4>
             <div className={`quiz`} >
