@@ -23,7 +23,6 @@ const History = require('../models/history');
     }
     return result;
   }
-
   let { firstname, lastname, email, password, password_confirmation, roles} = req.body;
   
   console.log(firstname,lastname,email,password,roles);
