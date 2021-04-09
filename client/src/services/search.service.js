@@ -7,13 +7,13 @@ import axios from "axios";
 class SearchService {
 
   searchQuiz(id) {
-    return axios.get(`https://neuroeducation-feedback.herokuapp.com/api/api/searchQuiz/${id}`, {
+    return axios.get(`https://neuroeducation-feedback.herokuapp.com/api/searchQuiz/${id}`, {
       
     });
   }
 
   submitAnswers(answers){
-    axios.post('https://neuroeducation-feedback.herokuapp.com/api/api/history', {
+    axios.post('https://neuroeducation-feedback.herokuapp.com/api/history', {
         answers
       })
   }
