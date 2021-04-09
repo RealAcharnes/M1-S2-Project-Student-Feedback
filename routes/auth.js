@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const { signup, signin, question, findAll, deleteQuiz, 
-    findAllQ, findAllAnsweredQuizzes, findStats, groupStats, 
-    submitTeacherForm, history, searchQuiz, groupStudentQuizzes } 
+const { signup, signin, question, findAll, deleteQuiz, findAllQ, 
+    findAllAnsweredQuizzes, findStats, groupStats, submitTeacherForm, 
+    history, searchQuiz, groupStudentQuizzes, changePassword } 
     = require('../controllers/auth.controller');
 
 // POST REQUESTS
 router.post('/signup', signup);
+router.post('/changePassword', changePassword);
 router.post('/signin', signin);
 router.post('/question', question);
 router.post('/history', history);
