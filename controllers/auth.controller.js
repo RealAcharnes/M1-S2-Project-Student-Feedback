@@ -69,13 +69,13 @@ const History = require('../models/history');
     errors.push({ password: "mismatch" });
   }
   if (errors.length > 0) {
-    return res.status(422).json({ errors: errors });
+    return res.status(422).json({ message: errors });
   }
   
   User.findOne({email: email})
    .then(user=>{
       if(user){
-         return res.status(423).json({ errors: [{ user: "email already exists" }] });
+         return res.status(423).json({ message:  "email already exists" });
       }
       else {
         const user = new User({
@@ -94,12 +94,12 @@ const History = require('../models/history');
              .then(response => {
                 res.status(200).json({
                   success: true,
-                  result: response
+                  message: response
                 })
              })
              .catch(err => {
                res.status(500).json({
-                  errors: [{ error: err }]
+                  message: err 
                });
             });
          });
@@ -107,7 +107,7 @@ const History = require('../models/history');
      }
   }).catch(err =>{
       res.status(500).json({
-        errors: [{ error: 'Something went wrong' }]
+        message:  'Something went wrong'
       });
   })
 }
@@ -129,21 +129,21 @@ const History = require('../models/history');
     if (errors.length > 0) {
      return res.status(422).json({ 
       success: false, 
-      errors: errors });
+      message: errors });
     }
 
     User.findOne({ email: email }).then(user => {
       if (!user) {
         return res.status(404).json({
           success: false,
-          errors: [{ error: "User (email) not found" }],
+          message:  "User (email) not found",
         });
       } else {
          bcrypt.compare(password, user.password).then(isMatch => {
             if (!isMatch) {
              return res.status(400).json({ 
               success: false, 
-              errors: [{ error:"incorrect passord" }] 
+              message: "incorrect passord" 
              });
             }
       let access_token = createJWT(
@@ -155,7 +155,7 @@ const History = require('../models/history');
         if (err) {
            res.status(500).json({ 
             success: false, 
-            errors: err });
+            message: err });
         }
         if (decoded) {
             return res.status(200).json({
@@ -168,13 +168,13 @@ const History = require('../models/history');
        }).catch(err => {
          res.status(500).json({ 
           success: false, 
-          errors: err });
+          message: err });
        });
      }
   }).catch(err => {
      res.status(500).json({ 
       success: false, 
-      errors: err });
+      message: err });
   });
 }
 
@@ -209,18 +209,18 @@ exports.question = (req, res, next) => {
            .then(response => {
               res.status(200).json({
                 success: true,
-                result: response
+                message: response
               })
            })
            .catch(err => {
              res.status(500).json({
-                errors: [{ error: err }]
+                message: err 
              });
           });
        }
     }).catch(err =>{
         res.status(500).json({
-          errors: [{ error: 'Something went wrong' }]
+          message: 'Something went wrong' 
         });
     })
   }
@@ -235,7 +235,7 @@ exports.question = (req, res, next) => {
       })
       .catch(err => {
         res.status(500).send({
-          errors: [{error: "Some error occurred while retrieving tutorials."}]
+          message: "Some error occurred while retrieving Quizzes."
         });
       });
   };
@@ -250,7 +250,7 @@ exports.question = (req, res, next) => {
       })
       .catch(err => {
         res.status(500).send({
-          errors: [{error: "Some error occurred while retrieving tutorials."}]
+          message: "Some error occurred while retrieving Quizzes."
         });
       });
   };
@@ -265,25 +265,25 @@ exports.question = (req, res, next) => {
       })
       .catch(err => {
         res.status(500).send({
-          errors: [{error: "Some error occurred while retrieving tutorials."}]
+          message:  "Some error occurred while retrieving Answered Quizzes."
         });
       });
   };
 
 // Find a single Quiz with an id
-exports.searchQuiz = (req, res) => {
-  const search = req.params.id;
+exports.searchQuiz = async (req, res) => {
+  const id = req.params.id;
 
-  Quiz.find({quiz_id : search})
+  Quiz.findOne({quiz_id : id})
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Tutorial with id " + id });
+        res.status(404).send({ message: "Quiz with id: " + id +" NOT FOUND"});
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Tutorial with id=" + id });
+        .send({ message: "Error retrieving Quiz with id=" + id });
     });
 };
 
@@ -350,7 +350,45 @@ exports.groupStats = (req, res) => {
     });
 };
 
-  // Delete a Tutorial with the specified id in the request
+// Find a single Quiz with an id and group
+exports.groupStudentQuizzes = (req, res) => {
+  const student_id = req.params.id;
+
+  History.aggregate(
+    [
+
+      {
+        $match :{ "quiz_answers.student_id" : student_id}
+      },
+
+      // {
+      //   $group: 
+      //   {
+      //     "_id" : {
+      //       "answer": "$quiz_answers.student_answers.answer",
+      //       "explanation" :"$quiz_answers.student_answers.explanation"
+      //     }, 
+      //   }
+      // }
+
+    ]
+  )
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found  Answer with id " + id });
+      else {
+        res.send(data)
+          
+      };
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: err });
+    });
+};
+
+  // Delete a Quiz with the specified id in the request
 exports.deleteQuiz = (req, res) => {
   console.log(req);
   const id = req.params.id;
@@ -360,17 +398,17 @@ exports.deleteQuiz = (req, res) => {
     .then(data => {
       if (!data) {
         res.status(404).json({
-          errors: [{error : "Cannot delete Tutorial with id=${id}. Maybe Quiz was not found!"}]
+          message: [{error : "Cannot delete Quiz with id=${id}. Maybe Quiz was not found!"}]
         });
       } else {
         res.status(200).json({
-          errors: [{error : "Quiz was deleted successfully!"}]
+          message: [{error : "Quiz was deleted successfully!"}]
         });
       }
     })
     .catch(err => {
       res.status(500).json({
-        errors: [{error : "Could not delete Quiz with id=" + id }]
+        message:  "Could not delete Quiz with id=" + id 
       });
     });
 };
@@ -393,12 +431,12 @@ exports.history = async (req,res) => {
       .then(response => {
         res.status(200).json({
           success: true,
-          result: response
+          message: response
         })
       })
       .catch(err => {
         res.status(500).json({
-           errors: [{ error: err }]
+           message: err 
         });
      });
   }
@@ -411,18 +449,18 @@ exports.history = async (req,res) => {
           .then(response => {
             res.status(200).json({
               success: true,
-              result: response
+              message: response
             })
           })
           .catch(err => {
             res.status(500).json({
-               errors: [{ error: err }]
+               message:  err 
             });
          });
         }
         else{
             return res.status(500).json({
-              errors: [{ error: "You have answered this quiz already" }]
+              message: "You have answered this quiz already" 
            });
         }
 
@@ -432,7 +470,7 @@ exports.history = async (req,res) => {
 }
 
 exports.submitTeacherForm = (req, res, next) => {
-  let { title, questions  } = req.body;
+  let { title, created_by, questions  } = req.body;
 
   function makeid(length) {
       var result           = '';
@@ -479,6 +517,7 @@ exports.submitTeacherForm = (req, res, next) => {
    const quiz = new Quiz({
       quiz: title,
       quiz_id: quiz_id,
+      created_by: created_by,
       questions: questions
     });
 
@@ -486,12 +525,12 @@ exports.submitTeacherForm = (req, res, next) => {
     .then(response => {
        res.status(200).json({
          success: true,
-         result: response
+         message: response
        })
     })
     .catch(err => {
       res.status(500).json({
-         errors: [{ error: err }]
+         message:  err 
       });
    });
 

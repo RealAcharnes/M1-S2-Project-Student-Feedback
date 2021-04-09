@@ -1,13 +1,21 @@
 import axios from "axios";
 
-const API_URL = "https://neuroeducation-feedback.herokuapp.com/api/";
+// const API_URL = "https://neuroeducation-feedback.herokuapp.com/api/";
+// const API_URL = "http://localhost:5050/api/${id}";
+
 
 class SearchService {
 
-  searchQuiz(search) {
-    return axios.get(API_URL + "searchQuiz", {
-      search
+  searchQuiz(id) {
+    return axios.get(`https://neuroeducation-feedback.herokuapp.com/api/api/searchQuiz/${id}`, {
+      
     });
+  }
+
+  submitAnswers(answers){
+    axios.post('https://neuroeducation-feedback.herokuapp.com/api/api/history', {
+        answers
+      })
   }
 
 

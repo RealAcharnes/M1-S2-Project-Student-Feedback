@@ -7,10 +7,9 @@ import AuthService from "../services/auth.service";
 const AllQuestions = () => {
     const [allQuizzes, setallQuizzes] = useState([]);
     const [currentQuiz, setcurrentQuiz] = useState(null);
-    const [currentIndex, setcurrentIndex] = useState(-1);
     const [radioOptions, setradioOptions] = useState({})
     const [checkedItems, setCheckedItems] = useState([]); 
-    const [currentUser, setcurrentUser] = useState(AuthService.getCurrentUser()) 
+    const [currentUser] = useState(AuthService.getCurrentUser()) 
     
     // LOAD ALL QUIZZES FROM DATABASE ON PAGE REFRESH AND SET RESPONSE INTO AN ARRAY
     useEffect(() => {
@@ -28,7 +27,7 @@ const AllQuestions = () => {
     const setActiveQuiz = (quiz, index) => {
         console.log(quiz)
         setcurrentQuiz(quiz);
-        setcurrentIndex(index)
+        
     };
 
     // RETURN CHECKED VALUE(true or false)
@@ -105,16 +104,16 @@ const AllQuestions = () => {
 
 
     //DELETE SLECTED QUIZ WITH THE QUIZ ID FROM DAATABASE
-    const onDelete = (id) => {
-        Axios.delete(`https://neuroeducation-feedback.herokuapp.com/api/delete/${id}`)
-        .then((res) => {
-            console.log(res)
-            setallQuizzes(allQuizzes.filter((question) => question._id !== id))
-        })
-        .catch(err => {
-            console.log(err); 
-        });
-    }; 
+    // const onDelete = (id) => {
+    //     Axios.delete(`https://neuroeducation-feedback.herokuapp.com/api/delete/${id}`)
+    //     .then((res) => {
+    //         console.log(res)
+    //         setallQuizzes(allQuizzes.filter((question) => question._id !== id))
+    //     })
+    //     .catch(err => {
+    //         console.log(err); 
+    //     });
+    // }; 
 
 
     return (

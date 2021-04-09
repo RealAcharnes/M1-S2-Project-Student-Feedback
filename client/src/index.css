@@ -33,6 +33,11 @@ code {
   border: 1px solid steelblue;
   padding: 30px;
   border-radius: 5px;
+  background-color: rgb(93, 156, 168);
+
+}
+.input {
+  font-size: 200px;
 }
 
 .header {
@@ -42,7 +47,7 @@ code {
   margin-bottom: 20px;
 }
 
-.btn {
+.btnn {
   display: inline-block;
   background: steelblue;
   color: #fff;
@@ -56,11 +61,11 @@ code {
   font-family: inherit;
 }
 
-.btn:focus {
+.btnn:focus {
   outline: none;
 }
 
-.btn:active {
+.btnn:active {
   transform: scale(0.98);
 }
 
