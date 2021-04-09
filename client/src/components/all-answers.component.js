@@ -14,7 +14,6 @@ import DoughnutChart from './DoughnutChart';
 const AllAnswers = () => {
     const [allAnswers, setallAnswers] = useState([]);
     const [currentQuiz, setcurrentQuiz] = useState(null);
-    const [currentIndex, setcurrentIndex] = useState(-1);
     const [array, setarray] = useState(null);
     const [answersArray, setanswersArray] = useState();
     const [explanationsArray, setexplanationsArray] = useState()
@@ -23,7 +22,7 @@ const AllAnswers = () => {
 
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
     useEffect(() => {
-        Axios.get('http://localhost:5050/api/findAllAnswered').then((response) => {
+        Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllAnswered').then((response) => {
           console.log(response.data);
           setallAnswers(response.data) 
         })
@@ -36,7 +35,6 @@ const AllAnswers = () => {
     const setActiveQuiz = (quiz, index, quiz_id) => {
         console.log(quiz)
         setcurrentQuiz(quiz);
-        setcurrentIndex(index);
         getStats(quiz_id);
         setcurrentStudent(null);
         setexplanationStats(null);
@@ -45,7 +43,7 @@ const AllAnswers = () => {
 
     // RETRIEVE GROUPPED DATA FROM THE DATABASE BY SELECTED QUIZ ID 
     const getStats = (quiz_id) => {
-        Axios.get(`http://localhost:5050/api/groupStats/${quiz_id}`)
+        Axios.get(`https://neuroeducation-feedback.herokuapp.com/api/groupStats/${quiz_id}`)
         .then(response => {
             if(response){
             // SET GROUPPED ANSWERS "FOR EACH STUDENT" ARRAY
@@ -193,7 +191,7 @@ const AllAnswers = () => {
                         </div>
 
                         <div>
-                            {currentStudent ? (
+                            {currentStudent && (
                                 <div>
                                     <h4>{'Showing Answers of  : '}{currentStudent.student_id}</h4>
                                     {currentStudent && currentStudent.student_answers.map((answers, index) => (
@@ -203,13 +201,13 @@ const AllAnswers = () => {
                                         </div>
                                     ))}
                                 </div>
-                            ) : (<h4></h4>)}
+                            )}
                         </div>
                         <Button disableElevation variant="contained" onClick={disp}>Log</Button> <span></span>
                         <Button disableElevation variant="contained" onClick={stats}>Click for Stats</Button>
 
                         <Container>
-                            {array ? (
+                            {array && (
                                 <div>
                                     <Grid container spacing={3}>
                                         {array && array.map((answer, index) => (
@@ -234,9 +232,9 @@ const AllAnswers = () => {
                                     </Grid>
                                 </div>
                                                         
-                                ) : (<h4></h4>)}
+                                ) }
 
-                            {explanationStats ? (
+                            {explanationStats && (
                                 <div>
                                         <Grid container spacing={3} >
                                             {explanationStats && explanationStats.map((explanation, index) => (
@@ -259,7 +257,7 @@ const AllAnswers = () => {
                                             ))}
                                         </Grid>
                                 </div>         
-                                ) : (<h4></h4>)}
+                                )}
                         </Container>    
                     </div>
                 ) : (<h4>Please Select A Quiz to view Answers</h4>)}

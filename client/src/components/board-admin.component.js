@@ -4,6 +4,8 @@ import Input from "react-validation/build/input";
 import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PostForm from "../services/admin-submit-form";
+import AuthService from "../services/auth.service";
+
 
 
 // Here is 5 constants related to the visual of our custom button
@@ -204,6 +206,7 @@ export default class BoardAdmin extends Component {
 
     this.state = {
       title: '',
+      created_by: '',
       questions: [
         {
           question_id: '',
@@ -211,8 +214,20 @@ export default class BoardAdmin extends Component {
           question_options: []
         }
       ],
-      message: ''
+      message: '',
+      currentUser: undefined,
     };
+  }
+
+  componentDidMount() {
+
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      this.setState({
+        currentUser: user,
+      });
+    }
   }
 
   handleQuestionChange(indexQuestion, question){
@@ -279,7 +294,9 @@ export default class BoardAdmin extends Component {
 
   handleSubmit(){
 
-    PostForm.submit(this.state.title, this.state.questions).then(
+    const { currentUser} = this.state;
+
+    PostForm.submit(this.state.title, currentUser.message.email, this.state.questions).then(
       () => {
         this.props.history.push("/postSubmitForm");
         window.location.reload();

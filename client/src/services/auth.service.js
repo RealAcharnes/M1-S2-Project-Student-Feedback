@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/";
+const API_URL = "https://neuroeducation-feedback.herokuapp.com/api/";
 
 class AuthService {
   login(email, password) {
@@ -34,9 +34,10 @@ class AuthService {
     });
   }
 
-  adminRegister(username, email, roles) {
-    return axios.post(API_URL + "adminsignup", {
-      username,
+  adminRegister(firstname, lastname, email, roles) {
+    return axios.post(API_URL + "signup", {
+      firstname,
+      lastname,
       email,
       roles
     });

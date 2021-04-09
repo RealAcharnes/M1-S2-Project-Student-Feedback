@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { signup, signin, question, findAll, deleteQuiz, findOne, 
+const { signup, signin, question, findAll, deleteQuiz, 
     findAllQ, findAllAnsweredQuizzes, findStats, groupStats, 
-    submitTeacherForm, history } 
+    submitTeacherForm, history, searchQuiz, groupStudentQuizzes } 
     = require('../controllers/auth.controller');
 
 // POST REQUESTS
@@ -16,10 +16,11 @@ router.post('/postform/submit', submitTeacherForm);
 // GET REQUESTS
 router.get('/findAll', findAll);
 router.get('/findAllQ', findAllQ);
-router.get('/findOne/:id', findOne);
+router.get('/searchQuiz/:id', searchQuiz);
 router.get('/findAllAnswered', findAllAnsweredQuizzes);
 router.get('/findStats/:id', findStats);
 router.get('/groupStats/:id', groupStats);
+router.get('/studentQuizzes/:id', groupStudentQuizzes);
 
 // DELETE REQUESTS
 router.delete('/delete/:id', deleteQuiz);

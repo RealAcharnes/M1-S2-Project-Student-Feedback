@@ -11,6 +11,10 @@ let quizSchema = new Schema({
         type: String,
         // required: true
     },
+    created_by: {
+        type: String,
+        // required: true
+    },
     questions: {
         type: Array,
         // required: true

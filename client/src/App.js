@@ -37,7 +37,7 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        showAdminBoard: "ROLE_ADMIN",
+        showAdminBoard: user.message.roles.includes("ROLE_ADMIN"),
       });
     }
   }
@@ -113,7 +113,7 @@ class App extends Component {
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
+                  {currentUser.message.firstname}
                 </Link>
               </li>
               <li className="nav-item">
