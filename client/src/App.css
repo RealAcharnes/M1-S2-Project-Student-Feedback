@@ -63,3 +63,8 @@ label {
   flex-direction: row;
   justify-content: flex-end;
 }
+
+p.quizMdp {
+  font-size: 35px;
+  color: rgb(255, 23, 23);
+}

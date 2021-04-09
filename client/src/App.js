@@ -26,6 +26,7 @@ class App extends Component {
 
     this.state = {
       showAdminBoard: false,
+      showTeacherBoard: false,
       currentUser: undefined,
     };
   }
@@ -38,6 +39,7 @@ class App extends Component {
       this.setState({
         currentUser: user,
         showAdminBoard: user.message.roles.includes("ROLE_ADMIN"),
+        showTeacherBoard: user.message.roles.includes("ROLE_TEACHER"),
       });
     }
   }
@@ -47,7 +49,7 @@ class App extends Component {
   }
 
   render() {
-     const { currentUser, showAdminBoard } = this.state;
+     const { currentUser, showAdminBoard, showTeacherBoard } = this.state;
 
     return (
       <div>
@@ -62,11 +64,11 @@ class App extends Component {
                </Link>
              </li>
 
-             {showAdminBoard && (
+             {(showAdminBoard || showTeacherBoard) && (
               <div>
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
-                    Tableau Administrateur
+                    Ajouter un quiz
                   </Link>
                 </li>
                </div> 
@@ -80,7 +82,7 @@ class App extends Component {
                </li>
              )}
 
-            {showAdminBoard && (
+            {(showAdminBoard || showTeacherBoard) && (
               <div>
                 <li className="nav-item">
                   <Link to={"/questions"} className="nav-link">
@@ -90,7 +92,7 @@ class App extends Component {
                </div> 
              )}
 
-            {showAdminBoard && (
+            {(showAdminBoard || showTeacherBoard) && (
               <div>
                 <li className="nav-item">
                   <Link to={"/answers"} className="nav-link">
@@ -100,7 +102,7 @@ class App extends Component {
                </div> 
              )}
 
-              {currentUser && (
+              {(currentUser && !showTeacherBoard) && (
                <li className="nav-item">
                  <Link to={"/user"} className="nav-link">
                    Utilisateur
@@ -140,20 +142,21 @@ class App extends Component {
 
           </nav>
 
-          
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/home" component={Home2} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/adminRegister" component={AdminRegister} />
-            <Route exact path="/profile" component={Profile} />
-            <Route path="/user" component={BoardUser} />
-            <Route path="/questions" component={AllQuestions} />
-            <Route path="/answers" component={AllAnswers} />
-            <Route path="/admin" component={BoardAdmin} />
-            <Route path="/postSubmitForm" component={PostSubmitForm} />
-          </Switch>
+          <div className="container pt-3">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/home" component={Home2} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/adminRegister" component={AdminRegister} />
+              <Route exact path="/profile" component={Profile} />
+              <Route path="/user" component={BoardUser} />
+              <Route path="/questions" component={AllQuestions} />
+              <Route path="/answers" component={AllAnswers} />
+              <Route path="/admin" component={BoardAdmin} />
+              <Route path="/postSubmitForm" component={PostSubmitForm} />
+            </Switch>
+          </div>
          
 
       </div>

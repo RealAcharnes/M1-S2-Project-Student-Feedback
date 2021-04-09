@@ -56,6 +56,7 @@ export default class AdminRegister extends Component {
       successful: false,
       message: "",
       noRoleError: false,
+      mdpTmp: "",
     };
   }
 
@@ -123,8 +124,9 @@ export default class AdminRegister extends Component {
       ).then(
         response => {
           this.setState({
-            message: response.data.message,
-            successful: true
+            message: "Compte créé avec succès",
+            successful: true,
+            mdpTmp: response.data.mdpTmp
           });
         },
         error => {
@@ -243,6 +245,17 @@ export default class AdminRegister extends Component {
                   role="alert"
                 >
                   {this.state.message}
+
+                  {this.state.mdpTmp && (
+                    <div>
+                      <br></br><br></br>
+                      Votre mot de passe temporaire est :
+                      {" " + this.state.mdpTmp}
+                      <br></br><br></br>
+                      Vous pourrez le modifier en vous connectant à votre profil
+                    </div>
+                  )}
+                  
                 </div>
               </div>
             )}

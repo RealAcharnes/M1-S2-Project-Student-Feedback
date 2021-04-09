@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "https://neuroeducation-feedback.herokuapp.com/api/";
+// const API_URL = "https://neuroeducation-feedback.herokuapp.com/api/";
+const API_URL = "http://localhost:5050/api/";
 
 class AuthService {
   login(email, password) {
@@ -10,7 +11,7 @@ class AuthService {
         password
       })
       .then(response => {
-      console.log(response.data);
+        console.log(response.data);
 
         if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data));
@@ -35,7 +36,8 @@ class AuthService {
   }
 
   adminRegister(firstname, lastname, email, roles) {
-    return axios.post(API_URL + "signup", {
+    return axios
+    .post(API_URL + "signup", {
       firstname,
       lastname,
       email,

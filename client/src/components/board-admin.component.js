@@ -297,8 +297,11 @@ export default class BoardAdmin extends Component {
     const { currentUser} = this.state;
 
     PostForm.submit(this.state.title, currentUser.message.email, this.state.questions).then(
-      () => {
-        this.props.history.push("/postSubmitForm");
+      (response) => {
+        this.props.history.push({
+          pathname: "/postSubmitForm",
+          state:{quizMdp: response.quizMdp}
+        })
         window.location.reload();
       },
       error => {
@@ -373,7 +376,7 @@ export default class BoardAdmin extends Component {
 
     return (
       <div className="mainTeacherForm">
-        <div className="container pt-3">
+        <div>
 
           <div className="container">
             <header className="jumbotron">

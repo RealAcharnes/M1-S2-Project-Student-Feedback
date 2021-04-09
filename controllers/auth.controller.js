@@ -23,16 +23,11 @@ const History = require('../models/history');
     }
     return result;
   }
+
   let { firstname, lastname, email, password, password_confirmation, roles} = req.body;
   
-  console.log(firstname,lastname,email,password,roles);
-
-  // if (!req.body.lastname){
-  //   lastname= "TESTLASTNAME"; // DELETE AFTER 
-  // }
-  
   if (!req.body.password){
-    password= makeid(5); // DELETE AFTER 
+    password= makeid(5);
     password_confirmation= password;
   }
 
@@ -40,8 +35,7 @@ const History = require('../models/history');
     roles = ["ROLE_STUDENT"]
   }
   
-  
-  console.log(firstname,lastname,email,password,roles);
+  // console.log(firstname,lastname,email,password,roles);
 
   let errors = [];
   if (!firstname) {
@@ -87,21 +81,22 @@ const History = require('../models/history');
 
 
          bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
-         if (err) throw err;
-         user.password = hash;
-         user.save()
-             .then(response => {
-                res.status(200).json({
-                  success: true,
-                  message: response
-                })
-             })
-             .catch(err => {
-               res.status(500).json({
-                  message: err 
-               });
+          if (err) throw err;
+          user.password = hash;
+          user.save()
+          .then(response => {
+            res.status(200).json({
+              success: true,
+              message: response,
+              mdpTmp: password,
+            })
+          })
+          .catch(err => {
+            res.status(500).json({
+              message: err 
             });
-         });
+          });
+        });
       });
      }
   }).catch(err =>{
@@ -524,7 +519,8 @@ exports.submitTeacherForm = (req, res, next) => {
     .then(response => {
        res.status(200).json({
          success: true,
-         message: response
+         message: response,
+         quizMdp: quiz_id
        })
     })
     .catch(err => {
