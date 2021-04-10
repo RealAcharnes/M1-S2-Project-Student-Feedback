@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import Axios from 'axios';
 import {FaTimes} from 'react-icons/fa'
 import AuthService from "../services/auth.service";
+import { List, ListItem, ListItemText } from '@material-ui/core';
 
 
 const AllQuestions = () => {
@@ -119,16 +120,22 @@ const AllQuestions = () => {
     return (
         <div className="container-questions">
             <h4>Quiz List</h4>
-            <div className={`quiz`} >
-                {allQuizzes && allQuizzes.map((quiz, index) => (
-                    <h4 
-                    onClick= {() => setActiveQuiz(quiz, index)}
-                    > {quiz.quiz} {''} 
-                        <FaTimes 
-                            style={{color: 'red', cursor: 'pointer'}}
-                        />
-                    </h4>
-                ))}
+            <div className={`quiz`} style={{borderRadius: "10px", marginTop: "10px"}}>
+                <List>
+                    {allQuizzes && allQuizzes.map((quiz, index) => (
+                        <ListItem button>
+                            <ListItemText primary={
+                                <h4 
+                                onClick= {() => setActiveQuiz(quiz, index)}
+                                > {quiz.quiz} {''} 
+                                    <FaTimes 
+                                        style={{color: 'red', cursor: 'pointer'}}
+                                    />
+                                </h4>
+                            } />
+                        </ListItem>
+                    ))}
+                </List>
             </div>
 
             <div>

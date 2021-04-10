@@ -119,9 +119,9 @@ class App extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
+                <Link to={"/login"} className="nav-link" onClick={this.logOut}>
                   Déconnexion
-                </a>
+                </Link>
               </li>
             </div>
           ) : (

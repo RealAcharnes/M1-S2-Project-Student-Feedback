@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVert from '@material-ui/icons/MoreVert';
 import BarChart from './BarChart';
-import { Button, Container } from '@material-ui/core';
+import { Button, Container, List, ListItem, ListItemText } from '@material-ui/core';
 import DoughnutChart from './DoughnutChart';
 
 const AllAnswers = () => {
@@ -163,17 +163,24 @@ const AllAnswers = () => {
         <div className="container-questions">
             <h4>All Answered List</h4>
 
-            <div className={`quiz`} >
-                {allAnswers && allAnswers.map((quiz, index) => (
-                    <h4 
-                    onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)}
-                    > {quiz.quiz_id} {''} 
-                        <FaTimes 
-                            style={{color: 'red', cursor: 'pointer'}}
-                            //  onClick={() => onDelete(quiz._id)}
-                        />
-                    </h4>
-                ))}
+            <div className={`quiz`} style={{borderRadius: "10px"}}>
+                <List>
+                    {allAnswers && allAnswers.map((quiz, index) => (
+                        <ListItem button >
+                            <ListItemText primary={
+                                 <h4 
+                                 onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)}
+                                 > {quiz.quiz_id} {''} 
+                                     <FaTimes 
+                                         style={{color: 'red', cursor: 'pointer'}}
+                                         //  onClick={() => onDelete(quiz._id)}
+                                     />
+                                 </h4>
+                            } />
+                           
+                        </ListItem>
+                    ))}
+                </List>
             </div>
 
             <div>
@@ -203,9 +210,10 @@ const AllAnswers = () => {
                                 </div>
                             )}
                         </div>
-                        <Button disableElevation variant="contained" onClick={disp}>Log</Button> <span></span>
-                        <Button disableElevation variant="contained" onClick={stats}>Click for Stats</Button>
-
+                        <div style={{marginBottom: "20px"}}>
+                            <Button disableElevation variant="contained" onClick={disp}>Log</Button> <span></span>
+                            <Button disableElevation variant="contained" onClick={stats}>Click for Stats</Button>
+                        </div>
                         <Container>
                             {array && (
                                 <div>
