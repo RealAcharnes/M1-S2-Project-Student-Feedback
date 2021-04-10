@@ -8,17 +8,20 @@ import { List, ListItem, ListItemText } from '@material-ui/core';
 const AllQuestions = () => {
     const [allQuizzes, setallQuizzes] = useState([]);
     const [currentQuiz, setcurrentQuiz] = useState(null);
-    const [radioOptions, setradioOptions] = useState({})
+    const [radioOptions, setradioOptions] = useState({});
     const [checkedItems, setCheckedItems] = useState([]); 
     const [currentUser] = useState(AuthService.getCurrentUser()) ;
     const [message, setmessage] = useState('') ;
     const [successful, setsuccessful] = useState(false)  
 
+    // const [currentUser] = useState(AuthService.getCurrentUser());
+    const [showSpinner, setShowSpinner] = useState(true);
     // LOAD ALL QUIZZES FROM DATABASE ON PAGE REFRESH AND SET RESPONSE INTO AN ARRAY
     useEffect(() => {
         Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllQ').then((response) => {
           console.log(response.data);
           setallQuizzes(response.data) 
+          setShowSpinner(false);
         })
         .catch(function (error) {
             console.log(error);
@@ -151,14 +154,19 @@ const AllQuestions = () => {
     return (
         <div className="container-questions">
             <h4>Quiz List</h4>
+            {/* html for spinner */}
+            {showSpinner && <div class="spinner">
+                <div></div>
+                <div></div>
+            </div>
+            }
             <div className={`quiz`} style={{borderRadius: "10px", marginTop: "10px"}}>
                 <List>
                     {allQuizzes && allQuizzes.map((quiz, index) => (
-                        <ListItem button>
+                        <ListItem button onClick= {() => setActiveQuiz(quiz, index)} >
                             <ListItemText primary={
-                                <h4 
-                                onClick= {() => setActiveQuiz(quiz, index)}
-                                > {quiz.quiz} {''} 
+                                <h4> 
+                                    {quiz.quiz} {''} 
                                     <FaTimes 
                                         style={{color: 'red', cursor: 'pointer'}}
                                     />
