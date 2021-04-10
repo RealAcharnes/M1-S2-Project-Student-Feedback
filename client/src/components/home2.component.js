@@ -27,6 +27,9 @@ export default class Home2 extends Component {
             </div>
             <div className="container">
                 <h5>{this.state.description}</h5>
+                <div style={{textAlign: "center", marginTop: "20px"}}>
+                  <img style={{height: "500px", width: "500px", borderRadius: "10px"}} src="/brain-storming.png" alt="students brainstorming"/>
+                </div>
             </div>
         </div>
       
