@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AuthService from "../services/auth.service";
+import ModifyPassword from "./modifyPassword.component";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -39,6 +40,7 @@ export default class Profile extends Component {
           {currentUser.message.roles &&
             currentUser.message.roles.map((role, index) => <li key={index}>{role}</li>)}
         </ul>
+        <ModifyPassword/>        
       </div>
     );
   }
