@@ -408,16 +408,17 @@ exports.deleteQuiz = (req, res) => {
 };
 
 exports.history = async (req,res) => {
-  let {quiz_id , quiz_answers } = req.body.answers;
+  let {quiz_id , quiz_title, quiz_answers } = req.body.answers;
   let student_id = quiz_answers.student_id;
 
-  console.log(quiz_answers);
+  console.log(quiz_title);
 
   let find_quiz = await History.findOne({quiz_id})
 
   if (!find_quiz) {
       const find_quiz = new History({
         quiz_id : quiz_id,
+        quiz_title : quiz_title,
         quiz_answers : quiz_answers
       })
 

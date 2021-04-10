@@ -170,7 +170,7 @@ const AllAnswers = () => {
                             <ListItemText primary={
                                  <h4 
                                  onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)}
-                                 > {quiz.quiz_id} {''} 
+                                 > {quiz.quiz_title} {''} 
                                      <FaTimes 
                                          style={{color: 'red', cursor: 'pointer'}}
                                          //  onClick={() => onDelete(quiz._id)}

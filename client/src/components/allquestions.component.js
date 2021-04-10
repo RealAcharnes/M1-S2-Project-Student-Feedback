@@ -10,8 +10,10 @@ const AllQuestions = () => {
     const [currentQuiz, setcurrentQuiz] = useState(null);
     const [radioOptions, setradioOptions] = useState({})
     const [checkedItems, setCheckedItems] = useState([]); 
-    const [currentUser] = useState(AuthService.getCurrentUser()) 
-    
+    const [currentUser] = useState(AuthService.getCurrentUser()) ;
+    const [message, setmessage] = useState('') ;
+    const [successful, setsuccessful] = useState(false)  
+
     // LOAD ALL QUIZZES FROM DATABASE ON PAGE REFRESH AND SET RESPONSE INTO AN ARRAY
     useEffect(() => {
         Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllQ').then((response) => {
@@ -40,20 +42,42 @@ const AllQuestions = () => {
     }
 
     // SET RADIO BUTTON SELECTION FRO EACH QUESTION
-    const setradio = (id , value) => {
+    const setradio = (id , answer) => {
+        let checkedArray = checkedItems.map(x => {return {...x}})
+        const find_question = checkedArray.find(a => a.question_answer_id === id);
+        console.log(find_question)
+        if(find_question) {
+            checkedArray.find(a => a.question_answer_id === id).answer = answer;
+            setradioOptions((state) => {
+                console.log(state);
+                return {
+                    ...state,
+                    [id] : answer
+                }
+            });
+            setCheckedItems(checkedArray);
+        }
+        else{
         setradioOptions((state) => {
             console.log(state);
             return {
                 ...state,
-                [id] : value
+                [id] : answer
             }
         });
+
+        setCheckedItems([
+            ...checkedItems,
+             {
+                question_answer_id : id,
+                answer: answer,
+                explanation: 'no explanation'
+            }
+        ]);}
     }
 
     // SET EXPLANATION TOGETHER WITH ANSWERS AND QUESTION NUMBER
     const setCheckbox = (value, checked, question_id, question_title, quiz_id) => {
-
-
         let checkedArray = checkedItems.map(x => {return {...x}})
         const find_question = checkedArray.find(a => a.question_answer_id === question_id);
         console.log(find_question)
@@ -61,28 +85,23 @@ const AllQuestions = () => {
             checkedArray.find(a => a.question_answer_id === question_id).explanation = value;
             setCheckedItems(checkedArray);
         }
-        else{
-            setCheckedItems([
-                ...checkedItems,
-                 {
-                    question_answer_id : question_id,
-                    answer: radioOptions[question_id],
-                    explanation: value 
-                }
-            ]);
-        }
         
     }
 
     // SUBMIT ANSWERS TO THE BACKEND
     const submitAnswers = () =>{
+        setmessage('');
+        setsuccessful(false);
         const answers = {
             quiz_id : currentQuiz.quiz_id,
+            quiz_title : currentQuiz.quiz,
             quiz_answers : {
-                student_id : currentUser.message.firstname+' '+currentUser.message.lastname,
+                student_id : currentUser.message.email,
                 student_answers : checkedItems
             }
         }
+        console.log("current: ", currentQuiz);
+
         console.log("Radio Answer: ", radioOptions);
         console.log("CheckedItems: ", checkedItems);
         console.log("Final: ", answers);
@@ -92,11 +111,23 @@ const AllQuestions = () => {
                 console.log(res);
                 if(res){
                     //   window.location.reload(false);
+                    setmessage('You submitted Quiz as Admin or Teacher... Please Delete from the answers page else Stats will be affected');
+                    setsuccessful(true);
                     setCheckedItems([]);
                     setradioOptions({});
+
                 }
-          }).catch(err => {
-                console.log(err);            
+          }).catch(error => {
+                console.log(error);
+                const errMessage =
+                (error.response.data.message[0].password || (error.response &&
+                  error.response.data &&
+                  error.response.data.message)) ||
+                error.message ||
+                error.toString();
+                console.log(errMessage);
+              setmessage(errMessage);
+                setsuccessful(false);            
           });
 
 
@@ -139,6 +170,20 @@ const AllQuestions = () => {
             </div>
 
             <div>
+                {message && (
+                    <div className="form-group">
+                        <div
+                        className={
+                            successful
+                            ? "alert alert-success"
+                            : "alert alert-danger"
+                        }
+                        role="alert"
+                        >
+                        {message}
+                        </div>
+                    </div>
+                    )}
                 {currentQuiz ? (
                     <div> 
                         <center><h4>{currentQuiz.quiz}</h4><br/></center>
