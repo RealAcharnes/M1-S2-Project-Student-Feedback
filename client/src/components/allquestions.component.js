@@ -123,11 +123,10 @@ const AllQuestions = () => {
             <div className={`quiz`} style={{borderRadius: "10px", marginTop: "10px"}}>
                 <List>
                     {allQuizzes && allQuizzes.map((quiz, index) => (
-                        <ListItem button>
+                        <ListItem button onClick= {() => setActiveQuiz(quiz, index)} >
                             <ListItemText primary={
-                                <h4 
-                                onClick= {() => setActiveQuiz(quiz, index)}
-                                > {quiz.quiz} {''} 
+                                <h4> 
+                                    {quiz.quiz} {''} 
                                     <FaTimes 
                                         style={{color: 'red', cursor: 'pointer'}}
                                     />

@@ -166,11 +166,10 @@ const AllAnswers = () => {
             <div className={`quiz`} style={{borderRadius: "10px"}}>
                 <List>
                     {allAnswers && allAnswers.map((quiz, index) => (
-                        <ListItem button >
+                        <ListItem button onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)} >
                             <ListItemText primary={
-                                 <h4 
-                                 onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)}
-                                 > {quiz.quiz_id} {''} 
+                                 <h4> 
+                                     {quiz.quiz_id} {''} 
                                      <FaTimes 
                                          style={{color: 'red', cursor: 'pointer'}}
                                          //  onClick={() => onDelete(quiz._id)}
