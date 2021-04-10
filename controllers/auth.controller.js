@@ -23,16 +23,11 @@ const History = require('../models/history');
     }
     return result;
   }
+
   let { firstname, lastname, email, password, password_confirmation, roles} = req.body;
   
-  console.log(firstname,lastname,email,password,roles);
-
-  // if (!req.body.lastname){
-  //   lastname= "TESTLASTNAME"; // DELETE AFTER 
-  // }
-  
   if (!req.body.password){
-    password= makeid(5); // DELETE AFTER 
+    password= makeid(5);
     password_confirmation= password;
   }
 
@@ -40,8 +35,7 @@ const History = require('../models/history');
     roles = ["ROLE_STUDENT"]
   }
   
-  
-  console.log(firstname,lastname,email,password,roles);
+  // console.log(firstname,lastname,email,password,roles);
 
   let errors = [];
   if (!firstname) {
@@ -80,28 +74,29 @@ const History = require('../models/history');
         const user = new User({
            firstname: firstname,
            lastname: lastname,
-           email: email,
+           email: email.toLowerCase(),
            password: password,
            roles : roles,
          });
 
 
          bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
-         if (err) throw err;
-         user.password = hash;
-         user.save()
-             .then(response => {
-                res.status(200).json({
-                  success: true,
-                  message: response
-                })
-             })
-             .catch(err => {
-               res.status(500).json({
-                  message: err 
-               });
+          if (err) throw err;
+          user.password = hash;
+          user.save()
+          .then(response => {
+            res.status(200).json({
+              success: true,
+              message: response,
+              mdpTmp: password,
+            })
+          })
+          .catch(err => {
+            res.status(500).json({
+              message: err 
             });
-         });
+          });
+        });
       });
      }
   }).catch(err =>{
@@ -114,7 +109,7 @@ const History = require('../models/history');
 
   exports.signin = (req, res) => {
     let { email, password } = req.body;
-
+    email = email.toLowerCase();
     let errors = [];
     if (!email) {
       errors.push({ email: "required" });
@@ -142,7 +137,7 @@ const History = require('../models/history');
             if (!isMatch) {
              return res.status(400).json({ 
               success: false, 
-              message: "incorrect passord" 
+              message: "incorrect password" 
              });
             }
       let access_token = createJWT(
@@ -524,7 +519,8 @@ exports.submitTeacherForm = (req, res, next) => {
     .then(response => {
        res.status(200).json({
          success: true,
-         message: response
+         message: response,
+         quizMdp: quiz_id
        })
     })
     .catch(err => {
@@ -543,32 +539,78 @@ exports.submitTeacherForm = (req, res, next) => {
   // console.log(req.body.questions);
 };
 
-  // exports.authenticated = (req, res) => {
-  //   res.send(" You are authenticated")
-  // }
+exports.changePassword = async (req, res, next) => {
 
-  // exports.verifyJWT = (req, res, next) => {
-  //   const token = req.headers['x-acccess-token']
-
-  //   if(!token){
-  //     res.send(" Please login")
-  //   }
-  //   else{
-  //     jwt.verify(access_token, process.env.TOKEN_SECRET, (err,decoded) => {
-  //       if (err) {
-  //          res.status(500).json({ errors: err });
-  //       }
-  //       if (decoded) {
-  //         req.userId = decoded.id;
-  //         next();
-
-  //           // return res.status(200).json({
-  //           //    success: true,
-  //           //    token: access_token,
-  //           //    message: user
-  //           // });
-  //         }
-  //       });
+  let { email, old_password, password, password_confirmation} = req.body;
       
-  //   }
-  // }  
+  let errors = [];
+  if (!old_password) {
+    errors.push({ old_password: "old password required" });
+  }
+  if (!email) {
+    errors.push({ email: "required" });
+  }
+  if (!emailRegexp.test(email)) {
+    errors.push({ email: "invalid" });
+  }
+  if (!password) {
+    errors.push({ password: "required" });
+  }
+  if (!password_confirmation) {
+    errors.push({
+      password_confirmation: "required",
+    });
+  }
+  if (password != password_confirmation) {
+    errors.push({ password: "mismatch" });
+  }
+  if (errors.length > 0) {
+    return res.status(422).json({ message: errors });
+  }
+  
+  
+  let user = await User.findOne({ email: email })
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message:  "User (email) not found",
+      });
+    } 
+    else {
+        bcrypt.compare(old_password, user.password)
+        .then(isMatch => {
+          if (!isMatch) {
+            return res.status(400).json({ 
+            success: false, 
+            message: "incorrect password" 
+            });
+          }
+
+          bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
+            if (err) throw err;
+            console.log(typeof user) 
+            User.updateOne({email: user.email}, {password : hash})
+            .then(response => {
+              res.status(200).json({
+                success: true,
+                message: response
+              })
+            }) 
+            .catch(err => {  // update catch
+              res.status(500).json({
+                  message:  err 
+              });
+            }); 
+            });
+          });
+
+        })
+        .catch(err => {   // mismatch catch
+          res.status(500).json({ 
+          success: false, 
+          message: err });
+        });
+    }
+
+}
