@@ -44,6 +44,16 @@ class AuthService {
     });
   }
 
+  changePassword(email, old_password, password, password_confirmation) {
+    return axios
+    .post(API_URL + "changePassword", {
+      email, 
+      old_password, 
+      password, 
+      password_confirmation
+    });
+  }
+
   getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'));;
   }

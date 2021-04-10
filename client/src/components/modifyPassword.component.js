@@ -4,6 +4,8 @@ import Input from "react-validation/build/input";
 // import CheckButton from "react-validation/build/button";
 // import React, { Component } from "react";
 
+import AuthService from '../services/auth.service'
+
 
 
 const currentPassword = ""
@@ -39,36 +41,77 @@ const currentPassword = ""
 //     }
 //   };
 
-function ModifyPassword(){
+const ModifyPassword = (email) =>{
     const [oldPw, setOldPw] = useState('')
-const [newPw, setNewPw] = useState('')
-const [confirmNewPw, setConfirmNewPw] = useState('')
-     return (
-        <div>
-            <strong>Changement de mot de passe</strong>
-            <Form>
-            <label name="oldPw">Ancien mot de passe</label>
-            <Input name="oldPw" value={oldPw} placeholder="******" onChange={(e) => setOldPw(e.target.value)} />
-            <label name="newPw">Nouveau mot de passe</label>
-            <Input name="newPw" value={newPw} placeholder="******" onChange={(e) => setNewPw(e.target.value)} />
-            <label name="confirmNewPw">Confirmer le nouveau mot de passe</label>
-            <Input name="confirmNewPw" value={confirmNewPw} placeholder="******" onChange={(e) => setConfirmNewPw(e.target.value)} />
-            {/* <CheckButton
-              style={{ display: "none" }}
-              ref={c => {
-                Component.checkBtn = c;
-              }}
-            /> */}
-            </Form>
-            <button type="button" onClick={ApplyModifications(oldPw,newPw,confirmNewPw)}>Confirmer</button>
-        </div>
-    );
+    const [newPw, setNewPw] = useState('')
+    const [confirmNewPw, setConfirmNewPw] = useState('')
+    const [message, setmessage] = useState('');
+    const [successful, setsuccessful] = useState(false);
+    const [userEmail] = useState(email.email)
+
+    const ApplyModifications =(email,oldPass, newPass, confirmPass) => {
+        console.log(email)
+        setmessage('');
+        setsuccessful(false);
+        AuthService.changePassword(email, oldPass, newPass, confirmPass)
+        .then((res) => {
+            console.log(res.data);
+            setmessage("Password Successfully Changed");
+            setsuccessful(true);
+        })
+        .catch((error) =>{
+            const errMessage =
+              (error.response.data.message[0].password || (error.response &&
+                error.response.data &&
+                error.response.data.message)) ||
+              error.message ||
+              error.toString();
+              console.log(errMessage);
+            setmessage(errMessage);
+            setsuccessful(false);
+        })
+    }
+
+
+
+return (
+    <div className="card card-container">
+        
+        <strong>Changement de mot de passe</strong>
+        <Form>
+        <label name="oldPw">Ancien mot de passe</label>
+        <Input name="oldPw" value={oldPw} placeholder="******" onChange={(e) => setOldPw(e.target.value)} />
+        <label name="newPw">Nouveau mot de passe</label>
+        <Input name="newPw" value={newPw} placeholder="******" onChange={(e) => setNewPw(e.target.value)} />
+        <label name="confirmNewPw">Confirmer le nouveau mot de passe</label>
+        <Input name="confirmNewPw" value={confirmNewPw} placeholder="******" onChange={(e) => setConfirmNewPw(e.target.value)} />
+        {/* <CheckButton
+            style={{ display: "none" }}
+            ref={c => {
+            Component.checkBtn = c;
+            }}
+        /> */}
+        </Form>
+        <button className="btnn" onClick={() => ApplyModifications(userEmail,oldPw,newPw,confirmNewPw)}>Confirmer</button>
+
+        {message && (
+          <div className="form-group">
+            <div
+              className={
+                successful
+                  ? "alert alert-success"
+                  : "alert alert-danger"
+              }
+              role="alert"
+            >
+              {message}
+            </div>
+          </div>
+        )}
+    </div>
+);
 }
 
-function ApplyModifications(oldPass, newPass, confirmPass){
-    if ((oldPass === currentPassword) && (newPass.length >= 6) && (newPass === confirmPass)) {
-        // Modif Password
-    }
-}
+
 
 export default ModifyPassword;

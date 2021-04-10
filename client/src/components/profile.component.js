@@ -40,7 +40,7 @@ export default class Profile extends Component {
           {currentUser.message.roles &&
             currentUser.message.roles.map((role, index) => <li key={index}>{role}</li>)}
         </ul>
-        <ModifyPassword/>        
+        <ModifyPassword email={currentUser.message.email}/>        
       </div>
     );
   }

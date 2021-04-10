@@ -548,21 +548,21 @@ exports.changePassword = async (req, res, next) => {
     errors.push({ old_password: "old password required" });
   }
   if (!email) {
-    errors.push({ email: "required" });
+    errors.push({ email: "email required" });
   }
   if (!emailRegexp.test(email)) {
-    errors.push({ email: "invalid" });
+    errors.push({ email: "email invalid" });
   }
   if (!password) {
-    errors.push({ password: "required" });
+    errors.push({ password: "password required" });
   }
   if (!password_confirmation) {
     errors.push({
-      password_confirmation: "required",
+      password_confirmation: "password confirmation required",
     });
   }
   if (password != password_confirmation) {
-    errors.push({ password: "mismatch" });
+    errors.push({ password: "password mismatch" });
   }
   if (errors.length > 0) {
     return res.status(422).json({ message: errors });
