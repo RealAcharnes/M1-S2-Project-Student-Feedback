@@ -19,12 +19,15 @@ const AllAnswers = () => {
     const [explanationsArray, setexplanationsArray] = useState()
     const [currentStudent, setcurrentStudent] = useState(null)
     const [explanationStats, setexplanationStats] = useState(null)
+    const [showSpinner, setShowSpinner] = useState(true);
+
 
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
     useEffect(() => {
         Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllAnswered').then((response) => {
           console.log(response.data);
-          setallAnswers(response.data) 
+          setallAnswers(response.data);
+          setShowSpinner(false);
         })
         .catch(function (error) {
             console.log(error);
@@ -162,7 +165,11 @@ const AllAnswers = () => {
     return (
         <div className="container-questions">
             <h4>All Answered List</h4>
-
+            {showSpinner && <div class="spinner">
+                <div></div>
+                <div></div>
+            </div>
+            }
             <div className={`quiz`} style={{borderRadius: "10px"}}>
                 <List>
                     {allAnswers && allAnswers.map((quiz, index) => (
