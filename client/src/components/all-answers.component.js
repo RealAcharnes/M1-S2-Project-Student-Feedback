@@ -20,6 +20,8 @@ const AllAnswers = () => {
     const [currentStudent, setcurrentStudent] = useState(null)
     const [explanationStats, setexplanationStats] = useState(null)
     const [showSpinner, setShowSpinner] = useState(true);
+    const [allQuestions, setAllQuestions] = useState([]);
+    const [allExplanations, setAllExplanations] = useState([]);
 
 
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
@@ -42,6 +44,15 @@ const AllAnswers = () => {
         setcurrentStudent(null);
         setexplanationStats(null);
         setarray(null);
+
+        Axios.get(`https://neuroeducation-feedback.herokuapp.com/api/searchQuiz/${quiz_id}`)
+        .then(response => {
+            setAllQuestions(response.data.questions);
+            console.log(response.data.questions);
+        })
+        .catch(err => {
+            console.log("An error occurred", err.response);
+        })
     }; 
 
     // RETRIEVE GROUPPED DATA FROM THE DATABASE BY SELECTED QUIZ ID 
@@ -112,6 +123,17 @@ const AllAnswers = () => {
         // SET COUNT AS A STATE
         setarray(countAnswers)
 
+        // GET EXPLANATIONS OF ALL QUESTIONS FOR THE CHART DISPLAY 
+        const labelsArray = allQuestions.map((value, index) => {
+            const myArray = value.question_options.map((value, index) => {
+                return value.options_text;
+            })
+            return myArray
+        })
+
+        setAllExplanations(labelsArray);
+        console.log(labelsArray);
+
         // COUNT NUMBER OF OCCURRENCE OF AN EXPLANATION("a", "b", "c"... etc) FOR EACH QUESTION
         const countExplanations = arrayExp.map((array,index) => {
             //return arr.filter((a) => {return a === "a"}).length
@@ -126,6 +148,7 @@ const AllAnswers = () => {
             for(const letter of array){
                 all = {...all,  [letter] : array.filter((a) => {return a === letter}).length}
             }
+
             return all;
         })
         // SET COUNT AS A STATE
@@ -183,7 +206,6 @@ const AllAnswers = () => {
                                      /> */}
                                  </h4>
                             } />
-                           
                         </ListItem>
                     ))}
                 </List>
@@ -263,7 +285,11 @@ const AllAnswers = () => {
                                                         subheader={`Question. ${index + 1}`}
                                                         />
                                                         <CardContent>
-                                                            <BarChart explanationLabels={getLabels(explanation)} explanationValues={getExplanationValues(explanation, getLabels(explanation))} />
+                                                            <BarChart 
+                                                                explanationArray={allExplanations[index]}
+                                                                explanationLabels={getLabels(explanation)}
+                                                                explanationValues={getExplanationValues(explanation, getLabels(explanation))} 
+                                                            />
                                                         </CardContent>
                                                     </Card>
                                                 </Grid>

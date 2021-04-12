@@ -3,8 +3,11 @@ import { Bar } from 'react-chartjs-2';
 
 const BarChart = ( props ) => {
 
+    const names = props.explanationArray;
     const explanationLabels = props.explanationLabels;
     const explanationValues = props.explanationValues;
+    
+
     return (
         <div>
             <Bar
@@ -33,6 +36,17 @@ const BarChart = ( props ) => {
                     },
                     legend: {
                         display: false
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(item, data){
+                                return names[item.index];
+                            },
+                            title: function(item, data){
+                                return;
+                            }
+                        },
+                        displayColors: false
                     }
                 }}
             />
