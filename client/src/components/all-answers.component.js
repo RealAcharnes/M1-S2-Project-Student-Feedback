@@ -177,10 +177,10 @@ const AllAnswers = () => {
                             <ListItemText primary={
                                  <h4> 
                                      {quiz.quiz_title} {''} 
-                                     <FaTimes 
+                                     {/* <FaTimes 
                                          style={{color: 'red', cursor: 'pointer'}}
                                          //  onClick={() => onDelete(quiz._id)}
-                                     />
+                                     /> */}
                                  </h4>
                             } />
                            
@@ -217,7 +217,6 @@ const AllAnswers = () => {
                             )}
                         </div>
                         <div style={{marginBottom: "20px"}}>
-                            <Button disableElevation variant="contained" onClick={disp}>Log</Button> <span></span>
                             <Button disableElevation variant="contained" onClick={stats}>Cliquez pour les statistiques</Button>
                         </div>
                         <Container>
