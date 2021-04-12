@@ -29,6 +29,7 @@ const BoardUser = () => {
   const [search, setsearch] = useState('');
   const [successful, setsuccessful] = useState(false);
   const [message, setmessage] = useState('');
+  const [errorMessage, seterrorMessage] = useState('');
   const [currentQuiz, setcurrentQuiz] = useState(null);
   const [radioOptions, setradioOptions] = useState({})
   const [checkedItems, setCheckedItems] = useState([]); 
@@ -45,8 +46,8 @@ const BoardUser = () => {
       console.log(response.data);
       setallQuizzes(response.data) 
     })
-    .catch(function (error) {
-        console.log(error);
+    .catch(function (err) {
+        seterrorMessage(err.response.data.message|| err.response.data.message[0].error);
     });
   }, [currentUser]);
 

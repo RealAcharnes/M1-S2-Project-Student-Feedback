@@ -306,6 +306,33 @@ exports.findStats = (req, res) => {
     });
 };
 
+// Find all Students and filter
+exports.findAllStudents = (req, res) => {
+  // const id = req.params.id;
+  // const role = ["ROLE_STUDENT"]
+  User.find(
+     {roles : ["ROLE_STUDENT"]}
+    , {
+    "firstname" : 1,
+    "lastname" : 1,
+    "email" : 1
+    }
+    )
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found  Answer with id " + id });
+      else {
+        res.send(data)
+          
+      };
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Answer with id=" + id });
+    });
+};
+
 // Find a single Quiz with an id and group
 exports.groupStats = (req, res) => {
   const quiz_id = req.params.id;
@@ -344,7 +371,44 @@ exports.groupStats = (req, res) => {
     });
 };
 
-// Find a single Quiz with an id and group
+// Find a Student's answers for a specific quiz
+exports.studentAnswers = (req, res) => {
+  const quiz_id = req.params.id;
+
+  History.aggregate(
+    [
+
+      {
+        $match :{ "quiz_id" : quiz_id , "$quiz_answers.student_id" : "test20@gmail.com"}
+      },
+
+      {
+        $group: 
+        {
+          "_id" : {
+            "answer": "$quiz_answers.student_answers.answer",
+            "explanation" :"$quiz_answers.student_answers.explanation"
+          }, 
+        }
+      }
+
+    ]
+  )
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found  Answer with id " + id });
+      else {
+        res.send(data)
+          
+      };
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: err });
+    });
+};
+
 exports.groupStudentQuizzes = (req, res) => {
   const student_id = req.params.id;
 
