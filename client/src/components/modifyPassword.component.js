@@ -8,7 +8,7 @@ import AuthService from '../services/auth.service'
 
 
 
-const currentPassword = ""
+// const currentPassword = ""
 
 
 // const required = (value) => {

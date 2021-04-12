@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import Axios from 'axios';
-import {FaTimes} from 'react-icons/fa'
+// import {FaTimes} from 'react-icons/fa'
 import AuthService from "../services/auth.service";
 import { List, ListItem, ListItemText } from '@material-ui/core';
 

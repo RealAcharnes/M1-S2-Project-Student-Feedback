@@ -14,6 +14,7 @@ const ProtectedRoute =({ component: Component, role, ...rest })=> {
                 if(currentUser.message.roles.includes(roles)){
                     isAuthorized = true;
                 } 
+                return isAuthorized
             });
         }
 
