@@ -56,6 +56,12 @@ class App extends Component {
 
   logOut() {
     AuthService.logout();
+    this.setState({
+            currentUser: null 
+        })
+    if (!this.state.currentUser) {  
+      return <Redirect to="/home" />;
+  }
   }
 
   render() {
