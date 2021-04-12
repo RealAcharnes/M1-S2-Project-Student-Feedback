@@ -16,6 +16,7 @@ const AllQuestions = () => {
 
     // const [currentUser] = useState(AuthService.getCurrentUser());
     const [showSpinner, setShowSpinner] = useState(true);
+    
     // LOAD ALL QUIZZES FROM DATABASE ON PAGE REFRESH AND SET RESPONSE INTO AN ARRAY
     useEffect(() => {
         Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllQ').then((response) => {

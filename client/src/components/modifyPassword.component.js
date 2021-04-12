@@ -41,13 +41,13 @@ const currentPassword = ""
 //     }
 //   };
 
-const ModifyPassword = (email) =>{
+const ModifyPassword = (props) =>{
     const [oldPw, setOldPw] = useState('')
     const [newPw, setNewPw] = useState('')
     const [confirmNewPw, setConfirmNewPw] = useState('')
     const [message, setmessage] = useState('');
     const [successful, setsuccessful] = useState(false);
-    const [userEmail] = useState(email.email)
+    const [userEmail] = useState(props.email)
 
     const ApplyModifications =(email,oldPass, newPass, confirmPass) => {
         console.log(email)

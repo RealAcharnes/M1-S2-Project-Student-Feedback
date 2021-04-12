@@ -1,6 +1,6 @@
 import React from "react";
 import { Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 // import axios from 'axios';
@@ -20,6 +20,7 @@ import AllQuestions from './components/allquestions.component';
 import AdminRegister from "./components/admin-register.component";
 import { Button } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import ProtectedRoute from "./components/protected-routes.component";
 
 const theme = createMuiTheme({
   palette:{
@@ -38,11 +39,15 @@ class App extends Component {
       showAdminBoard: false,
       showTeacherBoard: false,
       currentUser: undefined,
+      admin:["ROLE_ADMIN"],
+      adminTeacher:["ROLE_ADMIN" , "ROLE_TEACHER"],
+      allUsers:["ROLE_ADMIN" , "ROLE_TEACHER" , "ROLE_STUDENT"]
     };
   }
 
   componentDidMount() {
 
+    
     const user = AuthService.getCurrentUser();
 
     if (user) {
@@ -56,10 +61,17 @@ class App extends Component {
 
   logOut() {
     AuthService.logout();
+    this.setState({
+      showAdminBoard: false,
+      showTeacherBoard: false,
+      currentUser: undefined,
+    });
+    // <Redirect to={{ pathname: '/home' }} />
+
   }
 
   render() {
-     const { currentUser, showAdminBoard, showTeacherBoard } = this.state;
+     const { currentUser, showAdminBoard, showTeacherBoard, admin, adminTeacher, allUsers } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
@@ -159,13 +171,14 @@ class App extends Component {
                 <Route exact path="/home" component={Home2} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
-                <Route exact path="/adminRegister" component={AdminRegister} />
-                <Route exact path="/profile" component={Profile} />
-                <Route path="/user" component={BoardUser} />
-                <Route path="/questions" component={AllQuestions} />
-                <Route path="/answers" component={AllAnswers} />
-                <Route path="/admin" component={BoardAdmin} />
-                <Route path="/postSubmitForm" component={PostSubmitForm} />
+                <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
+                <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
+                <ProtectedRoute exact path="/user" component={BoardUser} role={allUsers}/>
+                <ProtectedRoute exact path="/questions" component={AllQuestions} role={admin}/>
+                <ProtectedRoute exact path="/answers" component={AllAnswers} role={admin}/>
+                <ProtectedRoute exact path="/admin" component={BoardAdmin} role={adminTeacher}/>
+                <ProtectedRoute exact path="/postSubmitForm" component={PostSubmitForm} role={adminTeacher}/>
+                <ProtectedRoute  component={Home} />
               </Switch>
             </div>
           
