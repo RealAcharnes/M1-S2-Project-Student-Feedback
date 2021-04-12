@@ -6,6 +6,10 @@ let quizSchema = new Schema({
         type: String,
         // required: true
     },
+    quiz_title: {
+        type: String,
+        // required: true
+    },
     quiz_answers : {
         type: Array,
         // required: true
