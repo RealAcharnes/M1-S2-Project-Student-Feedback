@@ -21,6 +21,7 @@ import AdminRegister from "./components/admin-register.component";
 import { Button } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import ProtectedRoute from "./components/protected-routes.component";
+import AllStudents from "./components/all-students.component";
 
 const theme = createMuiTheme({
   palette:{
@@ -124,6 +125,16 @@ class App extends Component {
                 </div> 
               )}
 
+              {(showAdminBoard || showTeacherBoard) && (
+                <div>
+                  <li className="nav-item">
+                    <Link to={"/students"} className="nav-link">
+                      <Button color="primary">Page Etudiants</Button>
+                    </Link>
+                  </li>
+                </div> 
+              )}
+
                 {(currentUser && !showTeacherBoard) && (
                 <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
@@ -175,6 +186,7 @@ class App extends Component {
                 <ProtectedRoute exact path="/user" component={BoardUser} role={allUsers}/>
                 <ProtectedRoute exact path="/questions" component={AllQuestions} role={admin}/>
                 <ProtectedRoute exact path="/answers" component={AllAnswers} role={admin}/>
+                <ProtectedRoute exact path="/students" component={AllStudents} role={allUsers}/>
                 <ProtectedRoute exact path="/admin" component={BoardAdmin} role={adminTeacher}/>
                 <ProtectedRoute exact path="/postSubmitForm" component={PostSubmitForm} role={adminTeacher}/>
                 <ProtectedRoute  component={Home} />
