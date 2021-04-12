@@ -164,7 +164,7 @@ const AllAnswers = () => {
 
     return (
         <div className="container-questions">
-            <h4>All Answered List</h4>
+            <h4>Liste de toutes les réponses</h4>
             {showSpinner && <div class="spinner">
                 <div></div>
                 <div></div>
@@ -192,10 +192,10 @@ const AllAnswers = () => {
             <div>
                 {currentQuiz ? (
                     <div>
-                        <center><h4>{'You Selected Quiz : '}{currentQuiz.quiz_id}</h4></center>
+                        <center><h4>{'Vous avez sélectionné le quiz : '}{currentQuiz.quiz_id}</h4></center>
                         
                         <div >
-                            <h4>{'Student List : '}</h4>
+                            <h4>{'Liste des étudiants : '}</h4>
                             {currentQuiz.quiz_answers && currentQuiz.quiz_answers.map((students, index) => (
                                 <div>
                                     <h4 onClick={() => setActiveStudent(students)}>{students.student_id}</h4>
@@ -206,11 +206,11 @@ const AllAnswers = () => {
                         <div>
                             {currentStudent && (
                                 <div>
-                                    <h4>{'Showing Answers of  : '}{currentStudent.student_id}</h4>
+                                    <h4>{'Affichage des réponses sur  : '}{currentStudent.student_id}</h4>
                                     {currentStudent && currentStudent.student_answers.map((answers, index) => (
                                         <div> 
                                             <h4>{answers.question_answer_id}{' .'}{answers.answer}</h4>
-                                            <h4>{'Explanation : '}{answers.explanation}</h4>
+                                            <h4>{'Explication : '}{answers.explanation}</h4>
                                         </div>
                                     ))}
                                 </div>
@@ -218,7 +218,7 @@ const AllAnswers = () => {
                         </div>
                         <div style={{marginBottom: "20px"}}>
                             <Button disableElevation variant="contained" onClick={disp}>Log</Button> <span></span>
-                            <Button disableElevation variant="contained" onClick={stats}>Click for Stats</Button>
+                            <Button disableElevation variant="contained" onClick={stats}>Cliquez pour les statistiques</Button>
                         </div>
                         <Container>
                             {array && (
@@ -274,7 +274,7 @@ const AllAnswers = () => {
                                 )}
                         </Container>    
                     </div>
-                ) : (<h4>Please Select A Quiz to view Answers</h4>)}
+                ) : (<h4>Veuillez sélectionner un quiz pour afficher les réponses</h4>)}
             </div>   
         </div>
     )

@@ -154,7 +154,7 @@ const AllQuestions = () => {
 
     return (
         <div className="container-questions">
-            <h4>Quiz List</h4>
+            <h4>Liste de quiz</h4>
             {/* html for spinner */}
             {showSpinner && <div class="spinner">
                 <div></div>
@@ -243,13 +243,13 @@ const AllQuestions = () => {
                                             </div>
                                         ))}
                                     </div>
-                                ) : (<span>No Explanation Needed</span>)}
+                                ) : (<span>Aucune explication requise</span>)}
                             </div>
                         ))}
                     </div>
-                ) : (<h4>Please click on a quiz</h4>)}
+                ) : (<h4>Veuillez cliquer sur un quiz</h4>)}
             </div>
-            <button className='btn' onClick={submitAnswers}>Submit Answers</button>
+            <button className='btn' onClick={submitAnswers}>Soumettre les réponses</button>
 
         </div>
     )

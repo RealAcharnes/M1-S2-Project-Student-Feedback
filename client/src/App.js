@@ -62,12 +62,11 @@ class App extends Component {
   logOut() {
     AuthService.logout();
     this.setState({
-      showAdminBoard: false,
-      showTeacherBoard: false,
-      currentUser: undefined,
-    });
-    // <Redirect to={{ pathname: '/home' }} />
-
+            currentUser: null 
+        })
+    if (!this.state.currentUser) {  
+      return <Redirect to="/home" />;
+  }
   }
 
   render() {
@@ -142,7 +141,7 @@ class App extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to={"/login"} className="nav-link" onClick={this.logOut}>
+                  <Link to={"/home"} className="nav-link" onClick={this.logOut}>
                     <Button color="primary">Déconnexion</Button>
                   </Link>
                 </li>
