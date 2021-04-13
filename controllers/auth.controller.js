@@ -77,6 +77,7 @@ const History = require('../models/history');
            email: email.toLowerCase(),
            password: password,
            roles : roles,
+           quizzes : []
          });
 
 
@@ -409,28 +410,10 @@ exports.studentAnswers = (req, res) => {
     });
 };
 
-exports.groupStudentQuizzes = (req, res) => {
+exports.findStudentQuizzes = (req, res) => {
   const student_id = req.params.id;
 
-  History.aggregate(
-    [
-
-      {
-        $match :{ "quiz_answers.student_id" : student_id}
-      },
-
-      // {
-      //   $group: 
-      //   {
-      //     "_id" : {
-      //       "answer": "$quiz_answers.student_answers.answer",
-      //       "explanation" :"$quiz_answers.student_answers.explanation"
-      //     }, 
-      //   }
-      // }
-
-    ]
-  )
+  User.findOne({email: student_id},{"quizzes.quiz_id" :1, "quizzes.quiz_answers.student_answers":1 })
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found  Answer with id " + id });
@@ -475,54 +458,201 @@ exports.history = async (req,res) => {
   let {quiz_id , quiz_title, quiz_answers } = req.body.answers;
   let student_id = quiz_answers.student_id;
 
-  console.log(quiz_title);
+  let errors = [];
+  let messages = [];
 
+  console.log('quiz:' +quiz_title);
+
+  // FIND A SPECIFIC QUIZ WITH  ID FROM HISTORY COLLECTION
   let find_quiz = await History.findOne({quiz_id})
+  // FIND THE STUDENT SUBMITTING THE QUIZ
+  let find_student_history = await User.findOne({"email" : student_id})
+  let checkExisting = await User.findOne({"email" : student_id, "quizzes.quiz_id" : quiz_id})
 
+
+  console.log(checkExisting)
+  // IF NO QUIZ FOUND, WE CREATE A NEW DOCUMENT AND PUSH STUDENT ANSWERS
   if (!find_quiz) {
-      const find_quiz = new History({
-        quiz_id : quiz_id,
-        quiz_title : quiz_title,
-        quiz_answers : quiz_answers
-      })
 
-      find_quiz.save()
+    // SAVE TO HISTORY COLLECTION FOR TEACHER'S STATS
+    const find_quiz = new History({
+      quiz_id : quiz_id,
+      quiz_title : quiz_title,
+      quiz_answers : quiz_answers
+    })
+    find_quiz.save()
+    .then(response => {
+      messages.push('Inserted into history');
+    })
+    .catch(err => {
+      errors.push('History error');
+    });
+
+    // SAVE TO USERS COLLECTION FOR RECORD KEEPING
+    find_student_history.quizzes.push({
+    quiz_id : quiz_id,
+    quiz_title : quiz_title,
+    quiz_answers : [quiz_answers]
+    });
+
+    find_student_history.save()
+    .then(response => {
+      messages.push('Inserted into Users');
+    })
+    .catch(err => {
+      errors.push('Users error');
+    });
+
+    if (errors.length > 0) {
+      return res.status(422).json({ 
+        message: errors 
+      });
+    }
+    else{
+      return res.status(200).json({ 
+        success: true,
+        message: messages,
+        line: 533
+      });
+    }
+  }
+  // IF QUIZ IS FOUND...
+  else{
+    // CHECK IF THE STUDENT ALREADY ANSWERED
+    let find_student = await History.findOne({quiz_id: quiz_id , "quiz_answers.student_id" :student_id})
+
+    if(checkExisting === null && !find_student){
+
+    //SAVE STUDENT ANSWERS TO HISTORY
+    find_quiz.quiz_answers.push(quiz_answers);
+    find_quiz.save()
+    .then(response => {
+      messages.push('Inserted into history');
+    })
+    .catch(err => {
+      errors.push('History error');
+    });
+
+    // SAVE TO USERS COLLECTION FOR RECORD KEEPING
+    find_student_history.quizzes.push({
+      quiz_id : quiz_id,
+      quiz_title : quiz_title,
+      quiz_answers : [quiz_answers]
+      });
+  
+      find_student_history.save()
       .then(response => {
-        res.status(200).json({
-          success: true,
-          message: response
-        })
+        messages.push('Inserted into Users');
       })
       .catch(err => {
-        res.status(500).json({
-           message: err 
+        errors.push('Users error');
+      });
+  
+      if (errors.length > 0) {
+        return res.status(422).json({ 
+          message: errors 
         });
-     });
-  }
-  else{
-        let find_student = await History.findOne({quiz_id: quiz_id , "quiz_answers.student_id" :student_id})
+      }
+      else{
+        return res.status(200).json({ 
+          success: true,
+          message: messages,
+          line: 578 
+        });
+      }
+    } 
+    else{  
+      // IF NOT FOUND....
+      if(!find_student){
 
-        if(!find_student){
-          find_quiz.quiz_answers.push(quiz_answers);
-          find_quiz.save()
-          .then(response => {
-            res.status(200).json({
-              success: true,
-              message: response
-            })
-          })
-          .catch(err => {
-            res.status(500).json({
-               message:  err 
-            });
-         });
+        //SAVE STUDENT ANSWERS TO HISTORY
+        find_quiz.quiz_answers.push(quiz_answers);
+        find_quiz.save()
+        .then(response => {
+          messages.push('Inserted into history');
+        })
+        .catch(err => {
+          errors.push('History error');
+        });
+
+        //UPDATE THE STUDENTS LIST OF ANSWERED QUIZZES
+        User.updateOne(
+          {
+            "email" : student_id, "quizzes.quiz_id":quiz_id
+          },
+          {
+            "$push": {
+              "quizzes.$.quiz_answers" : quiz_answers
+            }
+          }
+        )
+        .then(response => {
+          messages.push('Inserted into User');
+        })
+        .catch(err => {
+          errors.push('Insertion into User error');
+        });
+
+        // CHECK FOR ALL ERRORS AND SEND HEADERS TO THE FRONTEND
+        if (errors.length > 0) {
+          return res.status(422).json({ 
+            message: errors 
+          });
         }
+        // IF NO ERRORS, SEND SUCCESS HEADERS TO THE FRONTEND
         else{
-            return res.status(500).json({
-              message: "You have answered this quiz already" 
-           });
+          return res.status(200).json({ 
+            success: true,
+            message: messages,
+            line: 625
+          });
         }
+      }
+      // IF A STUDENT IS FOUND, THEN UPDATE ONLY THE LIST OF ANSWERED QUESTIONS
+      else{
+        //   return res.status(500).json({
+        //     message: "You have answered this quiz already" 
+        User.updateOne(
+          {
+            "email" : student_id, "quizzes.quiz_id":quiz_id
+          },
+          {
+            "$push": {
+              "quizzes.$.quiz_answers" : quiz_answers
+            }
+          }
+        )
+        .then(response => {
+          return res.status(200).json({ 
+            success: true,
+            message: response,
+            line: 647
+          });
+        })
+        .catch(err => {
+          return res.status(200).json({ 
+            message: err,
+            line: 654
+          });
+        });
 
+        
+        // SEND HEADERS TO THE FRONTEND
+        // if (errors.length > 0) {
+        //   return res.status(422).json({ 
+        //     message: errors 
+        //   });
+        // }
+        // else{
+        //   return res.status(200).json({ 
+        //     success: true,
+        //     message: messages,
+        //     line: 662
+        //   });
+        // }
+
+      }
+    }  
 
   }
 

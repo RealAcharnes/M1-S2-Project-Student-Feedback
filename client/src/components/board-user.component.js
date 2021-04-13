@@ -122,17 +122,25 @@ const BoardUser = () => {
     setmessage("");
     setsuccessful(false);
     setdisplayAllAnswered(false);
+    const timestamp = Date.now(); // This would be the timestamp you want to format
+    const formatedTimestamp = new Intl.DateTimeFormat('en-US', {year: 'numeric',
+                              month: '2-digit',day: '2-digit', hour: '2-digit', 
+                              minute: '2-digit', second: '2-digit'}).format(timestamp);
+    console.log(new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',
+                day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'})
+                .format(timestamp));
     const answers = {
         quiz_id : currentQuiz.quiz_id,
         quiz_answers : {
             student_id : currentUser.message.email,
-            student_answers : checkedItems
+            student_answers : checkedItems,
+            time_submitted : formatedTimestamp,
         }
     }
     console.log("Radio Answer: ", radioOptions);
     console.log("CheckedItems: ", checkedItems);
     console.log("Final: ", answers);
-    axios.post('https://neuroeducation-feedback.herokuapp.com/api/history', {
+    axios.post('http://localhost:5050/api/history', {
         answers
       }).then((res) => {
           console.log(res);

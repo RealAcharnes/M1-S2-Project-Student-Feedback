@@ -21,6 +21,10 @@ let userSchema = new Schema({
     roles: {
         type: Array,
         required: false
+    },
+    quizzes: {
+        type: Array,
+        required: false
     }
 }, {timestamps: true,
     collection: 'users'

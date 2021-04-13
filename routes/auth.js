@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { signup, signin, question, findAll, deleteQuiz, findAllQ, 
     findAllAnsweredQuizzes, findStats, groupStats, submitTeacherForm, 
-    history, searchQuiz, groupStudentQuizzes, changePassword, findAllStudents, studentAnswers } 
+    history, searchQuiz, findStudentQuizzes, changePassword, findAllStudents, studentAnswers } 
     = require('../controllers/auth.controller');
 
 // POST REQUESTS
@@ -22,7 +22,7 @@ router.get('/findAllAnswered', findAllAnsweredQuizzes);
 router.get('/findAllStudents', findAllStudents);
 router.get('/findStats/:id', findStats);
 router.get('/groupStats/:id', groupStats);
-router.get('/studentQuizzes/:id', groupStudentQuizzes);
+router.get('/studentQuizzes/:id', findStudentQuizzes);
 router.get('/studentAnswers/:id', studentAnswers);
 
 // DELETE REQUESTS
