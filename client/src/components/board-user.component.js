@@ -70,21 +70,43 @@ const BoardUser = () => {
       return radioOptions[question_id] === label;
   }
 
-  // SET RADIO BUTTON SELECTION FRO EACH QUESTION
-  const setradio = (id , value) => {
+    // SET RADIO BUTTON SELECTION FRO EACH QUESTION
+    const setradio = (id , answer) => {
+      let checkedArray = checkedItems.map(x => {return {...x}})
+      const find_question = checkedArray.find(a => a.question_answer_id === id);
+      console.log(find_question)
+      if(find_question) {
+          checkedArray.find(a => a.question_answer_id === id).answer = answer;
+          setradioOptions((state) => {
+              console.log(state);
+              return {
+                  ...state,
+                  [id] : answer
+              }
+          });
+          setCheckedItems(checkedArray);
+      }
+      else{
       setradioOptions((state) => {
           console.log(state);
           return {
               ...state,
-              [id] : value
+              [id] : answer
           }
       });
+
+      setCheckedItems([
+          ...checkedItems,
+           {
+              question_answer_id : id,
+              answer: answer,
+              explanation: 'no explanation'
+          }
+      ]);}
   }
 
-  // SET EXPLANATION TOGETHER WITH ANSWERS AND QUESTION NUMBER
-  const setCheckbox = (value, checked, question_id, question_title, quiz_id) => {
-
-
+    // SET EXPLANATION TOGETHER WITH ANSWERS AND QUESTION NUMBER
+    const setCheckbox = (value, checked, question_id, question_title, quiz_id) => {
       let checkedArray = checkedItems.map(x => {return {...x}})
       const find_question = checkedArray.find(a => a.question_answer_id === question_id);
       console.log(find_question)
@@ -92,16 +114,7 @@ const BoardUser = () => {
           checkedArray.find(a => a.question_answer_id === question_id).explanation = value;
           setCheckedItems(checkedArray);
       }
-      else{
-          setCheckedItems([
-              ...checkedItems,
-                {
-                  question_answer_id : question_id,
-                  answer: radioOptions[question_id],
-                  explanation: value 
-              }
-          ]);
-      }  
+      
   }
 
   // SUBMIT ANSWERS TO THE BACKEND
