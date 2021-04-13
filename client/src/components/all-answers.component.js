@@ -7,9 +7,11 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVert from '@material-ui/icons/MoreVert';
-import BarChart from './BarChart';
+import SwapHorizRounded from '@material-ui/icons/SwapHorizRounded';import BarChart from './BarChart';
 import { Button, Container, List, ListItem, ListItemText } from '@material-ui/core';
 import DoughnutChart from './DoughnutChart';
+import BookOutlined from '@material-ui/icons/BookOutlined';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 const AllAnswers = () => {
     const [allAnswers, setallAnswers] = useState([]);
@@ -22,6 +24,9 @@ const AllAnswers = () => {
     const [showSpinner, setShowSpinner] = useState(true);
     const [allQuestions, setAllQuestions] = useState([]);
     const [allExplanations, setAllExplanations] = useState([]);
+    const [pieData, setPieData] = useState("Doughnut");
+    const [barData, setBarData] = useState("Bar");
+
 
 
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
@@ -35,6 +40,25 @@ const AllAnswers = () => {
             console.log(error);
         });
     }, []);
+
+    //ALTERNATE BETWEEN PIE AND DOUGHNUT CHART
+
+    const handlePieChartChange = () => {
+        if(pieData === "Doughnut"){
+            setPieData("Pie")
+        }
+        if(pieData === "Pie"){
+            setPieData("Doughnut")
+        }
+    }
+    const handleBarChartChange = () => {
+        if(barData === "Bar"){
+            setBarData("Horizontal Bar")
+        }
+        if(barData === "Horizontal Bar"){
+            setBarData("Bar")
+        }
+    }
 
     // SET SELECTED(CLICKED) QUIZ
     const setActiveQuiz = (quiz, index, quiz_id) => {
@@ -197,6 +221,9 @@ const AllAnswers = () => {
                 <List>
                     {allAnswers && allAnswers.map((quiz, index) => (
                         <ListItem button onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)} >
+                            <ListItemIcon>
+                                <BookOutlined />
+                            </ListItemIcon>
                             <ListItemText primary={
                                  <h4> 
                                      {quiz.quiz_title} {''} 
@@ -250,15 +277,15 @@ const AllAnswers = () => {
                                                 <Card elevation={2}>
                                                     <CardHeader
                                                         action={
-                                                            <IconButton>
-                                                                <MoreVert />
+                                                            <IconButton onClick={handlePieChartChange}>
+                                                                <SwapHorizRounded/>
                                                             </IconButton>
                                                         }
                                                         title="Graphique en anneau"
                                                         subheader={"Question. " + (index + 1)} 
                                                     />
                                                     <CardContent>
-                                                        <DoughnutChart labels={getLabels(answer)} answerValues={getAnswerValues(answer, getLabels(answer))} />
+                                                        <DoughnutChart pieData={pieData} labels={getLabels(answer)} answerValues={getAnswerValues(answer, getLabels(answer))} />
                                                     </CardContent>
                                                 </Card>
                                             </Grid>
@@ -277,15 +304,16 @@ const AllAnswers = () => {
                                                     <Card elevation={2}>
                                                         <CardHeader
                                                         action={
-                                                            <IconButton>
-                                                                <MoreVert/>
+                                                            <IconButton onClick={handleBarChartChange}>
+                                                                <SwapHorizRounded/>
                                                             </IconButton>
                                                         } 
                                                         title="Diagramme à bandes"
                                                         subheader={`Question. ${index + 1}`}
                                                         />
                                                         <CardContent>
-                                                            <BarChart 
+                                                            <BarChart
+                                                                barData={barData} 
                                                                 explanationArray={allExplanations[index]}
                                                                 explanationLabels={getLabels(explanation)}
                                                                 explanationValues={getExplanationValues(explanation, getLabels(explanation))} 

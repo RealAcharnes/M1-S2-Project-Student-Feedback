@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
+import { Avatar, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
+import BookOutlined from '@material-ui/icons/BookOutlined';
 
 
 const AllStudents = () => {
@@ -69,7 +70,7 @@ const AllStudents = () => {
         <div className="container-questions">
             <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-6">
-                    <h3>{'Students List : '}</h3>
+                    <h3>{'Liste des étudiants : '}</h3>
                     {showSpinner && (<div class="spinner">
                         <div></div>
                         <div></div>
@@ -92,12 +93,15 @@ const AllStudents = () => {
                 <div className="col-xs-12 col-sm-12 col-md-6">  
                     {(allQuizzes && displayQuizzes) && (
                         <div >
-                            <h4>{'Quizzes Answered by : '}</h4>
+                            <h4>{'Questionnaires auxquels ont répondu : '}</h4>
                             <h4> {currentStudent}</h4>
                             <div className={`quiz`} style={{borderRadius: "10px"}}>
                                 <List>
                                 {allQuizzes && allQuizzes.map((quiz, index) => (
                                     <ListItem button>
+                                        <ListItemIcon>
+                                            <BookOutlined />
+                                        </ListItemIcon>
                                         <ListItemText primary={
                                             <h4 
                                             onClick= {() => setActiveQuiz(quiz, index)}
@@ -113,10 +117,10 @@ const AllStudents = () => {
                     ) }
                     {(displayQuizzes===false) && (
                         <div>
-                            <h4>{'Quizzes Answered by : '}</h4>
+                            <h4>{'Questionnaires auxquels ont répondu : '}</h4>
                             <h4> {currentStudent}</h4>
                             <div className={`quiz`} style={{borderRadius: "10px"}}>
-                                <h4>This student has not taken any quiz</h4>
+                                <h4>Cet étudiant n'a répondu à aucun quiz</h4>
                             </div>
                         </div>
                     

@@ -2,8 +2,8 @@ import {useState, useEffect} from 'react';
 import Axios from 'axios';
 // import {FaTimes} from 'react-icons/fa'
 import AuthService from "../services/auth.service";
-import { List, ListItem, ListItemText, Button } from '@material-ui/core';
-
+import { List, ListItem, ListItemText, Button, ListItemIcon } from '@material-ui/core';
+import BookOutlined from '@material-ui/icons/BookOutlined';
 
 const AllQuestions = () => {
     const [allQuizzes, setallQuizzes] = useState([]);
@@ -165,6 +165,9 @@ const AllQuestions = () => {
                 <List>
                     {allQuizzes && allQuizzes.map((quiz, index) => (
                         <ListItem button onClick= {() => setActiveQuiz(quiz, index)} >
+                            <ListItemIcon>
+                                <BookOutlined />
+                            </ListItemIcon>
                             <ListItemText primary={
                                 <h4> 
                                     {quiz.quiz} {''} 
