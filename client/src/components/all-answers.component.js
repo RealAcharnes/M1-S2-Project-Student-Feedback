@@ -193,7 +193,7 @@ const AllAnswers = () => {
                 <div></div>
             </div>
             }
-            <div className={`quiz`} style={{borderRadius: "10px"}}>
+            {!showSpinner && (<div className={`quiz`} style={{borderRadius: "10px"}}>
                 <List>
                     {allAnswers && allAnswers.map((quiz, index) => (
                         <ListItem button onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)} >
@@ -209,7 +209,7 @@ const AllAnswers = () => {
                         </ListItem>
                     ))}
                 </List>
-            </div>
+            </div>)}
 
             <div>
                 {currentQuiz ? (

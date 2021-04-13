@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import Axios from 'axios';
 // import {FaTimes} from 'react-icons/fa'
 import AuthService from "../services/auth.service";
-import { List, ListItem, ListItemText } from '@material-ui/core';
+import { List, ListItem, ListItemText, Button } from '@material-ui/core';
 
 
 const AllQuestions = () => {
@@ -161,7 +161,7 @@ const AllQuestions = () => {
                 <div></div>
             </div>
             }
-            <div className={`quiz`} style={{borderRadius: "10px", marginTop: "10px"}}>
+            {!showSpinner && (<div className={`quiz`} style={{borderRadius: "10px", marginTop: "10px"}}>
                 <List>
                     {allQuizzes && allQuizzes.map((quiz, index) => (
                         <ListItem button onClick= {() => setActiveQuiz(quiz, index)} >
@@ -176,7 +176,7 @@ const AllQuestions = () => {
                         </ListItem>
                     ))}
                 </List>
-            </div>
+            </div>)}
 
             <div>
                 {message && (
@@ -249,7 +249,7 @@ const AllQuestions = () => {
                     </div>
                 ) : (<h4>Veuillez cliquer sur un quiz</h4>)}
             </div>
-            <button className='btn' onClick={submitAnswers}>Soumettre les réponses</button>
+            <Button disableElevation variant="contained" onClick={submitAnswers}>Soumettre les réponses</Button>
 
         </div>
     )

@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 
 
 const AllStudents = () => {
@@ -10,6 +11,7 @@ const AllStudents = () => {
     const [successful, setsuccessful] = useState(false);
     const [displayQuizzes, setdisplayQuizzes] = useState(null)
     const [currentStudent, setcurrentStudent] = useState(null)
+    const [showSpinner, setShowSpinner] = useState(true);
 
 
     useEffect(() => {
@@ -17,6 +19,7 @@ const AllStudents = () => {
         .then(res => {
             console.log(res.data);
             setallStudents(res.data);
+            setShowSpinner(false);
         })
         .catch(error => {
             const resMessage =
@@ -66,12 +69,18 @@ const AllStudents = () => {
         <div className="container-questions">
             <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-6">
-                <h3>{'Students List : '}</h3>
-                {allStudents && allStudents.map((student,index) => (
-                    <div className="quiz">
-                        <h4 onClick={()=> getAllQuizzes(student.email,student.firstname +' ' +student.lastname )}>{student.firstname +' ' +student.lastname}</h4>
-                    </div>
-                ))}
+                    <h3>{'Students List : '}</h3>
+                    {showSpinner && (<div class="spinner">
+                        <div></div>
+                        <div></div>
+                    </div>)}
+                    {!showSpinner && (<List>
+                        {allStudents && allStudents.map((student,index) =>(
+                            <ListItem button onClick={()=> getAllQuizzes(student.email,student.firstname +' ' +student.lastname )}>
+                                <ListItemText className="quiz" primary={<h4>{student.firstname +' ' +student.lastname}</h4>} />
+                            </ListItem>
+                        ))}
+                    </List>)}
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6">  
                     {(allQuizzes && displayQuizzes) && (
