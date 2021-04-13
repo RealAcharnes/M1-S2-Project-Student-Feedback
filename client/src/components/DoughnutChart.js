@@ -1,11 +1,11 @@
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut, Pie } from 'react-chartjs-2';
 
 
 const DoughnutChart = ({ labels, answerValues }) => {
 
     return ( 
         <div>
-            <Doughnut
+            <Pie
                 data={{
                     labels: labels,
                     datasets: [{

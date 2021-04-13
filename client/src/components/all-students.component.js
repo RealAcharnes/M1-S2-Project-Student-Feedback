@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { List, ListItem, ListItemText } from '@material-ui/core';
+import { Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 
 
 const AllStudents = () => {
@@ -74,34 +74,49 @@ const AllStudents = () => {
                         <div></div>
                         <div></div>
                     </div>)}
-                    {!showSpinner && (<List>
-                        {allStudents && allStudents.map((student,index) =>(
-                            <ListItem button onClick={()=> getAllQuizzes(student.email,student.firstname +' ' +student.lastname )}>
-                                <ListItemText className="quiz" primary={<h4>{student.firstname +' ' +student.lastname}</h4>} />
-                            </ListItem>
-                        ))}
-                    </List>)}
+                    {!showSpinner && (<div  class="quiz" style={{borderRadius: "10px"}}>
+                            <List>
+                                {allStudents && allStudents.map((student,index) =>(
+                                    <ListItem button onClick={()=> getAllQuizzes(student.email,student.firstname +' ' +student.lastname )}>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                            {(student.firstname[0] +' ' +student.lastname[0]).toUpperCase()}
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={<h4>{student.firstname +' ' +student.lastname}</h4>} />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </div>)}
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6">  
                     {(allQuizzes && displayQuizzes) && (
                         <div >
                             <h4>{'Quizzes Answered by : '}</h4>
                             <h4> {currentStudent}</h4>
-                            <div className={`quiz`} >
+                            <div className={`quiz`} style={{borderRadius: "10px"}}>
+                                <List>
                                 {allQuizzes && allQuizzes.map((quiz, index) => (
-                                    <h4 
-                                    onClick= {() => setActiveQuiz(quiz, index)}
-                                    > {quiz.quiz_id} 
-                                    </h4>
+                                    <ListItem button>
+                                        <ListItemText primary={
+                                            <h4 
+                                            onClick= {() => setActiveQuiz(quiz, index)}
+                                            >
+                                            {quiz.quiz_id} 
+                                            </h4>
+                                        }/>
+                                    </ListItem>
                                 ))}
+                                </List>
                             </div>
                         </div>
                     ) }
                     {(displayQuizzes===false) && (
-                        <div >
+                        <div>
                             <h4>{'Quizzes Answered by : '}</h4>
-                            <h4> {currentStudent}</h4>                            <div className={`quiz`} >
-                            <h4>This student has not taken any quiz</h4>
+                            <h4> {currentStudent}</h4>
+                            <div className={`quiz`} style={{borderRadius: "10px"}}>
+                                <h4>This student has not taken any quiz</h4>
                             </div>
                         </div>
                     
