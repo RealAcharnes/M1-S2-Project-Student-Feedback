@@ -184,8 +184,8 @@ class App extends Component {
                 <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
                 <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
                 <ProtectedRoute exact path="/user" component={BoardUser} role={allUsers}/>
-                <ProtectedRoute exact path="/questions" component={AllQuestions} role={admin}/>
-                <ProtectedRoute exact path="/answers" component={AllAnswers} role={admin}/>
+                <ProtectedRoute exact path="/questions" component={AllQuestions} role={adminTeacher}/>
+                <ProtectedRoute exact path="/answers" component={AllAnswers} role={adminTeacher}/>
                 <ProtectedRoute exact path="/students" component={AllStudents} role={allUsers}/>
                 <ProtectedRoute exact path="/admin" component={BoardAdmin} role={adminTeacher}/>
                 <ProtectedRoute exact path="/postSubmitForm" component={PostSubmitForm} role={adminTeacher}/>
