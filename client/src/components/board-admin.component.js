@@ -5,6 +5,7 @@ import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PostForm from "../services/admin-submit-form";
 import AuthService from "../services/auth.service";
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -216,6 +217,8 @@ export default class BoardAdmin extends Component {
       ],
       message: '',
       currentUser: undefined,
+      submitted: false,
+      quizMdp:''
     };
   }
 
@@ -298,11 +301,17 @@ export default class BoardAdmin extends Component {
 
     PostForm.submit(this.state.title, currentUser.message.email, this.state.questions).then(
       (response) => {
-        this.props.history.push({
-          pathname: "/postSubmitForm",
-          state:{quizMdp: response.quizMdp}
-        })
-        window.location.reload();
+        // this.props.history.push({
+        //   pathname: "/postSubmitForm",
+        //   state:{quizMdp: response.quizMdp}
+        // })
+        // window.location.reload();
+       console.log(response);
+        this.setState({
+          message: 'Quiz submitted',
+          submitted: true,
+          quizMdp:response.quizMdp
+        });
       },
       error => {
         const resMessage =
@@ -373,6 +382,11 @@ export default class BoardAdmin extends Component {
   render() {
 
     const title = this.state.title;
+
+    // redirect to post/SubmitForm
+    if(this.state.submitted===true){
+      return <Redirect to={{ pathname: "/postSubmitForm", state: { quizMdp: this.state.quizMdp } }} />
+    }
 
     return (
       <div className="mainTeacherForm">
