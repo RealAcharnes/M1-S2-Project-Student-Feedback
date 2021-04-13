@@ -41,7 +41,7 @@ const AllStudents = () => {
         setcurrentQuiz(null);
         setallQuizzes([]);
         setdisplayQuizzes(null) 
-        axios.get(`http://localhost:5050/api/studentQuizzes/${student_id}`).then((response) => {
+        axios.get(`https://neuroeducation-feedback.herokuapp.com/api/studentQuizzes/${student_id}`).then((response) => {
             console.log(response.data.quizzes);
             if((response.data.quizzes).length ){
                 setallQuizzes(response.data.quizzes)

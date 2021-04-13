@@ -140,7 +140,7 @@ const BoardUser = () => {
     console.log("Radio Answer: ", radioOptions);
     console.log("CheckedItems: ", checkedItems);
     console.log("Final: ", answers);
-    axios.post('http://localhost:5050/api/history', {
+    axios.post('https://neuroeducation-feedback.herokuapp.com/api/history', {
         answers
       }).then((res) => {
           console.log(res);
