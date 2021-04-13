@@ -181,6 +181,7 @@ class App extends Component {
                 <Route exact path="/home" component={Home2} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
+                <Route exact path="/postSubmitForm" component={PostSubmitForm}/>
                 <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
                 <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
                 <ProtectedRoute exact path="/user" component={BoardUser} role={allUsers}/>
@@ -188,7 +189,6 @@ class App extends Component {
                 <ProtectedRoute exact path="/answers" component={AllAnswers} role={adminTeacher}/>
                 <ProtectedRoute exact path="/students" component={AllStudents} role={allUsers}/>
                 <ProtectedRoute exact path="/admin" component={BoardAdmin} role={adminTeacher}/>
-                <ProtectedRoute exact path="/postSubmitForm" component={PostSubmitForm} role={adminTeacher}/>
                 <ProtectedRoute  component={Home} />
               </Switch>
             </div>
