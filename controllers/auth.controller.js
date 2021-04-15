@@ -429,6 +429,75 @@ exports.findStudentQuizzes = (req, res) => {
     });
 };
 
+exports.findTeachersQuizzes = (req, res) => {
+  const teacher_id = req.params.id;
+
+  User.findOne({email: teacher_id},{"quizzes.quiz_id" :1})
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found Quiz with id " + id });
+      else {
+        res.send(data)   
+      };
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: err });
+    });
+};
+
+exports.updateQuiz = (req, res) => {
+  const quiz_id = req.params.id;
+  const updated_questions = req.body.updated_questions;
+  console.log(updated_questions)
+  Quiz.updateOne(
+    {quiz_id: quiz_id},
+    {
+      $set: {
+        questions : updated_questions
+      }
+    })
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found Quiz with id " + id });
+      else {
+        res.send(data)   
+      };
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: err });
+    });
+};
+
+exports.allowQuiz = (req, res) => {
+  const quiz_id = req.params.id;
+  const allowData = req.body.allow;
+  console.log(allowData);
+  console.log(quiz_id)
+  Quiz.updateOne(
+    {quiz_id: quiz_id},
+    {
+      $set: {
+        allow : allowData
+      }
+    })
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found Quiz with id " + id });
+      else {
+        res.send(data)   
+      };
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: err });
+    });
+};
+
   // Delete a Quiz with the specified id in the request
 exports.deleteQuiz = (req, res) => {
   console.log(req);

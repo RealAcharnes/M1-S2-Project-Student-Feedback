@@ -1,7 +1,12 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
 
 export default class PostSubmitForm extends Component {
     render(){
+        if(this.props.location.state === undefined){
+            // console.log(this.props.location); 
+            return <Redirect to={{pathname:'/home'}}/>
+        }
         return(
             <div>
                 <div className="container">

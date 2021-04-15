@@ -19,6 +19,10 @@ let quizSchema = new Schema({
         type: Array,
         // required: true
     },
+    allow: {
+        type: Boolean,
+        // required: true
+    },
 }, {timestamps: true,
     collection: 'quizzes'
 })
