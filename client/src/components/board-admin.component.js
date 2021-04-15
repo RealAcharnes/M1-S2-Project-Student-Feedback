@@ -747,7 +747,7 @@ export default class BoardAdmin extends Component {
             <button className="btnn" onClick={this.createQuiz}>Create new Quiz</button>
           </div>}
 
-        {currentQuiz &&
+        {(displayQuiz || this.state.edit) && currentQuiz &&
           <div className="container-questions">
             <button className="btnn"  onClick={this.backToQuizzes}>Back to Quizzes</button> 
             <button className="btnn" >
