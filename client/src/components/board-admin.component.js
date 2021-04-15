@@ -695,8 +695,8 @@ export default class BoardAdmin extends Component {
     return (
       <div className="mainTeacherForm">
 
-        <Snackbar anchorOrigin={{ vertical :'top', horizontal: 'center' }}open={this.state.open} autoHideDuration={6000} onClose={this.state.handleClose}>
-          <Alert onClose={this.state.handleClose} severity={this.state.successful ? "success" : "warning" }>
+        <Snackbar anchorOrigin={{ vertical :'top', horizontal: 'center' }}open={this.state.open} autoHideDuration={6000} onClose={()=>this.handleClose()}>
+          <Alert onClose={()=>this.handleClose()} severity={this.state.successful ? "success" : "warning" }>
             {this.state.message}
           </Alert>
         </Snackbar>
