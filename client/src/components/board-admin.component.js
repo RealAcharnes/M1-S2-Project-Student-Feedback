@@ -298,6 +298,7 @@ export default class BoardAdmin extends Component {
       displayQuizzes: this.state.laststate,
       displayCreate: false,
       displayQuiz: false,
+      edit: false
 
     })
   }
