@@ -15,12 +15,12 @@ let quizSchema = new Schema({
         type: String,
         // required: true
     },
-    questions: {
-        type: Array,
-        // required: true
-    },
     allow: {
         type: Boolean,
+        // required: true
+    },
+    questions: {
+        type: Array,
         // required: true
     },
 }, {timestamps: true,

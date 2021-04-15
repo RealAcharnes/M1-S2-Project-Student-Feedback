@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "https://neuroeducation-feedback.herokuapp.com/api/";
+// const API_URL = "http://localhost:5050/api/";
 
 class AuthService {
   login(email, password) {
@@ -31,6 +32,12 @@ class AuthService {
       email, 
       password, 
       password_confirmation
+    });
+  }
+
+  verifyAccount(token) {
+    return axios.post(API_URL + "verifyAccount", {
+      token
     });
   }
 

@@ -1,9 +1,10 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
 const {
-    createJWT,
+    createJWT, createVerificationJWT
  } = require("../utils/auth.util"); 
 const Quiz = require('../models/Quiz');
 const Q = require('../models/Q');
@@ -71,40 +72,140 @@ const History = require('../models/history');
          return res.status(423).json({ message:  "email already exists" });
       }
       else {
-        const user = new User({
-           firstname: firstname,
-           lastname: lastname,
-           email: email.toLowerCase(),
-           password: password,
-           roles : roles,
-           quizzes : []
-         });
+        console.log('No User found')
 
+        let token = createVerificationJWT(
+          firstname,
+          lastname,
+          email,
+          password,
+          roles,
+          '20m'
+        );
 
-         bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
-          if (err) throw err;
-          user.password = hash;
-          user.save()
-          .then(response => {
+        console.log(token)
+
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          host: 'smtp.gmail.com',
+          auth: {
+            user: 'neuroeducationfeedback@gmail.com',
+            pass: 'Project20neuroeducation'
+          }
+        });
+        
+        const mailOptions = {
+          from: 'neuroeducationfeedback@gmail.com',
+          to: email,
+          subject: 'Account Activation Link',
+          html: `<p>Please Click <a href="https://neuroeducation-feedback.herokuapp.com/verifyAccount/${token}">Here</a> to verify your account</p>`
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+            res.status(500).json({
+              message: "Could not send verification email to "+email,
+            })
+          } else {
             res.status(200).json({
               success: true,
-              message: response,
+              message: `Verification email sent to ${email}... Check your email to activated your account`,
               mdpTmp: password,
             })
-          })
-          .catch(err => {
-            res.status(500).json({
-              message: err 
-            });
-          });
+            console.log('Email sent: ' + info.response);
+          }
         });
-      });
+        // const user = new User({
+        //    firstname: firstname,
+        //    lastname: lastname,
+        //    email: email.toLowerCase(),
+        //    password: password,
+        //    roles : roles,
+        //    quizzes : []
+        //  });
+
+
+        // bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
+        //     if (err) throw err;
+        //     user.password = hash;
+        //     user.save()
+        //     .then(response => {
+        //       res.status(200).json({
+        //         success: true,
+        //         message: response,
+        //         mdpTmp: password,
+        //       })
+        //     })
+        //     .catch(err => {
+        //       res.status(500).json({
+        //         message: err 
+        //       });
+        //     });
+        //   });
+        // });
      }
   }).catch(err =>{
       res.status(500).json({
         message:  'Something went wrong'
       });
   })
+}
+
+exports.verifyAccount =(req, res) => {
+  const {token} = req.body
+
+  if(token){
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decodedToken) =>{
+      if (err) {
+        return res.status(500).json({ 
+         success: false, 
+         message: "Incorrect or Expired Link. Please Recreate account" 
+        });
+     }
+       const { firstname, lastname, email, password, roles} =  decodedToken;
+
+       User.findOne({email: email})
+       .then(user=>{
+          if(user){
+             return res.status(423).json({ message:  "Your Account has Already been Verified" });
+          }
+
+          const newUser = new User({
+            firstname: firstname,
+            lastname: lastname,
+            email: email.toLowerCase(),
+            password: password,
+            roles : roles,
+            quizzes : []
+          });
+      
+      
+          bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
+          if (err) throw err;
+              newUser.password = hash;
+              newUser.save()
+              .then(response => {
+                res.status(200).json({
+                  success: true,
+                  message: 'Your account is activated',
+                  mdpTmp: password,
+                })
+              })
+              .catch(err => {
+                res.status(500).json({
+                  message: 'Error Activating account' 
+                });
+              });
+            });
+          });
+        })
+     
+    })
+  }
+
+
+
 }
 
 
@@ -532,61 +633,71 @@ exports.history = async (req,res) => {
 
   console.log('quiz:' +quiz_title);
 
+  //CHECK IF QUIZ IS ALLOWED
+  let teacher = await Quiz.findOne({quiz_id : quiz_id})
+  let allow = await Quiz.findOne({quiz_id : quiz_id, allow : true})
   // FIND A SPECIFIC QUIZ WITH  ID FROM HISTORY COLLECTION
   let find_quiz = await History.findOne({quiz_id})
   // FIND THE STUDENT SUBMITTING THE QUIZ
   let find_student_history = await User.findOne({"email" : student_id})
   let checkExisting = await User.findOne({"email" : student_id, "quizzes.quiz_id" : quiz_id})
 
+  console.log(teacher);
 
-  console.log(checkExisting)
-  // IF NO QUIZ FOUND, WE CREATE A NEW DOCUMENT AND PUSH STUDENT ANSWERS
-  if (!find_quiz) {
+  // console.log(checkExisting)
+  if(allow === null){
+    return res.status(500).json({
+    message: "Quiz is not opened for answering... Please contact "+ teacher.created_by
+    })
+  }
+  else{
+    // IF NO QUIZ FOUND, WE CREATE A NEW DOCUMENT AND PUSH STUDENT ANSWERS
+    if (!find_quiz) {
 
-    // SAVE TO HISTORY COLLECTION FOR TEACHER'S STATS
-    const find_quiz = new History({
+      // SAVE TO HISTORY COLLECTION FOR TEACHER'S STATS
+      const find_quiz = new History({
+        quiz_id : quiz_id,
+        quiz_title : quiz_title,
+        quiz_answers : quiz_answers
+      })
+      find_quiz.save()
+      .then(response => {
+        messages.push('Inserted into history');
+      })
+      .catch(err => {
+        errors.push('History error');
+      });
+
+      // SAVE TO USERS COLLECTION FOR RECORD KEEPING
+      find_student_history.quizzes.push({
       quiz_id : quiz_id,
       quiz_title : quiz_title,
-      quiz_answers : quiz_answers
-    })
-    find_quiz.save()
-    .then(response => {
-      messages.push('Inserted into history');
-    })
-    .catch(err => {
-      errors.push('History error');
-    });
-
-    // SAVE TO USERS COLLECTION FOR RECORD KEEPING
-    find_student_history.quizzes.push({
-    quiz_id : quiz_id,
-    quiz_title : quiz_title,
-    quiz_answers : [quiz_answers]
-    });
-
-    find_student_history.save()
-    .then(response => {
-      messages.push('Inserted into Users');
-    })
-    .catch(err => {
-      errors.push('Users error');
-    });
-
-    if (errors.length > 0) {
-      return res.status(422).json({ 
-        message: errors 
+      quiz_answers : [quiz_answers]
       });
+
+      find_student_history.save()
+      .then(response => {
+        messages.push('Inserted into Users');
+      })
+      .catch(err => {
+        errors.push('Users error');
+      });
+
+      if (errors.length > 0) {
+        return res.status(422).json({ 
+          message: errors 
+        });
+      }
+      else{
+        return res.status(200).json({ 
+          success: true,
+          message: messages,
+          line: 533
+        });
+      }
     }
+    // IF QUIZ IS FOUND...
     else{
-      return res.status(200).json({ 
-        success: true,
-        message: messages,
-        line: 533
-      });
-    }
-  }
-  // IF QUIZ IS FOUND...
-  else{
     // CHECK IF THE STUDENT ALREADY ANSWERED
     let find_student = await History.findOne({quiz_id: quiz_id , "quiz_answers.student_id" :student_id})
 
@@ -679,8 +790,6 @@ exports.history = async (req,res) => {
       }
       // IF A STUDENT IS FOUND, THEN UPDATE ONLY THE LIST OF ANSWERED QUESTIONS
       else{
-        //   return res.status(500).json({
-        //     message: "You have answered this quiz already" 
         User.updateOne(
           {
             "email" : student_id, "quizzes.quiz_id":quiz_id
@@ -724,10 +833,12 @@ exports.history = async (req,res) => {
     }  
 
   }
+  }
+
 
 }
 
-exports.submitTeacherForm = (req, res, next) => {
+exports.submitTeacherForm = async (req, res, next) => {
   let { title, created_by, questions  } = req.body;
 
   function makeid(length) {
@@ -776,31 +887,73 @@ exports.submitTeacherForm = (req, res, next) => {
       quiz: title,
       quiz_id: quiz_id,
       created_by: created_by,
+      allow: false,
       questions: questions
     });
-
+    console.log(quiz);
+    let findTeacher =  await User.findOne({email: created_by})
     quiz.save()
     .then(response => {
-       res.status(200).json({
-         success: true,
-         message: response,
-         quizMdp: quiz_id
-       })
+      // console.log("line 785")
+      // res.status(200).json({
+      // success: true,
+      // message: response,
+      // quizMdp: quiz_id
+      // })
+      
+
+      if(findTeacher){
+        findTeacher.quizzes.push({
+          quiz_id: quiz_id
+        })
+   
+        findTeacher.save()
+        .then(findTeacherResponse => {
+          console.log("line 794")
+          return res.status(200).json({
+          success: true,
+          message: response,
+          quizMdp: quiz_id
+          })
+        })
+        .catch(error => {
+          console.log("line 809")
+          res.status(500).json({
+            message:  error 
+         });
+        })
+      }
+      else{
+        console.log("line 816")
+        res.status(422).json({
+          message:  "You are not a Teacher" 
+       });
+      }
+
     })
     .catch(err => {
+      console.log("line 824")
       res.status(500).json({
          message:  err 
       });
    });
 
-  // res.status(200).json({
-  //     state : "success"
-  // })
+  //  let findTeacher = await User.findOne({email: created_by})
 
-  // ne pas mettre en commentaire si vous voulez voir les informations qui arrivent de la requete POST
-  // console.log(req.body);
-  // console.log("--------------------------")
-  // console.log(req.body.questions);
+  //  if(findTeacher){
+  //    findTeacher.quizzes.push({
+  //      quiz_id: quiz_id
+  //    })
+
+  //    findTeacher.save()
+  //    .then(response => {
+
+  //    })
+  //    .catch(error => {
+
+  //    })
+  //  }
+
 };
 
 exports.changePassword = async (req, res, next) => {

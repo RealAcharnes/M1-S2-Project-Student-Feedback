@@ -141,7 +141,7 @@ export default class Register extends Component {
       ).then(
         response => {
           this.setState({
-            message: "Compte crée avec succès",
+            message: response.data.message,
             successful: true
           });
 

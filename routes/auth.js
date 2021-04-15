@@ -4,13 +4,14 @@ const router = express.Router();
 const { signup, signin, question, findAll, deleteQuiz, findAllQ,findStats,
     findAllAnsweredQuizzes, groupStats, submitTeacherForm, history, searchQuiz, 
     findStudentQuizzes, changePassword,findAllStudents, studentAnswers, 
-    findTeachersQuizzes, updateQuiz, allowQuiz } 
+    findTeachersQuizzes, updateQuiz, allowQuiz, verifyAccount } 
     = require('../controllers/auth.controller');
 
 // POST REQUESTS
 router.post('/signup', signup);
 router.post('/changePassword', changePassword);
 router.post('/signin', signin);
+router.post('/verifyAccount', verifyAccount);
 router.post('/question', question);
 router.post('/history', history);
 router.post('/postform/submit', submitTeacherForm);
