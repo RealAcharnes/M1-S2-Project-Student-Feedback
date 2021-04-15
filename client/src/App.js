@@ -22,6 +22,7 @@ import { Button } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import ProtectedRoute from "./components/protected-routes.component";
 import AllStudents from "./components/all-students.component";
+import VerifyAccount from "./components/verify-account.component";
 
 const theme = createMuiTheme({
   palette:{
@@ -182,6 +183,7 @@ class App extends Component {
                 <Route exact path="/home" component={Home2} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
+                <Route exact path="/verifyAccount/:token" component={VerifyAccount} />
                 <Route exact path="/postSubmitForm" component={PostSubmitForm}/>
                 <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
                 <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
