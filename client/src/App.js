@@ -42,7 +42,8 @@ class App extends Component {
       currentUser: undefined,
       admin:["ROLE_ADMIN"],
       adminTeacher:["ROLE_ADMIN" , "ROLE_TEACHER"],
-      allUsers:["ROLE_ADMIN" , "ROLE_TEACHER" , "ROLE_STUDENT"]
+      allUsers:["ROLE_ADMIN" , "ROLE_TEACHER" , "ROLE_STUDENT"],
+      student:["ROLE_STUDENT"]
     };
   }
 
@@ -71,7 +72,7 @@ class App extends Component {
   }
 
   render() {
-     const { currentUser, showAdminBoard, showTeacherBoard, admin, adminTeacher, allUsers } = this.state;
+     const { currentUser, showAdminBoard, showTeacherBoard, admin, adminTeacher, allUsers, student } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
@@ -184,7 +185,7 @@ class App extends Component {
                 <Route exact path="/postSubmitForm" component={PostSubmitForm}/>
                 <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
                 <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
-                <ProtectedRoute exact path="/user" component={BoardUser} role={allUsers}/>
+                <ProtectedRoute exact path="/user" component={BoardUser} role={student}/>
                 <ProtectedRoute exact path="/questions" component={AllQuestions} role={adminTeacher}/>
                 <ProtectedRoute exact path="/answers" component={AllAnswers} role={adminTeacher}/>
                 <ProtectedRoute exact path="/students" component={AllStudents} role={allUsers}/>
