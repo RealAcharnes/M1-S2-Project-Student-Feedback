@@ -718,14 +718,12 @@ export default class BoardAdmin extends Component {
                     <div className={`quiz`} style={{borderRadius: "10px"}}>
                         <List>
                         {allQuizzes && allQuizzes.map((quiz, index) => (
-                            <ListItem button>
+                            <ListItem button  onClick= {()=>this.getQuiz(quiz.quiz_id)}>
                                 <ListItemIcon>
                                     <BookOutlined />
                                 </ListItemIcon>
                                 <ListItemText primary={
-                                    <h4 
-                                    onClick= {()=>this.getQuiz(quiz.quiz_id)}
-                                    >
+                                    <h4>
                                     {quiz.quiz_id} 
                                     </h4>
                                 }/>

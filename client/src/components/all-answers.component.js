@@ -6,9 +6,8 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVert from '@material-ui/icons/MoreVert';
 import SwapHorizRounded from '@material-ui/icons/SwapHorizRounded';import BarChart from './BarChart';
-import { Button, Container, List, ListItem, ListItemText } from '@material-ui/core';
+import { Container, List, ListItem, ListItemText, makeStyles } from '@material-ui/core';
 import DoughnutChart from './DoughnutChart';
 import BookOutlined from '@material-ui/icons/BookOutlined';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -26,7 +25,8 @@ const AllAnswers = () => {
     const [allExplanations, setAllExplanations] = useState([]);
     const [pieData, setPieData] = useState("Doughnut");
     const [barData, setBarData] = useState("Bar");
-
+    const [pieTitle, setPieTitle] = useState("Graphique en anneau");
+    const [barTitle, setBarTitle] = useState("Diagramme à bandes");
 
 
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
@@ -46,17 +46,21 @@ const AllAnswers = () => {
     const handlePieChartChange = () => {
         if(pieData === "Doughnut"){
             setPieData("Pie")
+            setPieTitle("Diagramme circulaire")
         }
         if(pieData === "Pie"){
             setPieData("Doughnut")
+            setPieTitle("Graphique en anneau")
         }
     }
     const handleBarChartChange = () => {
         if(barData === "Bar"){
             setBarData("Horizontal Bar")
+            setBarTitle("Graphique à barres horizontales")
         }
         if(barData === "Horizontal Bar"){
             setBarData("Bar")
+            setBarTitle("Diagramme à bandes")
         }
     }
 
@@ -266,7 +270,7 @@ const AllAnswers = () => {
                             )}
                         </div>
                         <div style={{marginBottom: "20px"}}>
-                            <Button disableElevation variant="contained" onClick={stats}>Cliquez pour les statistiques</Button>
+                            <button className="btnn" onClick={stats}>Cliquez pour les statistiques</button>
                         </div>
                         <Container>
                             {array && (
@@ -281,7 +285,7 @@ const AllAnswers = () => {
                                                                 <SwapHorizRounded/>
                                                             </IconButton>
                                                         }
-                                                        title="Graphique en anneau"
+                                                        title={pieTitle}
                                                         subheader={"Question. " + (index + 1)} 
                                                     />
                                                     <CardContent>
@@ -300,7 +304,7 @@ const AllAnswers = () => {
                                 <div>
                                         <Grid container spacing={3} >
                                             {explanationStats && explanationStats.map((explanation, index) => (
-                                                <Grid item sm={12} md={6} lg={4}>
+                                                <Grid item sm={12} md={6} lg={6}>
                                                     <Card elevation={2}>
                                                         <CardHeader
                                                         action={
@@ -308,7 +312,7 @@ const AllAnswers = () => {
                                                                 <SwapHorizRounded/>
                                                             </IconButton>
                                                         } 
-                                                        title="Diagramme à bandes"
+                                                        title={barTitle}
                                                         subheader={`Question. ${index + 1}`}
                                                         />
                                                         <CardContent>
