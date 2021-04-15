@@ -124,14 +124,12 @@ const AllStudents = () => {
                             <div className={`quiz`} style={{borderRadius: "10px"}}>
                                 <List>
                                 {allQuizzes && allQuizzes.map((quiz, index) => (
-                                    <ListItem button>
+                                    <ListItem button onClick= {() => setActiveQuiz(quiz, index)}>
                                         <ListItemIcon>
                                             <BookOutlined />
                                         </ListItemIcon>
                                         <ListItemText primary={
-                                            <h4 
-                                            onClick= {() => setActiveQuiz(quiz, index)}
-                                            >
+                                            <h4>
                                             {quiz.quiz_id} 
                                             </h4>
                                         }/>
