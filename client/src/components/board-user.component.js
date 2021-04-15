@@ -3,6 +3,13 @@ import SearchService from "../services/search.service";
 import AuthService from "../services/auth.service";
 import {useState, useEffect} from 'react';
 import axios from "axios";
+import { Snackbar } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 const required = (value) => {
@@ -30,12 +37,14 @@ const BoardUser = () => {
   const [successful, setsuccessful] = useState(false);
   const [message, setmessage] = useState('');
   const [errorMessage, seterrorMessage] = useState('');
+  const [errors, seterrors] = useState([])
   const [currentQuiz, setcurrentQuiz] = useState(null);
   const [radioOptions, setradioOptions] = useState({})
   const [checkedItems, setCheckedItems] = useState([]); 
   const [currentUser] = useState(AuthService.getCurrentUser()) ;
   const [allQuizzes, setallQuizzes] = useState([]);
   const [displayAllAnswered, setdisplayAllAnswered] = useState(false);
+  const [validate, setvalidate] = useState(false)
 
 
   // LOAD ALL QUIZZES ANSWERED BY CURRENT STUDENT FROM DATABASE 
@@ -43,11 +52,11 @@ const BoardUser = () => {
   useEffect(() => {
     const student_id = currentUser.message.email;
     axios.get(`https://neuroeducation-feedback.herokuapp.com/api/studentQuizzes/${student_id}`).then((response) => {
-      console.log(response.data);
-      setallQuizzes(response.data) 
+      console.log(response.data.quizzes);
+      setallQuizzes(response.data.quizzes) 
     })
     .catch(function (err) {
-        seterrorMessage(err.response.data.message|| err.response.data.message[0].error);
+        seterrorMessage(err.response);
     });
   }, [currentUser]);
 
@@ -119,9 +128,9 @@ const BoardUser = () => {
 
   // SUBMIT ANSWERS TO THE BACKEND
   const submitAnswers = () =>{
-    setmessage("");
-    setsuccessful(false);
-    setdisplayAllAnswered(false);
+    // setmessage("");
+    // setsuccessful(false);
+    // setdisplayAllAnswered(false);
     const timestamp = Date.now(); // This would be the timestamp you want to format
     const formatedTimestamp = new Intl.DateTimeFormat('en-US', {year: 'numeric',
                               month: '2-digit',day: '2-digit', hour: '2-digit', 
@@ -137,6 +146,20 @@ const BoardUser = () => {
             time_submitted : formatedTimestamp,
         }
     }
+
+
+    if((currentQuiz.questions).length != (answers.quiz_answers.student_answers).length){
+      // setmessage(null);
+      // setsuccessful(null);
+      // setdisplayAllAnswered(false);
+      console.log((currentQuiz.questions).length);
+      console.log((answers.quiz_answers.student_answers).length);
+      setvalidate(true);
+      // setmessage('Please answer all quizzes');
+              // setsuccessful(false);
+              return setvalidate(true);
+    }
+
     console.log("Radio Answer: ", radioOptions);
     console.log("CheckedItems: ", checkedItems);
     console.log("Final: ", answers);
@@ -164,6 +187,10 @@ const BoardUser = () => {
       });
   }
 
+  const handleClose = () => {
+    setvalidate(false)
+  }
+
   const handleSearch = (e) => {
     e.preventDefault();
     setmessage("");
@@ -176,7 +203,7 @@ const BoardUser = () => {
       search,
     ).then(
       response => {
-        console.log(response);
+        console.log(response.data);
         setsuccessful(true);
         setcurrentQuiz(response.data);
       })
@@ -259,6 +286,13 @@ return (
       <div >
       {currentQuiz && (
         <div className="container-questions"> 
+          { validate &&
+              <Snackbar anchorOrigin={{ vertical :'top', horizontal: 'center' }}open={validate} autoHideDuration={6000} onClose={()=>handleClose()}>
+              <Alert onClose={()=>handleClose()} severity="error">
+                {'Please answer all questions'}
+              </Alert>
+           </Snackbar>
+          }
           <center><h4>{currentQuiz.quiz}</h4><br/></center>
           {currentQuiz.questions && currentQuiz.questions.map((questions, indexx) => (
             <div key={questions.question_id}>
