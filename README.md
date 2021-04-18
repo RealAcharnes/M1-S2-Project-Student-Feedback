@@ -12,7 +12,7 @@ The authors of this application are Kwaku Antwi Addo, Jean-Charles Coudon, Alexi
 
 Here are the instructions for using and understanding our web application.
 
-### Contents
+## Contents
 
 1. [General features](#general-features)
 
@@ -22,7 +22,7 @@ Here are the instructions for using and understanding our web application.
 
 4. [Administrator features](#administrator-features)
 
-### General features
+## General features
 
 The first thing that appears on your first visit (or if you have logged out) is the home page. 
 
@@ -66,7 +66,7 @@ At the bottom of this page you can change your password, by entering your old pa
 
 You can also reach this page by clicking on your name on  the top-right corner.
 
-### Student features
+## Student features
 
 #### Create an account (for students)
 
@@ -98,13 +98,17 @@ Here is an example of a quiz snippet :
     <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/QuizSample.JPG">
 </div>
 
-### Teacher features
+## Teacher features
 
 #### Create an account (for teacher)
 
 Please refer to the administrator account creation which works the same way : [Create admnistrator and teacher account](#Create-an-account-for-administrator-and-teacher)
 
-### Administrator features
+#### Create a new quiz
+
+On the navigation bar at the top, the teacher can see quizzes he has already created 
+
+## Administrator features
 
 #### Create an account (for administrator and teacher)
 
@@ -116,5 +120,5 @@ When you are logged in as administrator in your navigation bar you will find a b
     <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/AddAccount.jpg" width="303" height="429">
 </div>
 
-Unlike creating a student account, to create a teacher or administrator account you will need to enter name, first name, email address and then choose a role by clicking on one of the boxes. A temporary password will be automatically generated for the teacher. After validating the account by clinking on the link sent in the verification mail, he can connect to his account and change his password confidentially in his profil page  (cf [Profil page](#profil)).
+Unlike creating a student account, to create a teacher or administrator account you will need to enter name, first name, email address and then choose a role by clicking on one of the boxes. A temporary password will be automatically generated for the teacher. After validating the account by clinking on the link sent in the verification mail, he can connect to his account and change his password confidentially in his profil page (cf [Profil page](#profil)).
 
