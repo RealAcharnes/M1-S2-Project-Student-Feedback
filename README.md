@@ -20,7 +20,7 @@ Here are the instructions for using and understanding our web application.
 
 3. [Teacher features](#teacher-features)
 
-4. [Adminstrator Features](#administrator-features)
+4. [Administrator features](#administrator-features)
 
 ### General features
 
@@ -87,7 +87,7 @@ Please refer to the administrator account creation which works the same way : [C
 
 
 
-### Admnistrator features
+### Administrator features
 
 #### Create an account (for administrator and teacher)
 
