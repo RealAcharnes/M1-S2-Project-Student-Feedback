@@ -64,6 +64,8 @@ You can get information about your token (a series of characters used to remembe
 
 At the bottom of this page you can change your password, by entering your old password, then the new one, then a confirmation.
 
+You can also reach this page by clicking on your name on  the top-right corner.
+
 ### Student features
 
 #### Create an account (for students)
@@ -87,7 +89,7 @@ Click on the button take a quiz (**Répondre à un quiz**).
 The student can add a quiz to answer by entering the quiz code (given by the teacher who created the quiz previously) in this page. He will be automatically redirected to the quiz page where he can answer the quiz questions and check off explanations when necessary.
 
 <div align="center">
-    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/StudentAnswerQuiz.JPG" width="1019.2" height="406.4">
+    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/StudentAnswerQuiz.JPG">
 </div>
 
 Here is an example of a quiz snippet :
