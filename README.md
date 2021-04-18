@@ -28,7 +28,7 @@ The first thing that appears on your first visit (or if you have logged out) is 
 
 In this home page you can find a welcome phrase.
 
-At the top there is a navigation bar with several buttons.
+At the top there is a navigation bar with several buttons that will change depending on your rights.
 
 By clicking on the home (**Accueil**) button, you will get a brief summary of the purpose of the application and an image.
 
