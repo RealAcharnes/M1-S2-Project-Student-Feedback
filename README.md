@@ -35,6 +35,7 @@ By clicking on the home (**Accueil**) button, you will get a brief summary of th
 <div align="center">
     <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/HomePage.JPG">
 </div>
+
 #### Create an account
 
 The way to create an account depends on the type of user. Please refer to the following links :
