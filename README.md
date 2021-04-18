@@ -49,7 +49,7 @@ By clicking on the login (**Se connecter**) button you can log in the applicatio
 Once you get connected to the application, you are automatically redirected to your profil account where you can see some informations :
 
 <div align="center">
-    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/Profil.JPG">
+    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/Profil.JPG" width="1054.8" height="766.8">
 </div>
 
 You can get information about your token (a series of characters used to remember your connection by your browser and connect safely), your ID in the database, your email and your rights in the application (student, teacher or administrator).
@@ -63,7 +63,7 @@ At the bottom of this page you can change your password, by entering your old pa
 By clicking on the create an account (**Créer un compte**) button you can create an account.
 
 <div align="center">
-    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/CreateAccount.JPG">
+    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/CreateAccount.JPG" width="331.2" height="534.6">
 </div>
 
 All the conditions for creating an account are explained during creation if you do not comply with them.
