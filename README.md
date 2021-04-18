@@ -14,13 +14,13 @@ Here are the instructions for using and understanding our web application.
 
 ### Contents
 
-1. [General features]: #general-features
+1. [General features]: (#general-features)
 
-2. [Student features]: #student-features
+2. [Student features]: (#student-features)
 
-3. [Teacher features]: #teacher-features
+3. [Teacher features]: (#teacher-features)
 
-4. [Adminstrator Features]: #administrator-features
+4. [Adminstrator Features]: (#administrator-features)
 
 ### General features
 
