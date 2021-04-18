@@ -35,6 +35,13 @@ By clicking on the home (**Accueil**) button, you will get a brief summary of th
 <div align="center">
     <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/HomePage.JPG">
 </div>
+#### Create an account
+
+The way to create an account depends on the type of user. Please refer to the following links :
+
+- [Create a student account](#create-an-account-(for-students))
+- [General a teacher account](#Create-an-account-(for-teacher))
+- [Create an administrator account](create-an-account-(for-administrator-and-teacher))
 
 #### Login
 
@@ -76,9 +83,20 @@ A validation email will be sent to the email address, you must click on the link
 
 #### Create an account (for teacher)
 
+Please refer to the administrator account creation which works the same way : [Create admnistrator and teacher account](#Create-an-account-(for-administrator-and-teacher))
+
 
 
 ### Admnistrator features
 
+#### Create an account (for administrator and teacher)
 
+For security reason (prevent students from creating accounts with higher rights), you need an administrator account to create new teacher or administrator account.
 
+When you are logged in as administrator in your navigation bar you will find a button Add an account (**Ajouter un compte**) you can click on it.
+
+<div align="center">
+    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/AddAccount.jpg" width="303" height="429">
+</div>
+
+Unlike creating a student account, to create a teacher or administrator account you will need to enter name, first name, email address and then choose a role by clicking on one of the boxes.
