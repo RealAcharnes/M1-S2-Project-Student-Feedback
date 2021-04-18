@@ -266,7 +266,7 @@ return (
     <div className={!successful || message ? "card card-container" : ""}>
         {(displayAllAnswered || !successful )  && allQuizzes && (
           <div >
-            <h4>Quizzes Already Answered</h4>
+            <h4>Quiz déjà répondus</h4>
             <div className={`quiz`} >
                 {allQuizzes && allQuizzes.map((quiz, index) => (
                     <h4 

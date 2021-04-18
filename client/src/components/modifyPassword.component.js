@@ -56,7 +56,7 @@ const ModifyPassword = (props) =>{
         AuthService.changePassword(email, oldPass, newPass, confirmPass)
         .then((res) => {
             console.log(res.data);
-            setmessage("Password Successfully Changed");
+            setmessage("Mot de passe modifié avec succès");
             setsuccessful(true);
         })
         .catch((error) =>{
