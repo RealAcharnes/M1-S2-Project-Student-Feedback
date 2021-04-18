@@ -23,6 +23,9 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import ProtectedRoute from "./components/protected-routes.component";
 import AllStudents from "./components/all-students.component";
 import VerifyAccount from "./components/verify-account.component";
+import UserComponent from "./components/Admin/ADMINPANEL.component";
+import AdminDashboard from "./components/Admin/admin-dashboard";
+import IFrame from "./components/Admin/components/iframe";
 
 const theme = createMuiTheme({
   palette:{
@@ -107,6 +110,14 @@ class App extends Component {
                 </li>
               )}
 
+              {showAdminBoard && (
+                <li className="nav-item">
+                  <div  className="nav-link">
+                    <Button className="nav-link" color="primary"><a  href="http://localhost:5050/admin" target="_blank">ADMIN PAGE</a></Button>
+                  </div>
+                </li>
+              )}
+
               {(showAdminBoard || showTeacherBoard) && (
                 <div>
                   <li className="nav-item">
@@ -141,6 +152,14 @@ class App extends Component {
                 <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
                     <Button color="primary">Utilisateur</Button>
+                  </Link>
+                </li>
+                )}
+
+                {(currentUser && !showTeacherBoard) && (
+                <li className="nav-item">
+                  <Link to={"/test"} className="nav-link">
+                    <Button color="primary">TEST</Button>
                   </Link>
                 </li>
                 )}
@@ -185,6 +204,8 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/verifyAccount/:token" component={VerifyAccount} />
                 <Route exact path="/postSubmitForm" component={PostSubmitForm}/>
+                <Route exact path="/test" component={AdminDashboard}/>
+                <Route exact path="/iframe" component={IFrame}/>
                 <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
                 <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
                 <ProtectedRoute exact path="/user" component={BoardUser} role={student}/>

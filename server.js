@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const path = require('path');
 
+
 //import routes
 const authRoutes = require('./routes/auth');
 const { db } = require('./models/User');
@@ -40,6 +41,9 @@ app.use(express.urlencoded({
 
 // Configure the CORs middleware
 app.use(cors());
+
+// Admin Dashboard
+app.use("/admin", require("./admin"))
 
 //routes middleware
 app.use('/api', authRoutes);

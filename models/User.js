@@ -1,6 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const studentAnswers = new Schema({
+    student_answers: Array,
+  }, { _id: false })
+
+const quiz = new Schema({
+    quiz_id: String,
+    quiz_title: String,
+    quiz_answers: {
+        type: [studentAnswers]
+    },
+  }, { _id: false })
+
 let userSchema = new Schema({
     firstname: {
         type: String,
@@ -23,7 +35,9 @@ let userSchema = new Schema({
         required: false
     },
     quizzes: {
-        type: Array,
+        type: [quiz],
+        // quiz_id : String
+        // ,
         required: false
     }
 }, {timestamps: true,
