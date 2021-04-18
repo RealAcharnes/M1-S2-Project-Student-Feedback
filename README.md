@@ -39,9 +39,9 @@ By clicking on the home (**Accueil**) button, you will get a brief summary of th
 
 The way to create an account depends on the type of user. Please refer to the following links :
 
-- [Create a student account](#create-an-account-(for-students))
-- [General a teacher account](#Create-an-account-(for-teacher))
-- [Create an administrator account](create-an-account-(for-administrator-and-teacher))
+- [Create a student account](#create-an-account-for-students)
+- [General a teacher account](#Create-an-account-for-teacher)
+- [Create an administrator account](create-an-account-for-administrator-and-teacher)
 
 #### Login
 
@@ -83,7 +83,7 @@ A validation email will be sent to the email address, you must click on the link
 
 #### Create an account (for teacher)
 
-Please refer to the administrator account creation which works the same way : [Create admnistrator and teacher account](#Create-an-account-(for-administrator-and-teacher))
+Please refer to the administrator account creation which works the same way : [Create admnistrator and teacher account](#Create-an-account-for-administrator-and-teacher)
 
 
 
