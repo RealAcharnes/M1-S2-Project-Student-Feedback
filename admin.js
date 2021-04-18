@@ -7,7 +7,9 @@ const User = require('./models/User')
 const Quizzes = require('./models/Quiz')
 const History = require('./models/history')
 
-AdminBro.bundle('./client/src/components/admin/ADMINPANEL', 'SidebarResourceSection')
+// AdminBro.bundle('./client/src/components/admin/ADMINPANEL', 'SidebarResourceSection')
+AdminBro.bundle('./user', 'SidebarResourceSection')
+
 AdminBro.bundle('./user', 'SidebarFooter')
 // component: AdminBro.bundle('./client/src/components/ADMINPANEL.component.jsx')
 // AdminBro.bundle('./user', 'SidebarBranding')
@@ -94,7 +96,8 @@ AdminBro.registerAdapter(AdminBroMongoose)
 const adminBro = new AdminBro({
   rootPath: '/admin',
   dashboard: {
-    component: AdminBro.bundle('./client/src/components/admin/react.component.jsx'),
+    // component: AdminBro.bundle('./client/src/components/admin/react.component.jsx'),
+    component: AdminBro.bundle('./user'),
     handler: async () => {
         return { some: allresources}
     }
