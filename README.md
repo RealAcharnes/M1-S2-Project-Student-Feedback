@@ -24,25 +24,17 @@ Here are the instructions for using and understanding our web application.
 
 ### General features
 
-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-
+
 
 ### Student features
 
-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-
 
-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-
-
-test-test-test-test-test-test-test-test-test-
-
-test-test-test-
 
 ### Teacher features
 
-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-
+
 
 ### Admnistrator features
 
-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-
 
-test-test-test-test-test-test-test-test-test-
 

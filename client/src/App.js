@@ -47,7 +47,7 @@ class App extends Component {
       admin:["ROLE_ADMIN"],
       adminTeacher:["ROLE_ADMIN" , "ROLE_TEACHER"],
       allUsers:["ROLE_ADMIN" , "ROLE_TEACHER" , "ROLE_STUDENT"],
-      student:["ROLE_STUDENT"]
+      studentAdmin: ["ROLE_STUDENT", "ROLE_ADMIN"]
     };
   }
 
@@ -76,7 +76,7 @@ class App extends Component {
   }
 
   render() {
-     const { currentUser, showAdminBoard, showTeacherBoard, admin, adminTeacher, allUsers, student } = this.state;
+     const { currentUser, showAdminBoard, showTeacherBoard, admin, adminTeacher, allUsers, studentAdmin } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
@@ -207,7 +207,7 @@ class App extends Component {
                 <Route exact path="/iframe" component={IFrame}/>
                 <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
                 <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
-                <ProtectedRoute exact path="/user" component={BoardUser} role={student}/>
+                <ProtectedRoute exact path="/user" component={BoardUser} role={studentAdmin}/>
                 <ProtectedRoute exact path="/questions" component={AllQuestions} role={adminTeacher}/>
                 <ProtectedRoute exact path="/answers" component={AllAnswers} role={adminTeacher}/>
                 <ProtectedRoute exact path="/students" component={AllStudents} role={allUsers}/>
