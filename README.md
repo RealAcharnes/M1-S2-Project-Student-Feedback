@@ -1,4 +1,4 @@
-### Web application for student help
+# Web application for student help
 
 <div align="center">
     <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/brain-storming.png" width="400" height="400">
