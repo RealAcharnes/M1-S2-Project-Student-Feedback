@@ -41,7 +41,7 @@ By clicking on the home (**Accueil**) button, you will get a brief summary of th
 By clicking on the login (**Se connecter**) button you can log in the application with your account. To log in, you need to enter your email and your password.
 
 <div align="center">
-    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/Login.JPG">
+    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/Login.JPG" width="264.5" height="254">
 </div>
 
 #### Profil
