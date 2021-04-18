@@ -153,7 +153,7 @@ class App extends Component {
                 {(currentUser && !showTeacherBoard) && (
                 <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
-                    <Button color="primary">Utilisateur</Button>
+                    <Button color="primary">Répondre à un quiz</Button>
                   </Link>
                 </li>
                 )}
