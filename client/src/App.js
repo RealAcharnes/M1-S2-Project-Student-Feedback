@@ -156,7 +156,7 @@ class App extends Component {
                 </li>
                 )}
 
-                {(showAdminBoard ) && (
+                {showAdminBoard  && (
                 <li className="nav-item">
                   <Link to={"/test"} className="nav-link">
                     <Button color="primary">TEST</Button>
@@ -204,7 +204,6 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/verifyAccount/:token" component={VerifyAccount} />
                 <Route exact path="/postSubmitForm" component={PostSubmitForm}/>
-                <Route exact path="/test" component={AdminDashboard}/>
                 <Route exact path="/iframe" component={IFrame}/>
                 <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
                 <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
@@ -213,6 +212,7 @@ class App extends Component {
                 <ProtectedRoute exact path="/answers" component={AllAnswers} role={adminTeacher}/>
                 <ProtectedRoute exact path="/students" component={AllStudents} role={allUsers}/>
                 <ProtectedRoute exact path="/admin" component={BoardAdmin} role={adminTeacher}/>
+                <ProtectedRoute exact path="/test" component={AdminDashboard} role={admin}/>
                 <ProtectedRoute  component={Home} />
               </Switch>
             </div>
