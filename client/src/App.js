@@ -75,7 +75,6 @@ class App extends Component {
     if (!this.state.currentUser) {  
       return <Redirect to="/home" />;
     }
-    this.forceUpdate();
   }
 
   render() {
