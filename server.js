@@ -27,6 +27,9 @@ mongoose
 })
     .then (() => console.log('Mongodb Database is Connected'))
 
+    // Admin Dashboard
+app.use("/admin", require("./admin"))
+
 // This application level middleware prints incoming requests to the servers console, useful to see incoming requests
 app.use((req, res, next) => {
     console.log(`Request_Endpoint: ${req.method} ${req.url}`);
@@ -42,8 +45,7 @@ app.use(express.urlencoded({
 // Configure the CORs middleware
 app.use(cors());
 
-// Admin Dashboard
-app.use("/admin", require("./admin"))
+
 
 //routes middleware
 app.use('/api', authRoutes);

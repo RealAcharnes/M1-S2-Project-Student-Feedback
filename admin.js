@@ -7,7 +7,7 @@ const User = require('./models/User')
 const Quizzes = require('./models/Quiz')
 const History = require('./models/history')
 
-AdminBro.bundle('./client/src/components/admin/ADMINPANEL.component.jsx', 'SidebarResourceSection')
+AdminBro.bundle('./client/src/components/admin/ADMINPANEL', 'SidebarResourceSection')
 AdminBro.bundle('./user', 'SidebarFooter')
 // component: AdminBro.bundle('./client/src/components/ADMINPANEL.component.jsx')
 // AdminBro.bundle('./user', 'SidebarBranding')

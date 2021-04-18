@@ -23,7 +23,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import ProtectedRoute from "./components/protected-routes.component";
 import AllStudents from "./components/all-students.component";
 import VerifyAccount from "./components/verify-account.component";
-import UserComponent from "./components/Admin/ADMINPANEL.component";
+import UserComponent from "./components/Admin/ADMINPANEL";
 import AdminDashboard from "./components/Admin/admin-dashboard";
 import IFrame from "./components/Admin/components/iframe";
 
