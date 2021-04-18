@@ -114,5 +114,5 @@ When you are logged in as administrator in your navigation bar you will find a b
     <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/AddAccount.jpg" width="303" height="429">
 </div>
 
-Unlike creating a student account, to create a teacher or administrator account you will need to enter name, first name, email address and then choose a role by clicking on one of the boxes. A temporary password will be automatically generated for the teacher. After validating the account by clinking on the link sent in the verification mail, he can connect to his account and change his password confidentially in his profil pag  (cf [Profil page](#profil)).
+Unlike creating a student account, to create a teacher or administrator account you will need to enter name, first name, email address and then choose a role by clicking on one of the boxes. A temporary password will be automatically generated for the teacher. After validating the account by clinking on the link sent in the verification mail, he can connect to his account and change his password confidentially in his profil page  (cf [Profil page](#profil)).
 
