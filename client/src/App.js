@@ -156,7 +156,7 @@ class App extends Component {
                 </li>
                 )}
 
-                {(currentUser && !showTeacherBoard) && (
+                {(showAdminBoard ) && (
                 <li className="nav-item">
                   <Link to={"/test"} className="nav-link">
                     <Button color="primary">TEST</Button>
