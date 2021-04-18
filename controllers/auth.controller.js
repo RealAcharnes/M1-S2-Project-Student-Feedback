@@ -188,7 +188,7 @@ exports.verifyAccount =(req, res) => {
               .then(response => {
                 res.status(200).json({
                   success: true,
-                  message: 'Your account is activated',
+                  message: 'Votre compte est activé !',
                   mdpTmp: password,
                 })
               })
