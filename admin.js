@@ -168,6 +168,6 @@ const adminBro = new AdminBro({
 
 const admin = new AdminBro(adminBro);
 
-const allresources = admin.allResources()
+// const allresources = admin.allResources()
 
 module.exports = adminRouter = AdminBroExpress.buildRouter(adminBro)
