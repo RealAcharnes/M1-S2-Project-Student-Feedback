@@ -49,7 +49,7 @@ By clicking on the login (**Se connecter**) button you can log in the applicatio
 Once you get connected to the application, you are automatically redirected to your profil account where you can see some informations :
 
 <div align="center">
-    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/Profil.JPG" width="1054.8" height="766.8">
+    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/Profil.JPG" width="937.6" height="681.6">
 </div>
 
 You can get information about your token (a series of characters used to remember your connection by your browser and connect safely), your ID in the database, your email and your rights in the application (student, teacher or administrator).
