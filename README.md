@@ -1,6 +1,6 @@
 ### Web application for student help
 
-![Main image](https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/brain-storming.png)
+<img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/brain-storming.png" width="100" height="100">
 
 This web application is made to allow students to answer quizzes and teachers to get the information and the statistics of answers.
 
