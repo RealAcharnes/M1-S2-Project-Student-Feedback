@@ -68,11 +68,14 @@ class App extends Component {
   logOut() {
     AuthService.logout();
     this.setState({
-            currentUser: null 
-        })
+      currentUser: undefined,
+      showAdminBoard: false,
+      showTeacherBoard: false
+    })
     if (!this.state.currentUser) {  
       return <Redirect to="/home" />;
-  }
+    }
+    this.forceUpdate();
   }
 
   render() {
