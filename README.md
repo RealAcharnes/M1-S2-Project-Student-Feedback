@@ -82,15 +82,25 @@ A validation email will be sent to the email address, you must click on the link
 
 #### Add a quizz to answer
 
+Click on the button take a quiz (**Répondre à un quiz**).
 
+The student can add a quiz to answer by entering the quiz code (given by the teacher who created the quiz previously) in this page. He will be automatically redirected to the quiz page where he can answer the quiz questions and check off explanations when necessary.
+
+<div align="center">
+    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/StudentAnswerQuiz.JPG" width="1019.2" height="406.4">
+</div>
+
+Here is an example of a quiz snippet :
+
+<div align="center">
+    <img src="https://github.com/RealAcharnes/M1-S2-Project-Student-Feedback/blob/main/.github/media/QuizSample.JPG">
+</div>
 
 ### Teacher features
 
 #### Create an account (for teacher)
 
 Please refer to the administrator account creation which works the same way : [Create admnistrator and teacher account](#Create-an-account-for-administrator-and-teacher)
-
-
 
 ### Administrator features
 
