@@ -64,6 +64,8 @@ You can get information about your token (a series of characters used to remembe
 
 At the bottom of this page you can change your password, by entering your old password, then the new one, then a confirmation.
 
+You can also reach this page by clicking on your name on  the top-right corner.
+
 ### Student features
 
 #### Create an account (for students)
