@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Avatar, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
 import BookOutlined from '@material-ui/icons/BookOutlined';
 import MoreVert from '@material-ui/icons/MoreVert';
-// import LineChart from './LineChart';
-// import LineLabels from './LineLabels';
+import LineChart from './LineChart';
+import LineLabels from './LineLabels';
 
 
 
@@ -241,13 +241,13 @@ const displayLineArray = () => {
                     }
                     <div>
                         { (currentQuiz && displayEvolution) && <button className="btnn" onClick={()=> evolution()}>Back</button>}
-                        <div className="row">
+                        
+                        {/* <div className="row">
                             
                             {(currentQuiz && displayEvolution) && currentQuiz.quiz_answers.map((quiz, index)=>(                            
                                 <div className="col-xs-12 col-sm-12 col-md-6">
                                     <div className={`quiz`} style={{borderRadius: "10px"}}>
                                         <h4>{'Attempt number ' + (index+1)}</h4>
-                                        {/* <h4>{quiz.qu}</h4> */}
                                         {quiz.student_answers.map((answers, idx)=>(
                                             <div>
                                             <h4>{'Question '+answers.question_answer_id}</h4>
@@ -255,10 +255,33 @@ const displayLineArray = () => {
                                             </div>
                                         ))}
                                     </div>    
-                                </div> 
-                                        
+                                </div>  
                             ))}
-                        </div>
+                        </div> */}
+
+                        {displayLineChart && (
+                            <Grid container spacing={3}>
+                                {(lineArray.length && displayLineChart) && lineArray[0].map((attempt, index) => (
+                                    <Grid item md={6} sm={12} lg={4} >
+                                        <Card elevation={2}>
+                                            <CardHeader
+                                                action={
+                                                    <IconButton>
+                                                        <MoreVert />
+                                                    </IconButton>
+                                                }
+                                                title={`Question ${index + 1}`}
+                                                subheader={`Oui-4 Plutot Oui-3 Plutot Non-2 Non-1`}
+                                            />
+                                            <CardContent>
+                                                {console.log("The test log", lineArray)}
+                                                <LineChart labels={LineLabels(lineArray.length)} data={getLineData(lineArray, index)} />
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        )}
                     </div>    
                 </div>)}
         </div>
