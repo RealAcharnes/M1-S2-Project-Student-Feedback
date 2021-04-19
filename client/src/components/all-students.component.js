@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Avatar, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
 import BookOutlined from '@material-ui/icons/BookOutlined';
 import MoreVert from '@material-ui/icons/MoreVert';
-import LineChart from './LineChart';
-import LineLabels from './LineLabels';
+// import LineChart from './LineChart';
+// import LineLabels from './LineLabels';
 
 
 
