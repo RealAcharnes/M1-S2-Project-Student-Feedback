@@ -245,7 +245,7 @@ const displayLineArray = () => {
                     ))}
                 </div>
                 {displayLineChart && (
-                    <Grid container spacing={6}>
+                    <Grid container spacing={3}>
                         {(lineArray.length && displayLineChart) && lineArray[0].map((attempt, index) => (
                             <Grid item md={6} sm={12} lg={4} >
                                 <Card elevation={2}>
