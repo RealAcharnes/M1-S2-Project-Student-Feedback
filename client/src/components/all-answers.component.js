@@ -289,11 +289,13 @@ const AllAnswers = () => {
                                                         subheader={"Question. " + (index + 1)} 
                                                     />
                                                     <CardContent>
-                                                        <DoughnutChart pieData={pieData} labels={getLabels(answer)} answerValues={getAnswerValues(answer, getLabels(answer))} />
+                                                        <DoughnutChart
+                                                        pieData={pieData}
+                                                        labels={getLabels(answer)}
+                                                        answerValues={getAnswerValues(answer, getLabels(answer))} />
                                                     </CardContent>
                                                 </Card>
                                             </Grid>
-
                                         ))}
                                     </Grid>
                                 </div>
