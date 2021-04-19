@@ -69,7 +69,7 @@ const History = require('../models/history');
   User.findOne({email: email})
    .then(user=>{
       if(user){
-         return res.status(423).json({ message:  "email already exists" });
+         return res.status(423).json({ message:  "l'email exite déjà" });
       }
       else {
         console.log('No User found')
@@ -168,7 +168,7 @@ exports.verifyAccount =(req, res) => {
        User.findOne({email: email})
        .then(user=>{
           if(user){
-             return res.status(423).json({ message:  "Your Account has Already been Verified" });
+             return res.status(423).json({ message:  "Votre compte a déjà été vérifié" });
           }
 
           const newUser = new User({
@@ -188,7 +188,7 @@ exports.verifyAccount =(req, res) => {
               .then(response => {
                 res.status(200).json({
                   success: true,
-                  message: 'Your account is activated',
+                  message: 'Votre compte est activé !',
                   mdpTmp: password,
                 })
               })
@@ -296,7 +296,7 @@ exports.question = (req, res, next) => {
    Quiz.findOne({question: question})
      .then(quiz=>{
         if(quiz){
-           return res.status(422).json({ errors: [{ quiz: "question already exists" }] });
+           return res.status(422).json({ errors: [{ quiz: "La question existe déjà" }] });
         }
         else {
            const quiz = new Quiz({

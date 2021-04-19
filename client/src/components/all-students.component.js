@@ -1,7 +1,11 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Avatar, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
 import BookOutlined from '@material-ui/icons/BookOutlined';
+import MoreVert from '@material-ui/icons/MoreVert';
+import LineChart from './LineChart';
+import LineLabels from './LineLabels';
+
 
 
 const AllStudents = () => {
@@ -17,8 +21,8 @@ const AllStudents = () => {
     const [currentStudent, setcurrentStudent] = useState(null);
     const [currentQuiz, setcurrentQuiz] = useState(null);
     const [showSpinner, setShowSpinner] = useState(true);
-
-
+    const [lineArray, setLineArray] = useState([]);
+    const [displayLineChart, setDisplayLineChart] = useState(false);
 
     useEffect(() => {
         axios.get( "https://neuroeducation-feedback.herokuapp.com/api/findAllStudents")
@@ -58,11 +62,24 @@ const AllStudents = () => {
           });
     }
 
+
+const displayLineArray = () => {
+    console.log("the lineArrray", lineArray);
+}
+
+
       // SET SELECTED(CLICKED) QUIZ
   const setActiveQuiz = (quiz, index) => {
     console.log(quiz);
     setdisplayActiveQuiz(true);
     setcurrentQuiz(quiz);
+    let tempLineArray = [];
+    quiz.quiz_answers.forEach((quiz, index) => {
+        tempLineArray.push(getAllAns(quiz))
+    })
+    setLineArray(tempLineArray)
+
+    
     setdisplayQuizzes(null);
     // setcurrentIndex(index)
   };
@@ -83,14 +100,49 @@ const AllStudents = () => {
     if(displayMain===true && displayEvolution===false){
         setdisplayMain(false); 
         setdisplayEvolution(true);
+        setDisplayLineChart(true);
     } 
     else if(displayMain===false && displayEvolution===true){
         setdisplayMain(true); 
         setdisplayEvolution(false);
+        setDisplayLineChart(false);
     } 
 
 
   }
+  // CREATE ARRAY CONTAINING ANSWERS OF EACH ATTEMPT
+  const getAllAns = quiz => {
+    let array = []
+    quiz.student_answers.forEach(answers=> {
+        switch(answers.answer){
+            case "Non":
+                array.push(1)
+                break
+            case "Plutot Non":
+                array.push(2)
+                break
+            case "Plutot Oui":
+                array.push(3)
+                break
+            default:
+                array.push(4)
+                break
+        }
+    })
+    return array
+  }
+
+  //GENERATE DATA VALUES FOR LINE CHART 
+  const getLineData = (groupArray, index) => {
+    let dataArray = []
+    groupArray.forEach((item) => {
+        dataArray.push(item[index])
+    })
+    return dataArray
+  }
+
+ 
+ 
 
     return (
     
