@@ -295,7 +295,6 @@ SearchService.searchQuiz(
                                                 subheader={`Oui-4 Plutot Oui-3 Plutot Non-2 Non-1`}
                                             />
                                             <CardContent>
-                                                {console.log("The test log", lineArray)}
                                                 <LineChart labels={LineLabels(lineArray.length)} data={getLineData(lineArray, index)} />
                                             </CardContent>
                                         </Card>
