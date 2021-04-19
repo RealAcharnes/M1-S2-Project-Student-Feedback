@@ -27,8 +27,23 @@ const LineChart = ({ labels, data }) => {
                     },
                     tooltips: {
                         callbacks: {
-                            label: (item, data) => {
-                                return 
+                            label: (item, datax) => {
+                                let string = ""
+                                switch(data[item.index]){
+                                    case 4:
+                                        string = "Oui"
+                                        break
+                                    case 3:
+                                        string = "Plutot Oui"
+                                        break
+                                    case 2: 
+                                        string = "Plutot Non"
+                                        break
+                                    default:
+                                        string = "Non"
+                                        break
+                                }
+                                return string
                             }
                         }
                     }

@@ -63,10 +63,6 @@ const AllStudents = () => {
     }
 
 
-const displayLineArray = () => {
-    console.log("the lineArrray", lineArray);
-}
-
 
       // SET SELECTED(CLICKED) QUIZ
   const setActiveQuiz = (quiz, index) => {
