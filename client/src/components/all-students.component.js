@@ -5,6 +5,8 @@ import BookOutlined from '@material-ui/icons/BookOutlined';
 import MoreVert from '@material-ui/icons/MoreVert';
 import LineChart from './LineChart';
 import LineLabels from './LineLabels';
+import SearchService from "../services/search.service";
+
 
 
 
@@ -23,6 +25,7 @@ const AllStudents = () => {
     const [showSpinner, setShowSpinner] = useState(true);
     const [lineArray, setLineArray] = useState([]);
     const [displayLineChart, setDisplayLineChart] = useState(false);
+    const [actualQuiz, setactualQuiz] = useState([]);
 
     useEffect(() => {
         axios.get( "https://neuroeducation-feedback.herokuapp.com/api/findAllStudents")
@@ -63,9 +66,7 @@ const AllStudents = () => {
     }
 
 
-const displayLineArray = () => {
-    console.log("the lineArrray", lineArray);
-}
+
 
 
       // SET SELECTED(CLICKED) QUIZ
@@ -81,7 +82,27 @@ const displayLineArray = () => {
 
     
     setdisplayQuizzes(null);
-    // setcurrentIndex(index)
+
+// GET ACTUAL QUESTIONS FROM DATABASE
+SearchService.searchQuiz(
+    quiz.quiz_id,
+  ).then(
+    response => {
+      console.log(response.data);
+    //   setsuccessful(true);
+      setactualQuiz(response.data);
+    })
+    .catch(
+    error => {
+      console.log(error.response);
+      const resMessage =
+        (error.response && error.response.data && error.response.data.message) 
+        || error.message || error.toString();
+
+    //   setmessage(resMessage);
+    //   setsuccessful(false);
+    }
+  );
   };
 
   const setActiveStudent = (name) => {
@@ -270,7 +291,7 @@ const displayLineArray = () => {
                                                         <MoreVert />
                                                     </IconButton>
                                                 }
-                                                title={`Question ${index + 1}`}
+                                                title={actualQuiz ? (`Q${index + 1}.`+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}
                                                 subheader={`Oui-4 Plutot Oui-3 Plutot Non-2 Non-1`}
                                             />
                                             <CardContent>

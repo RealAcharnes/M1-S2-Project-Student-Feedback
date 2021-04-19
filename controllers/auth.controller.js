@@ -386,7 +386,7 @@ exports.searchQuiz = async (req, res) => {
     });
 };
 
-// Find a single Quiz with an id and filter
+// Find a single Quiz Answers with an id and filter
 exports.findStats = (req, res) => {
   const id = req.params.id;
 
