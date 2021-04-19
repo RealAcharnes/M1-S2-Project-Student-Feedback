@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
+import React from "react";
 import { useHistory } from "react-router-dom"
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+// import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import StorageIcon from '@material-ui/icons/Storage';
@@ -17,29 +16,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import RecentActorsIcon from '@material-ui/icons/RecentActors';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import Parser from 'html-react-parser';
 
-
-
-
-// const useStyles = makeStyles((theme) => ({
-//     header: {
-//       position: "relative",
-//       background:
-//         "linear-gradient(87deg," + theme.palette.info.main + ",#1171ef)",
-//       paddingBottom: "8rem",
-//       paddingTop: "3rem",
-//       [theme.breakpoints.up("md")]: {
-//         paddingTop: "8rem",
-//       },
-//     },
-//     containerRoot: {
-//       [theme.breakpoints.up("md")]: {
-//         paddingLeft: "39px",
-//         paddingRight: "39px",
-//       },
-//     },
-// }));
 
 const useStyles = makeStyles({
     root: {
@@ -51,15 +28,11 @@ const useStyles = makeStyles({
   });
 
 const AdminDashboard = () => {
-    let history = useHistory();
-  const classes = useStyles();
-  const [user, setuser] = useState(false)
-  const [quizzes, setquizzes] = useState(false)
-  const [hist, sethist] = useState(false)
-  const [dashboard, setdashboard] = useState(true)
+    let history = useHistory(); 
+    const classes = useStyles();
 
 
-  const routeChange = (path, item) =>{
+    const routeChange = (path, item) =>{
     let newPath = path;
     if(item==="DATABASE"){
         return window.location.href = newPath;
@@ -68,106 +41,91 @@ const AdminDashboard = () => {
   }
 
   const childRoute = route =>{
-    if(route === 'USER'){
-        setuser(true);
-        setdashboard(false);
-        sethist(false);
-        setquizzes(false);
+    if(route==="USER"){
+        window.location.href = 'http://localhost:5050/admin/resources/User'
     }
-    else if(route === 'HISTORY'){
-        sethist(true);
-        setuser(false);
-        setdashboard(false);
-        setquizzes(false);
+    else if(route==="QUIZZES"){
+        window.location.href = 'http://localhost:5050/admin/resources/Quizzes'
     }
-    else if(route === 'DASHBOARD'){
-        setdashboard(true);
-        sethist(false);
-        setuser(false);
-        setquizzes(false);
-    }
-    else if(route === 'QUIZZES'){
-        setquizzes(true);
-        sethist(false);
-        setuser(false);
-        setdashboard(false);
+    else if(route==="HISTORY"){
+        window.location.href = 'http://localhost:5050/admin/resources/history'
     }
   }
 
   const dashboardArray = [
       {
-          title: "DATABASE",
-          path: 'https://neuroeducation-feedback.herokuapp.com/admin/',
-          children: ['USER', 'QUIZZES', 'HISTORY'],
-          message: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-          actions : {
-              one: "Share",
-              two: "Learn More"
-          },
-          icon: <StorageIcon style={{color:"green",  float:"right"}} fontSize="large" />
-      },
-      {
         title: "ADD ACCOUNT",
         path: '/adminRegister',
         children: [],
-        message: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+        message: "Add a new Admin or Teacher into the Database. Note this new administrator will have all privilleges",
         actions : {
             one: "Share",
             two: "Learn More"
         },
-        icon: <SupervisorAccountIcon style={{color:"green",  float:"right"}} fontSize="large" />
-    },
-    {
-        title: "ALL QUIZZES",
-        path: '/questions',
-        children: [],
-        message: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-        actions : {
-            one: "Share",
-            two: "Learn More"
-        },
-        icon: <AssignmentIcon style={{color:"green",  float:"right"}} fontSize="large" />
-    },    
-    {
-        title: "ALL ANSWERS",
-        path: '/answers',
-        children: [],
-        message: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-        actions : {
-            one: "Share",
-            two: "Learn More"
-        },
-        icon: <RecentActorsIcon style={{color:"green",  float:"right"}} fontSize="large" />
+        icon: <SupervisorAccountIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
     },
     {
         title: "EVOLUTION ",
         path: '/students',
         children: [],
-        message: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+        message: "As an admin or teacher, view all students progress with a few clicks",
         actions : {
             one: "Share",
             two: "Learn More"
         },
-        icon: <TrackChangesIcon style={{color:"green",  float:"right"}} fontSize="large" />
+        icon: <TrackChangesIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+    },
+    {
+        title: "ALL QUIZZES",
+        path: '/questions',
+        children: [],
+        message: "A list of all quizzes in the database. View all with a few clicks",
+        actions : {
+            one: "Share",
+            two: "Learn More"
+        },
+        icon: <AssignmentIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+    },    
+    {
+        title: "ALL ANSWERS",
+        path: '/answers',
+        children: [],
+        message: "A history of all student answers in the database. View all with a few clicks",
+        actions : {
+            one: "Share",
+            two: "Learn More"
+        },
+        icon: <RecentActorsIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
     },
     {
         title: "DASHBOARD",
-        path: '/test',
+        path: '/dashboard',
         children: [],
-        message: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+        message: "A link to the admin dashboard where you can see everything",
         actions : {
             one: "Share",
             two: "Learn More"
         },
-        icon: <DashboardIcon style={{color:"green",  float:"right"}} fontSize="large" />
-    }
+        icon: <DashboardIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+    },
+    {
+        title: "DATABASE",
+        path: 'https://neuroeducation-feedback.herokuapp.com/admin/',
+        children: ['USER', 'QUIZZES', 'HISTORY'],
+        message: "This is a special page for the Admin. In desperate times of Database management this is a place to go.",
+        actions : {
+            one: "Share",
+            two: "Learn More"
+        },
+        icon: <StorageIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+    },
   ]
 
   return (
     <>
         <div className="col-xs-12 col-sm-12 col-md-12">
             <div className="row">
-                { dashboard && dashboardArray && dashboardArray.map(item => (
+                {dashboardArray && dashboardArray.map(item => (
                     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
                         <Card className={classes.root} style={{height:280, padding: "20px", "margin-bottom": "10px"}}>
                             <CardActionArea>
@@ -184,7 +142,7 @@ const AdminDashboard = () => {
                                     </div> */}
                                     {item.title}
                                     {item.icon}
-                                    {/* <StorageIcon style={{color:"green",  float:"right"}} fontSize="large" /> */}
+                                    {/* <StorageIcon style={{color:"#388087",  float:"right"}} fontSize="large" /> */}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
                                 {item.message}
@@ -192,11 +150,11 @@ const AdminDashboard = () => {
                                 </CardContent>
                             </CardActionArea>
                             <CardActions>
-                                <Button size="small" color="primary" onClick={()=>routeChange(item.path, item.title)}>
+                                <Button size="small" style={{background:"#C2EDCE"}} onClick={()=>routeChange(item.path, item.title)}>
                                 GO TO
                                 </Button>
                                 {item.children && item.children.map(child=> (
-                                    <Button size="small" color="primary" onClick={()=>childRoute(child)}>
+                                    <Button size="small" style={{background:"#C2EDCE"}} onClick={()=>childRoute(child)}>
                                         {child}
                                     </Button>
                                  ))
@@ -208,22 +166,6 @@ const AdminDashboard = () => {
    }
             </div>
         </div>
-        
-        { user &&
-        <div className="col-xs-12 col-sm-12 col-md-12" >
-            <iframe src="https://neuroeducation-feedback.herokuapp.com/admin/resources/User" style={{maxWidth:10040, width:'100%', maxHeight : "800px", height:"800px", overflow:'visible'}}/>
-        </div>
-        }
-        { quizzes &&
-        <div className="col-xs-12 col-sm-12 col-md-12" >
-            <iframe src="https://neuroeducation-feedback.herokuapp.com/admin/resources/Quizzes" style={{maxWidth:10040, width:'100%', maxHeight : "800px", height:"800px", overflow:'visible'}}/>
-        </div>
-        }
-        { hist &&
-        <div className="col-xs-12 col-sm-12 col-md-12" >
-            <iframe src="https://neuroeducation-feedback.herokuapp.com/admin/resources/history" style={{maxWidth:10040, width:'100%', maxHeight : "800px", height:"800px", overflow:'visible'}}/>
-        </div>
-        }
     </>
   );
 };

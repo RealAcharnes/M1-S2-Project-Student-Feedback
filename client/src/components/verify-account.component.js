@@ -17,7 +17,7 @@ const VerifyAccount = ({match: { params }} ) => {
             setmessage(error.response.data.message|| error.response.data);
             setsuccessful(false);
         })
-    }, [])
+    }, [params.token])
 
 
     return (

@@ -37,7 +37,7 @@ const BoardUser = () => {
   const [successful, setsuccessful] = useState(false);
   const [message, setmessage] = useState('');
   const [errorMessage, seterrorMessage] = useState('');
-  const [errors, seterrors] = useState([])
+  // const [errors, seterrors] = useState([])
   const [currentQuiz, setcurrentQuiz] = useState(null);
   const [radioOptions, setradioOptions] = useState({})
   const [checkedItems, setCheckedItems] = useState([]); 
@@ -148,7 +148,7 @@ const BoardUser = () => {
     }
 
 
-    if((currentQuiz.questions).length != (answers.quiz_answers.student_answers).length){
+    if((currentQuiz.questions).length !== (answers.quiz_answers.student_answers).length){
       // setmessage(null);
       // setsuccessful(null);
       // setdisplayAllAnswered(false);
@@ -225,6 +225,16 @@ return (
 <div>
   <div className="row">
     <div className="col-xs-12 col-sm-12 col-md-6">
+      {errorMessage && (
+          <div className="form-group">
+            <div
+              className={"alert alert-danger"}
+              role="alert"
+            >
+              {errorMessage}
+            </div>
+          </div>
+        )}
     <div className={!successful || message ? "card card-container" : ""}>
         {(!successful || displayAllAnswered)  && (
           <div >

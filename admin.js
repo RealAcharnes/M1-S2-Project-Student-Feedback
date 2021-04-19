@@ -8,7 +8,7 @@ const Quizzes = require('./models/Quiz')
 const History = require('./models/history')
 
 // AdminBro.bundle('./client/src/components/admin/ADMINPANEL', 'SidebarResourceSection')
-AdminBro.bundle('./user', 'SidebarResourceSection')
+AdminBro.bundle('./adminbro-sidebar', 'SidebarResourceSection')
 
 AdminBro.bundle('./user', 'SidebarFooter')
 // component: AdminBro.bundle('./client/src/components/ADMINPANEL.component.jsx')
@@ -97,7 +97,7 @@ const adminBro = new AdminBro({
   rootPath: '/admin',
   dashboard: {
     // component: AdminBro.bundle('./client/src/components/admin/react.component.jsx'),
-    component: AdminBro.bundle('./user'),
+    component: AdminBro.bundle('./adminbro-dashboard'),
     handler: async () => {
         return { some: allresources}
     }
@@ -115,7 +115,7 @@ const adminBro = new AdminBro({
                 isVisible: true,
                 showInDrawer:false
             },
-            newAction: {
+            newAction5: {
               actionType: 'record',
               icon: 'View',
               isVisible: true,
@@ -130,7 +130,7 @@ const adminBro = new AdminBro({
                   record: user.toJSON(),
                 }
               },
-              component: AdminBro.bundle('./user'),
+               component: AdminBro.bundle('./user'),
             },
             newAction2: {
                 actionType: 'resource',

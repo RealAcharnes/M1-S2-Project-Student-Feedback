@@ -35,7 +35,7 @@ code {
   border: 1px solid steelblue;
   padding: 30px;
   border-radius: 5px;
-  background-color: rgb(93, 156, 168);
+  background-color: #6FB3B8;
 
 }
 .input {
@@ -51,7 +51,7 @@ code {
 
 .btnn {
   display: inline-block;
-  background: steelblue;
+  background: #388087;
   color: #fff;
   border: none;
   padding: 10px 20px;

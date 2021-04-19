@@ -23,9 +23,17 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import ProtectedRoute from "./components/protected-routes.component";
 import AllStudents from "./components/all-students.component";
 import VerifyAccount from "./components/verify-account.component";
-import UserComponent from "./components/Admin/ADMINPANEL";
 import AdminDashboard from "./components/Admin/admin-dashboard";
-import IFrame from "./components/Admin/components/iframe";
+import TemporaryDrawer from "./components/navbar";
+
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import RecentActorsIcon from '@material-ui/icons/RecentActors';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import FindInPageIcon from '@material-ui/icons/FindInPage';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
 const theme = createMuiTheme({
   palette:{
@@ -47,7 +55,8 @@ class App extends Component {
       admin:["ROLE_ADMIN"],
       adminTeacher:["ROLE_ADMIN" , "ROLE_TEACHER"],
       allUsers:["ROLE_ADMIN" , "ROLE_TEACHER" , "ROLE_STUDENT"],
-      student:["ROLE_STUDENT"]
+      student:["ROLE_STUDENT"],
+
     };
   }
 
@@ -61,6 +70,57 @@ class App extends Component {
         currentUser: user,
         showAdminBoard: user.message.roles.includes("ROLE_ADMIN"),
         showTeacherBoard: user.message.roles.includes("ROLE_TEACHER"),
+        navList : [
+        // {
+        //   title : "Accueil",
+        //   link : '/home'
+        // },
+        (user && !user.message.roles.includes("ROLE_TEACHER")) && {
+          title : "UTILISATEUR",
+          link : '/user',
+          icon: <FindInPageIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        },
+        (user.message.roles.includes("ROLE_ADMIN") || user.message.roles.includes("ROLE_TEACHER") ) && {
+          title : "ADD QUIZ",
+          link : '/addQuiz',
+          icon: <AddBoxIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        },
+        (user.message.roles.includes("ROLE_ADMIN") || user.message.roles.includes("ROLE_TEACHER"))  && {
+          title : "PAGE QUESTIONS",
+          link : '/questions',
+          icon: <SupervisorAccountIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        },
+        (user.message.roles.includes("ROLE_ADMIN") || user.message.roles.includes("ROLE_TEACHER"))  && {            
+          title : "PAGE REPONSES",
+          link : '/answers',
+          icon: <AssignmentIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        },
+        (user.message.roles.includes("ROLE_ADMIN") || user.message.roles.includes("ROLE_TEACHER"))  && {            
+          title : "PAGE ETUDIANTS",
+          link : '/students',
+          icon: <RecentActorsIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        },
+        user.message.roles.includes("ROLE_ADMIN")  && {
+          title : "ADMIN DASHBOARD",
+          link : '/dashboard',
+          icon: <DashboardIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        }
+
+        
+      ],
+      actions : [user &&  {
+          title : (user.message.firstname.toUpperCase()),
+          link : '/profile',
+          onclick : '',
+          icon: <AccountCircleIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        },
+        user &&  {
+          title : "DECONNEXION",
+          link : '/home',
+          onclick : this.logOut,
+          icon: <ExitToAppIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        }
+      ]
       });
     }
   }
@@ -76,16 +136,23 @@ class App extends Component {
   }
 
   render() {
-     const { currentUser, showAdminBoard, showTeacherBoard, admin, adminTeacher, allUsers, student } = this.state;
+    //  const { currentUser, showAdminBoard, showTeacherBoard, admin, adminTeacher, allUsers, student, navList } = this.state;
+    const { currentUser, admin, adminTeacher, allUsers, student, navList } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
         <div>
-          <nav className="navbar navbar-expand navbar-dark bg-dark">
+          <nav className="navbar navbar-expand navbar-dark " style={{background:'#388087'}}>
+            
+            {currentUser && 
+              <TemporaryDrawer lists = {navList} actions={this.state.actions}></TemporaryDrawer>
+              }
+
             <Link to={"/"} className="navbar-brand">
               Outsmarted
             </Link>
-            <div className="navbar-nav mr-auto">
+            
+            {/* <div className="navbar-nav mr-auto">
               <li className="nav-item">
                 <Link to={"/home"} className="nav-link">
                   <Button color="primary">Accueil</Button>
@@ -107,14 +174,6 @@ class App extends Component {
                   <Link to={"/adminRegister"} className="nav-link">
                     <Button color="primary">Ajouter un compte</Button>
                   </Link>
-                </li>
-              )}
-
-              {showAdminBoard && (
-                <li className="nav-item">
-                  <div  className="nav-link">
-                    <Button className="nav-link" color="primary"><a  href="http://localhost:5050/admin" target="_blank">ADMIN PAGE</a></Button>
-                  </div>
                 </li>
               )}
 
@@ -158,25 +217,25 @@ class App extends Component {
 
                 {showAdminBoard  && (
                 <li className="nav-item">
-                  <Link to={"/test"} className="nav-link">
+                  <Link to={"/dashboard"} className="nav-link">
                     <Button color="primary">TEST</Button>
                   </Link>
                 </li>
                 )}
-            </div>
+            </div> */}
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to={"/profile"} className="nav-link">
-                    <Button color="primary">{currentUser.message.firstname}</Button>
+                    <Button color="primary"><AccountCircleIcon style={{color:"white",  float:"right"}} fontSize="large" />{currentUser.message.firstname}</Button>
                   </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link to={"/home"} className="nav-link" onClick={this.logOut}>
                     <Button color="primary">Déconnexion</Button>
                   </Link>
-                </li>
+                </li> */}
               </div>
             ) : (
               <div className="navbar-nav ml-auto">
@@ -204,15 +263,14 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/verifyAccount/:token" component={VerifyAccount} />
                 <Route exact path="/postSubmitForm" component={PostSubmitForm}/>
-                <Route exact path="/iframe" component={IFrame}/>
                 <ProtectedRoute exact path="/adminRegister" component={AdminRegister} role={admin}/>
                 <ProtectedRoute exact path="/profile" component={Profile} role={allUsers}/>
                 <ProtectedRoute exact path="/user" component={BoardUser} role={student}/>
                 <ProtectedRoute exact path="/questions" component={AllQuestions} role={adminTeacher}/>
                 <ProtectedRoute exact path="/answers" component={AllAnswers} role={adminTeacher}/>
                 <ProtectedRoute exact path="/students" component={AllStudents} role={allUsers}/>
-                <ProtectedRoute exact path="/admin" component={BoardAdmin} role={adminTeacher}/>
-                <ProtectedRoute exact path="/test" component={AdminDashboard} role={admin}/>
+                <ProtectedRoute exact path="/addQuiz" component={BoardAdmin} role={adminTeacher}/>
+                <ProtectedRoute exact path="/dashboard" component={AdminDashboard} role={admin}/>
                 <ProtectedRoute  component={Home} />
               </Switch>
             </div>

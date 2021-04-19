@@ -200,6 +200,9 @@ exports.verifyAccount =(req, res) => {
             });
           });
         })
+        .catch(err=>{
+          return res.status(423).json({ message:  "Your Account has Already been Verified" });
+        })
      
     })
   }

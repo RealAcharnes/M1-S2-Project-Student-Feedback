@@ -1,18 +1,18 @@
 import {useState, useEffect} from 'react';
 import Axios from 'axios';
 // import {FaTimes} from 'react-icons/fa'
-import AuthService from "../services/auth.service";
 import { List, ListItem, ListItemText, Button, ListItemIcon } from '@material-ui/core';
 import BookOutlined from '@material-ui/icons/BookOutlined';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 
 const AllQuestions = () => {
     const [allQuizzes, setallQuizzes] = useState([]);
     const [currentQuiz, setcurrentQuiz] = useState(null);
     const [radioOptions, setradioOptions] = useState({});
     const [checkedItems, setCheckedItems] = useState([]); 
-    const [currentUser] = useState(AuthService.getCurrentUser()) ;
-    const [message, setmessage] = useState('') ;
-    const [successful, setsuccessful] = useState(false)  
+    const [displayQuiz, setdisplayQuiz] = useState(false);
+    const [displayQuizzes, setdisplayQuizzes] = useState(true)
 
     // const [currentUser] = useState(AuthService.getCurrentUser());
     const [showSpinner, setShowSpinner] = useState(true);
@@ -34,8 +34,15 @@ const AllQuestions = () => {
     const setActiveQuiz = (quiz, index) => {
         console.log(quiz)
         setcurrentQuiz(quiz);
+        setdisplayQuizzes(false);
+        setdisplayQuiz(true);
         
     };
+
+    const backToQuizzes = () => {
+        setdisplayQuizzes(true);
+        setdisplayQuiz(false);
+    }
 
     // RETURN CHECKED VALUE(true or false)
     const checkRadioButton = (question_id, label) => {
@@ -92,50 +99,50 @@ const AllQuestions = () => {
         
     }
 
-    // SUBMIT ANSWERS TO THE BACKEND
-    const submitAnswers = () =>{
-        setmessage('');
-        setsuccessful(false);
-        const answers = {
-            quiz_id : currentQuiz.quiz_id,
-            quiz_title : currentQuiz.quiz,
-            quiz_answers : {
-                student_id : currentUser.message.email,
-                student_answers : checkedItems
-            }
-        }
-        console.log("current: ", currentQuiz);
+    // SUBMIT ANSWERS TO THE BACKEND  // DISABLED BECAUSE ADMIN MUST NOT SUBMIT
+    // const submitAnswers = () =>{
+    //     setmessage('');
+    //     setsuccessful(false);
+    //     const answers = {
+    //         quiz_id : currentQuiz.quiz_id,
+    //         quiz_title : currentQuiz.quiz,
+    //         quiz_answers : {
+    //             student_id : currentUser.message.email,
+    //             student_answers : checkedItems
+    //         }
+    //     }
+    //     console.log("current: ", currentQuiz);
 
-        console.log("Radio Answer: ", radioOptions);
-        console.log("CheckedItems: ", checkedItems);
-        console.log("Final: ", answers);
-        Axios.post('https://neuroeducation-feedback.herokuapp.com/api/history', {
-            answers
-          }).then((res) => {
-                console.log(res);
-                if(res){
-                    //   window.location.reload(false);
-                    setmessage('You submitted Quiz as Admin or Teacher... Please Delete from the answers page else Stats will be affected');
-                    setsuccessful(true);
-                    setCheckedItems([]);
-                    setradioOptions({});
+    //     console.log("Radio Answer: ", radioOptions);
+    //     console.log("CheckedItems: ", checkedItems);
+    //     console.log("Final: ", answers);
+    //     Axios.post('https://neuroeducation-feedback.herokuapp.com/api/history', {
+    //         answers
+    //       }).then((res) => {
+    //             console.log(res);
+    //             if(res){
+    //                 //   window.location.reload(false);
+    //                 setmessage('You submitted Quiz as Admin or Teacher... Please Delete from the answers page else Stats will be affected');
+    //                 setsuccessful(true);
+    //                 setCheckedItems([]);
+    //                 setradioOptions({});
 
-                }
-          }).catch(error => {
-                console.log(error);
-                const errMessage =
-                (error.response.data.message[0].password || (error.response &&
-                  error.response.data &&
-                  error.response.data.message)) ||
-                error.message ||
-                error.toString();
-                console.log(errMessage);
-              setmessage(errMessage);
-                setsuccessful(false);            
-          });
+    //             }
+    //       }).catch(error => {
+    //             console.log(error);
+    //             const errMessage =
+    //             (error.response.data.message[0].password || (error.response &&
+    //               error.response.data &&
+    //               error.response.data.message)) ||
+    //             error.message ||
+    //             error.toString();
+    //             console.log(errMessage);
+    //           setmessage(errMessage);
+    //             setsuccessful(false);            
+    //       });
 
 
-    }
+    // }
 
 
 
@@ -154,16 +161,16 @@ const AllQuestions = () => {
 
     return (
         <div className="container-questions">
-            <h4>Liste de quiz</h4>
             {/* html for spinner */}
             {showSpinner && <div class="spinner">
                 <div></div>
                 <div></div>
             </div>
             }
-            {!showSpinner && (<div className={`quiz`} style={{borderRadius: "10px", marginTop: "10px"}}>
+            {!showSpinner && displayQuizzes && (<div className={`quiz`} style={{borderRadius: "10px", marginTop: "10px"}}>
                 <List>
-                    {allQuizzes && allQuizzes.map((quiz, index) => (
+                    <h4>Liste de quiz</h4>
+                    { displayQuizzes && allQuizzes && allQuizzes.map((quiz, index) => (
                         <ListItem button onClick= {() => setActiveQuiz(quiz, index)} >
                             <ListItemIcon>
                                 <BookOutlined />
@@ -182,22 +189,9 @@ const AllQuestions = () => {
             </div>)}
 
             <div>
-                {message && (
-                    <div className="form-group">
-                        <div
-                        className={
-                            successful
-                            ? "alert alert-success"
-                            : "alert alert-danger"
-                        }
-                        role="alert"
-                        >
-                        {message}
-                        </div>
-                    </div>
-                    )}
-                {currentQuiz ? (
-                    <div> 
+                {(displayQuiz && currentQuiz )? (
+                    <div>
+                        <Button onClick={()=> backToQuizzes()}><ArrowBackIcon fontsize="large"/></Button> 
                         <center><h4>{currentQuiz.quiz}</h4><br/></center>
                         {currentQuiz.questions && currentQuiz.questions.map((questions, indexx) => (
                             <div key={questions.question_id}>
@@ -252,7 +246,7 @@ const AllQuestions = () => {
                     </div>
                 ) : (<h4>Veuillez cliquer sur un quiz</h4>)}
             </div>
-            <Button disableElevation variant="contained" onClick={submitAnswers}>Soumettre les réponses</Button>
+            {/* <Button disableElevation variant="contained" onClick={submitAnswers}>Soumettre les réponses</Button> */}
 
         </div>
     )

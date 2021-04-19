@@ -229,7 +229,7 @@ export default class AdminRegister extends Component {
                 </div>
 
                 <div className="form-group">
-                  <button style={{backgroundColor: 'steelblue'}} className="btn btn-primary btn-block">Créer le compte</button>
+                  <button  className="btnn">Créer le compte</button>
                 </div>
               </div>
             )}

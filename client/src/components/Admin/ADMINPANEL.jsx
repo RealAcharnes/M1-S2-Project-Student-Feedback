@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
-// import { InputGroup, Label, Box } from '@admin-bro/design-system'
-// import { ApiClient } from 'admin-bro'
+
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
@@ -9,8 +8,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
@@ -37,7 +34,7 @@ const mystyle ={
 // const api = new ApiClient()
 
 const UserComponent = (props) => {
-const [data, setData] = useState({})
+// const [data, setData] = useState({})
 const classes = useStyles();
 const [open, setOpen] = React.useState(true);
 const [resources, setresources] = useState(null)
@@ -46,20 +43,12 @@ const handleClick = () => {
   setOpen(!open);
 };
 
-const sidebar ={
-  background: '#f4f4f4',
-  margin: '5px',
-  padding: '10px 20px',
-  cursor: 'pointer',
-  // borderRadius: "10px" 
-}
-
   useEffect(() => {
     // api.getDashboard().then((response) => {
     //   setData(response.data)
     // })
     setresources(props.resources)
-  }, [])
+  }, [props.resources])
 
 
   const log = () => {

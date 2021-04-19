@@ -7,11 +7,15 @@ import PostForm from "../services/admin-submit-form";
 import AuthService from "../services/auth.service";
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
+import { List, ListItem,ListItemIcon, ListItemText } from '@material-ui/core';
 import BookOutlined from '@material-ui/icons/BookOutlined';
 import SearchService from "../services/search.service";
 import ConfirmDialogue from "./confirm-dialogue";
 import MuiAlert from '@material-ui/lab/Alert';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import MenuOption from "./menu";
+import EditIcon from '@material-ui/icons/Edit';
 
 
 function Alert(props) {
@@ -281,6 +285,26 @@ export default class BoardAdmin extends Component {
                 errorMessage: err.response.data.message|| err.response.data.message[0].error,
               });
           });
+
+          this.setState({
+            menuOptions : [
+              {
+                title: "Back",
+                icon : <ArrowBackIcon fontsize="large"/>,
+                onclick : this.backToQuizzes
+              },
+              {
+                title: "Edit",
+                icon : <EditIcon fontsize="large"/>,
+                onclick : this.editQuiz
+              },
+              {
+                title: "Delete",
+                icon : <DeleteForeverIcon fontsize="large"/>,
+                onclick : this.deleteQuiz
+              }
+            ]
+          })
   }
 
   createQuiz = () => {
@@ -448,7 +472,11 @@ export default class BoardAdmin extends Component {
     let updated_questions = [];
 
     for(let i=1;i<=5;i++){
+      if(document.getElementById('Q'+i) === null){
+        break
+      }
       var id = document.getElementById('Q'+i).value;
+
       let expArr = [];
       for(let j=1;j<=20;j++){
         let alphabet = String.fromCharCode(96 + (j));
@@ -747,21 +775,22 @@ export default class BoardAdmin extends Component {
 
         {(displayQuiz || this.state.edit) && currentQuiz &&
           <div className="container-questions">
-            <button className="btnn"  onClick={this.backToQuizzes}>Back to Quizzes</button> 
-            <button className="btnn" >
-              Allow Quiz              
-              <Switch
-              checked={this.state.toggle}
-              onChange={this.handleToggle}
-              name="switch"
-              inputProps={{"aria-label":"test switch"}}
-              color="primary"
-              />
-              {/* {String(this.state.toggle)} */}
-            </button>
-            <button className="btnn"  onClick={this.deleteQuiz}>Delete Quiz</button> 
-            <button className="btnn"  onClick={this.editQuiz}>Edit Quiz</button>
+            <MenuOption options = {this.state.menuOptions}></MenuOption>
+            <button className="btnn"  onClick={this.backToQuizzes}><ArrowBackIcon fontsize="large"/></button> 
 
+            {/* <button className="btnn"  onClick={this.deleteQuiz}><DeleteForeverIcon fontsize="large"/></button>  */}
+            {/* <button className="btnn"  onClick={this.editQuiz}>Edit Quiz</button> */}
+            <p>
+                {currentQuiz.quiz + ' is currently ' + (this.state.toggle ? ("allowed") : ("not allowed")) +" to be taken"}             
+                <Switch
+                checked={this.state.toggle}
+                onChange={this.handleToggle}
+                name="switch"
+                inputProps={{"aria-label":"test switch"}}
+                color="primary"
+                />
+            </p>
+            
             {(currentQuiz && this.state.edit) && (
               <div  > 
     
@@ -769,6 +798,7 @@ export default class BoardAdmin extends Component {
                   <div className="container">
                     <div className="form-group">
                       <center><h4 >{currentQuiz.quiz}</h4><br/></center>
+
                       <Input
                               type="text"
                               className="form-control"
@@ -845,7 +875,7 @@ export default class BoardAdmin extends Component {
 
         <div>
           {displayCreate && <div> 
-            <button className="btnn" onClick={this.backToQuizzes}>Back to Quizzes</button> 
+            <button className="btnn" onClick={this.backToQuizzes}><ArrowBackIcon fontsize="large"/></button> 
             <div className="container">
               <header className="jumbotron">
                 <h3>Création de nouvelles questions</h3>

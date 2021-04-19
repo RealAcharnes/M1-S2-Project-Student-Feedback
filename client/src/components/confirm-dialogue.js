@@ -1,8 +1,8 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@material-ui/core'
-import {React, useState} from 'react'
+import {React} from 'react'
 
 const ConfirmDialogue = (props) => {
-    const {confirmDialog, setconfirmDialog} = props;
+    const {confirmDialog} = props;
     return (
         <div>
             <Dialog open={confirmDialog.isOpen}>
