@@ -283,7 +283,7 @@ SearchService.searchQuiz(
                         {displayLineChart && (
                             <Grid container spacing={3}>
                                 {(lineArray.length && displayLineChart) && lineArray[0].map((attempt, index) => (
-                                    <Grid item md={6} sm={12} lg={4} >
+                                    <Grid item md={6} sm={12} lg={6} >
                                         <Card elevation={2}>
                                             <CardHeader
                                                 action={
