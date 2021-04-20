@@ -291,7 +291,7 @@ SearchService.searchQuiz(
                                                         <MoreVert />
                                                     </IconButton>
                                                 }
-                                                title={actualQuiz ? (`Q${index + 1}.`+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}
+                                                title={actualQuiz ? (`Q${index + 1}. `+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}
                                                 subheader={`Oui-4 Plutot Oui-3 Plutot Non-2 Non-1`}
                                             />
                                             <CardContent>
