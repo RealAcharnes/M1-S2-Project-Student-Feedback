@@ -6,6 +6,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 import LineChart from './LineChart';
 import LineLabels from './LineLabels';
 import SearchService from "../services/search.service";
+import { Paginate }  from './Paginate';
 
 
 
@@ -187,7 +188,7 @@ SearchService.searchQuiz(
                                 <div></div>
                             </div>)}
                             {!showSpinner && (<div  class="quiz" style={{borderRadius: "10px"}}>
-                                    <List>
+                                    {/* <List>
                                         {allStudents && allStudents.map((student,index) =>(
                                             <ListItem button onClick={()=> getAllQuizzes(student.email,student.firstname +' ' +student.lastname )}>
                                                 <ListItemAvatar>
@@ -198,7 +199,9 @@ SearchService.searchQuiz(
                                                 <ListItemText primary={<h4>{student.firstname +' ' +student.lastname}</h4>} />
                                             </ListItem>
                                         ))}
-                                    </List>
+                                    </List> */}
+                                    <Paginate allStudents={allStudents} getAllQuizzes={getAllQuizzes} />
+
                                 </div>)}
                         </div>
                         <div className="col-xs-12 col-sm-12 col-md-6">  

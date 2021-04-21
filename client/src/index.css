@@ -192,3 +192,19 @@ footer {
   50% { transform: rotate(180deg); border-width: 10px; }
   100% { transform: rotate(360deg); border-width: 1px; }
 }
+.img-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
+}
+.person-img {
+  width: 100%;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  position: relative;
+}
