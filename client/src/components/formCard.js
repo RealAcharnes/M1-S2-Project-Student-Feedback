@@ -40,7 +40,7 @@ export default function FormCard() {
   const theme = useTheme();
 
   return (
-    <Card style={{height: "500px", width: "100%", backgroundImage: `url(${"/blueBG.png"})`}}
+    <Card style={{height: "500px", width: "100%", backgroundImage: `url(${"/blueBG.png"})`, maxWidth:"880px", margin: "auto"}}
     >
       <div style={{backgroundColor: "white", height: "100%", width:"70%"}}>
 
