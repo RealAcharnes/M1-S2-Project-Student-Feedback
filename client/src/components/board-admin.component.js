@@ -592,7 +592,7 @@ export default class BoardAdmin extends Component {
   deleteQuiz=()=> {
         const id = this.state.currentQuiz.quiz_id;
         const email = this.state.currentQuiz.created_by;
-        axios.delete(`http://localhost:5050/api/delete/${id}/${email}`)
+        axios.delete(`https://neuroeducation-feedback.herokuapp.com/api/delete/${id}/${email}`)
         .then((res) => {
             console.log(res)
             this.setState({
