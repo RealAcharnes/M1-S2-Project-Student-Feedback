@@ -32,7 +32,7 @@ router.get('/teacherQuizzes/:id', findTeachersQuizzes);
 router.get('/studentAnswers/:id', studentAnswers);
 
 // DELETE REQUESTS
-router.delete('/delete/:id', deleteQuiz);
+router.delete('/delete/:id/:email', deleteQuiz);
 
 
 // UNUSED REQUESTS

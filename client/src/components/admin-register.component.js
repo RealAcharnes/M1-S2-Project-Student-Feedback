@@ -3,8 +3,11 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
+import TextField from '@material-ui/core/TextField';
+
 
 import AuthService from "../services/auth.service";
+import FormCard from './formCard'
 
 const required = (value) => {
     if (!value) {
@@ -149,6 +152,19 @@ export default class AdminRegister extends Component {
   render() {
     return (
       <div className="col-md-12">
+                <TextField
+                    onChange={this.onChangeFirstname}
+                    // className={classes.field}
+                    // label="Note Title"
+                    variant="outlined"
+                    fullWidth
+                    required //just adds the asterix
+                    // error={titleError} //this prop just adds a 'red styling' to the TextField to indicate an error, it is set to either true or false
+                />
+        
+
+        <FormCard/>
+
         <div className="card card-container">
 
           <Form

@@ -52,10 +52,10 @@ export default function TemporaryDrawer(props) {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
-      style={{background:"#e6e6d5"}}
+      // style={{background:"#e6e6d5"}}
     >
 
-    <List style={{"paddingTop": "30px", background: "#388087"}}>
+    <List style={{"paddingTop": "30px", background: "#4257b2"}}>
         <ListItem button key={"home"} style={{color: 'white'}}>
             <ListItemIcon> <MenuIcon style={{color: 'white'}}fontsize="large"/></ListItemIcon>
             <ListItemText primary={"MENU"} />   
@@ -64,7 +64,7 @@ export default function TemporaryDrawer(props) {
       </List>
       <List >
         {props.lists && (props.lists).map((text, index) => (
-         <Link to={text.link} style={{color: '#388087', textDecoration: 'none'}}>   
+         <Link to={text.link} style={{color: '#4257b2', textDecoration: 'none'}}>   
           <ListItem button key={text.title}>
             <ListItemIcon>{text.icon}</ListItemIcon>
             <ListItemText primary={text.title} />   
@@ -75,7 +75,7 @@ export default function TemporaryDrawer(props) {
       {/* <Divider /> */}
       <List style={{position: "absolute",bottom: 0}}>
         {props.actions.map((text, index) => (
-         <Link to={text.link} onClick={text.onclick} style={{color: '#388087', textDecoration: 'none'}}>   
+         <Link to={text.link} onClick={text.onclick} style={{color: '#4257b2', textDecoration: 'none'}}>   
             <ListItem button key={text.title}>
                 <ListItemIcon>{text.icon}</ListItemIcon>
                 <ListItemText primary={text.title} />   

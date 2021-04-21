@@ -4,6 +4,8 @@ import Axios from 'axios';
 import { List, ListItem, ListItemText, Button, ListItemIcon } from '@material-ui/core';
 import BookOutlined from '@material-ui/icons/BookOutlined';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import NoteCard from "./NoteCard";
+
 
 
 const AllQuestions = () => {
@@ -160,17 +162,29 @@ const AllQuestions = () => {
 
 
     return (
-        <div className="container-questions">
+        <div >
             {/* html for spinner */}
             {showSpinner && <div class="spinner">
                 <div></div>
                 <div></div>
             </div>
             }
-            {!showSpinner && displayQuizzes && (<div className={`quiz`} style={{borderRadius: "10px", marginTop: "10px"}}>
+            {!showSpinner && displayQuizzes && (<div  style={{borderRadius: "10px", marginTop: "10px"}}>
                 <List>
-                    <h4>Liste de quiz</h4>
-                    { displayQuizzes && allQuizzes && allQuizzes.map((quiz, index) => (
+                    {/* <h4></h4> */}
+                    <div >      
+                      <div className="col-xs-12 col-sm-12 col-md-12">
+                        <h4 style={{padding: "20px", "margin-bottom": "10px"}}> <span>Liste de quiz</span> </h4>
+                        <div className="row" >
+                            {displayQuizzes && allQuizzes && allQuizzes.map((quiz, index) => (
+                                <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {() => setActiveQuiz(quiz, index)}> 
+                                    <NoteCard note={quiz.quiz_id}  handleDelete={"no delete"} color={'#4257b2'}/>
+                                </div> 
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+                    {/* { displayQuizzes && allQuizzes && allQuizzes.map((quiz, index) => (
                         <ListItem button onClick= {() => setActiveQuiz(quiz, index)} >
                             <ListItemIcon>
                                 <BookOutlined />
@@ -178,24 +192,21 @@ const AllQuestions = () => {
                             <ListItemText primary={
                                 <h4> 
                                     {quiz.quiz} {''} 
-                                    {/* <FaTimes 
-                                        style={{color: 'red', cursor: 'pointer'}}
-                                    /> */}
                                 </h4>
                             } />
                         </ListItem>
-                    ))}
+                    ))} */}
                 </List>
             </div>)}
 
             <div>
-                {(displayQuiz && currentQuiz )? (
-                    <div>
-                        <Button onClick={()=> backToQuizzes()}><ArrowBackIcon fontsize="large"/></Button> 
+                {(displayQuiz && currentQuiz ) && (
+                    <div className="container-questions">
+                        <Button onClick={()=> backToQuizzes()}><ArrowBackIcon fontsize="large" style={{color: "#4257b2"}}/></Button> 
                         <center><h4>{currentQuiz.quiz}</h4><br/></center>
                         {currentQuiz.questions && currentQuiz.questions.map((questions, indexx) => (
                             <div key={questions.question_id}>
-                                <h4>{questions.question_id}{'. '}{questions.question_title}</h4>    
+                                <p><strong>{questions.question_id}{'. '}{questions.question_title}</strong></p>    
                                 <div>
                                     <input 
                                         type="radio" 
@@ -244,7 +255,7 @@ const AllQuestions = () => {
                             </div>
                         ))}
                     </div>
-                ) : (<h4>Veuillez cliquer sur un quiz</h4>)}
+                ) }
             </div>
             {/* <Button disableElevation variant="contained" onClick={submitAnswers}>Soumettre les réponses</Button> */}
 

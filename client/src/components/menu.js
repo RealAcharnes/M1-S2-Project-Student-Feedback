@@ -26,10 +26,10 @@ export default function MenuOption(props) {
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        style={{float:"right"}}
+        style={{float:"right",color: '#4257b2'}}
       >
         <MoreVertIcon />
-        <span>OPTIONS</span>
+        <span>Options</span>
       </IconButton>
       <Menu
         id="long-menu"
@@ -41,6 +41,7 @@ export default function MenuOption(props) {
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
             width: '20ch',
+            color: '#4257b2'
           },
         }}
       >

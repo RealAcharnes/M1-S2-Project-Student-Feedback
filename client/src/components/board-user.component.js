@@ -5,6 +5,12 @@ import {useState, useEffect} from 'react';
 import axios from "axios";
 import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import { FormControlLabel, makeStyles } from '@material-ui/core';
+import { Grid, TextField, Button } from "@material-ui/core";
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import "bootstrap/dist/css/bootstrap.min.css";
+import NoteCard from "./NoteCard";
+
 
 
 function Alert(props) {
@@ -32,6 +38,22 @@ const vsearch = value => {
   }
 };
 
+const useStyles = makeStyles((theme) =>({ //makeStyles returns to us a hook, the hook subsequently gives us the object. NB: react hooks must begin with the word 'use'
+  field: {
+      marginTop: 20,
+      marginBottom: 20,
+      display: 'block'
+  },
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
+
 const BoardUser = () => {
   const [search, setsearch] = useState('');
   const [successful, setsuccessful] = useState(false);
@@ -45,6 +67,7 @@ const BoardUser = () => {
   const [allQuizzes, setallQuizzes] = useState([]);
   const [displayAllAnswered, setdisplayAllAnswered] = useState(false);
   const [validate, setvalidate] = useState(false)
+  const classes = useStyles();
 
 
   // LOAD ALL QUIZZES ANSWERED BY CURRENT STUDENT FROM DATABASE 
@@ -199,7 +222,7 @@ const BoardUser = () => {
 
     // this.form.validateAll();
 
-    SearchService.searchQuiz(
+    {SearchService.searchQuiz(
       search,
     ).then(
       response => {
@@ -217,15 +240,15 @@ const BoardUser = () => {
         setmessage(resMessage);
         setsuccessful(false);
       }
-    );
+    );}
     
   }
 
-return (
-<div>
-  <div className="row">
-    <div className="col-xs-12 col-sm-12 col-md-6">
-      {errorMessage && (
+  return (
+    <div>
+    <div >
+      <div >
+        {errorMessage && (
           <div className="form-group">
             <div
               className={"alert alert-danger"}
@@ -235,140 +258,187 @@ return (
             </div>
           </div>
         )}
-    <div className={!successful || message ? "card card-container" : ""}>
+
         {(!successful || displayAllAnswered)  && (
-          <div >
-            <div className="form-group">
-              <label htmlFor="search">Search for Quiz</label>
-              <input
-                type="text"
-                className="form-control"
-                name="search"
-                value={search}
-                onChange={onChangeSearch}
-                validations={[required, vsearch]}
-              />
+          <div>
+            <div style={{"margin-top" :"50px"}}>
+              {message && (
+                <div className="form-group">
+                  <div
+                    className={
+                      successful
+                        ? "alert alert-success"
+                        : "alert alert-danger"
+                    }
+                    role="alert"
+                  >
+                    {message}
+                  </div>
+                </div>
+              )}
+              <form id ="form" >
+                <TextField
+                    onChange={onChangeSearch}
+                    id="commonSearchTerm"
+                    variant="outlined"
+                    fullWidth
+                    required //just adds the asterix
+                />
+                <button id="searchButton" onClick={handleSearch}>Search</button>
+              </form>
             </div>
 
-            <div className="form-group">
-              <button className="btn btn-primary btn-block"  onClick={handleSearch}>Search Quiz</button>
-            </div>
-          </div>
-        )}
-        {message && (
-          <div className="form-group">
-            <div
-              className={
-                successful
-                  ? "alert alert-success"
-                  : "alert alert-danger"
-              }
-              role="alert"
-            >
-              {message}
-            </div>
-          </div>
-        )}
-      </div>
-      </div>
-
-      <div className="col-xs-12 col-sm-12 col-md-6">
-    <div className={!successful || message ? "card card-container" : ""}>
-        {(displayAllAnswered || !successful )  && allQuizzes && (
-          <div >
-            <h4>Quiz déjà répondus</h4>
-            <div className={`quiz`} >
-                {allQuizzes && allQuizzes.map((quiz, index) => (
-                    <h4 
-                    onClick= {() => setActiveQuiz(quiz, index)}
-                    > {quiz.quiz_id} 
-                    </h4>
-                ))}
-            </div>
+            {(displayAllAnswered || !successful )  && allQuizzes && (
+              <div >      
+                <div className="col-xs-12 col-sm-12 col-md-12">
+                  <center>
+                  <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}>Quiz déjà répondus</h4>
+                  </center>
+                  <div className="row" >
+                      {allQuizzes && allQuizzes.map((quiz, index) => (
+                          <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
+                              <NoteCard note={quiz.quiz_id}  handleDelete={"handleDelete"} color={'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}/>
+                          </div> 
+                      ))}
+                  </div>
+                </div>
+              </div>  
+            )}
           </div>
         )}
 
-      </div>
-      </div>
+        <div className={!successful || message ? "card card-container" : ""}>
+            {(!successful || displayAllAnswered)  && (
+              <div >
+                <div className="form-group">
+                  <label htmlFor="search">Search for Quiz</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="search"
+                    value={search}
+                    onChange={onChangeSearch}
+                    validations={[required, vsearch]}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <button className="btn btn-primary btn-block"  onClick={handleSearch}>Search Quiz</button>
+                </div>
+              </div>
+            )}
+            {message && (
+              <div className="form-group">
+                <div
+                  className={
+                    successful
+                      ? "alert alert-success"
+                      : "alert alert-danger"
+                  }
+                  role="alert"
+                >
+                  {message}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="col-xs-12 col-sm-12 col-md-6">
+          <div className={!successful || message ? "card card-container" : ""}>
+            {(displayAllAnswered || !successful )  && allQuizzes && (
+              <div >
+                <h4>Quiz déjà répondus</h4>
+                <div className={`quiz`} >
+                    {allQuizzes && allQuizzes.map((quiz, index) => (
+                        <h4 
+                        onClick= {() => setActiveQuiz(quiz, index)}
+                        > {quiz.quiz_id} 
+                        </h4>
+                    ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
 
       <div >
-      {currentQuiz && (
-        <div className="container-questions"> 
-          { validate &&
-              <Snackbar anchorOrigin={{ vertical :'top', horizontal: 'center' }}open={validate} autoHideDuration={6000} onClose={()=>handleClose()}>
-              <Alert onClose={()=>handleClose()} severity="error">
-                {'Please answer all questions'}
-              </Alert>
-           </Snackbar>
-          }
-          <center><h4>{currentQuiz.quiz}</h4><br/></center>
-          {currentQuiz.questions && currentQuiz.questions.map((questions, indexx) => (
-            <div key={questions.question_id}>
-              <h4>{questions.question_id}{'. '}{questions.question_title}</h4>    
-              <div>
-                  <input 
-                      className="input"
-                      type="radio" 
-                      value="Oui" 
-                      checked={checkRadioButton(questions.question_id, "Oui")}  
-                      onChange={(e) => setradio(questions.question_id, e.target.value)} 
-                  /> Oui
-                  <input 
-                      className="input"
-                      type="radio" 
-                      value="Plutot Oui"  
-                      checked={checkRadioButton(questions.question_id, "Plutot Oui")}  
-                      onChange={(e) => setradio(questions.question_id, e.target.value)} 
-                  /> Plutot Oui
-                  <input
-                      className="input" 
-                      type="radio" 
-                      value="Plutot Non"  
-                      checked={checkRadioButton(questions.question_id, "Plutot Non")}  
-                      onChange={(e) => setradio(questions.question_id, e.target.value)}
-                  /> Plutot Non
-                  <input
-                      className="input" 
-                      type="radio" 
-                      value="Non" 
-                      checked={checkRadioButton(questions.question_id, "Non")}  
-                      onChange={(e) => setradio(questions.question_id, e.target.value)}
-                  /> Non
-              </div>
-
-              {radioOptions[questions.question_id] === "Plutot Non"
-              || radioOptions[questions.question_id] === "Plutot Oui"
-              || radioOptions[questions.question_id] === "Non" ? (
+        {currentQuiz && (
+          <div className="container-questions"> 
+            { validate &&
+                <Snackbar anchorOrigin={{ vertical :'top', horizontal: 'center' }}open={validate} autoHideDuration={6000} onClose={()=>handleClose()}>
+                <Alert onClose={()=>handleClose()} severity="error">
+                  {'Please answer all questions'}
+                </Alert>
+            </Snackbar>
+            }
+            <center><h4>{currentQuiz.quiz}</h4><br/></center>
+            {currentQuiz.questions && currentQuiz.questions.map((questions, indexx) => (
+              <div key={questions.question_id}>
+                <h4>{questions.question_id}{'. '}{questions.question_title}</h4>    
                 <div>
-                  {questions.question_options && questions.question_options.map((options, index) => ( 
-                    <div>
-                      <label>
-                        <input type="checkbox" value={options.options_id} 
-                        checked={checkedItems[options.option_text]}  
-                        onChange={(e) => 
-                            setCheckbox(e.target.value, e.target.checked, questions.question_id, questions.question_id,currentQuiz.quiz_id)
-                        }
-                        />
-                        <span>{'  '}{options.options_id}{'. '}{options.options_text}</span>
-                      </label>
-                    </div>
-                  ))}
+                    <input 
+                        className="input"
+                        type="radio" 
+                        value="Oui" 
+                        checked={checkRadioButton(questions.question_id, "Oui")}  
+                        onChange={(e) => setradio(questions.question_id, e.target.value)} 
+                    /> Oui
+                    <input 
+                        className="input"
+                        type="radio" 
+                        value="Plutot Oui"  
+                        checked={checkRadioButton(questions.question_id, "Plutot Oui")}  
+                        onChange={(e) => setradio(questions.question_id, e.target.value)} 
+                    /> Plutot Oui
+                    <input
+                        className="input" 
+                        type="radio" 
+                        value="Plutot Non"  
+                        checked={checkRadioButton(questions.question_id, "Plutot Non")}  
+                        onChange={(e) => setradio(questions.question_id, e.target.value)}
+                    /> Plutot Non
+                    <input
+                        className="input" 
+                        type="radio" 
+                        value="Non" 
+                        checked={checkRadioButton(questions.question_id, "Non")}  
+                        onChange={(e) => setradio(questions.question_id, e.target.value)}
+                    /> Non
                 </div>
-              ) : (<span>No Explanation Needed</span>)}
-            </div>
-          ))}
-          <div className="form-group">
-            <button className="btnn" onClick={submitAnswers}>Submit Answers</button>
-          </div>
-        </div>
-          )
-        }
-      </div>
 
-</div>
-    );
-  }
+                {radioOptions[questions.question_id] === "Plutot Non"
+                || radioOptions[questions.question_id] === "Plutot Oui"
+                || radioOptions[questions.question_id] === "Non" ? (
+                  <div>
+                    {questions.question_options && questions.question_options.map((options, index) => ( 
+                      <div>
+                        <label>
+                          <input type="checkbox" value={options.options_id} 
+                          checked={checkedItems[options.option_text]}  
+                          onChange={(e) => 
+                              setCheckbox(e.target.value, e.target.checked, questions.question_id, questions.question_id,currentQuiz.quiz_id)
+                          }
+                          />
+                          <span>{'  '}{options.options_id}{'. '}{options.options_text}</span>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                ) : (<span>No Explanation Needed</span>)}
+              </div>
+            ))}
+            <div className="form-group">
+              <button className="btnn" onClick={submitAnswers}>Submit Answers</button>
+            </div>
+          </div>
+            )
+          }
+      </div>
+  </div>
+  );
+}
 
   export default BoardUser

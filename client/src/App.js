@@ -75,49 +75,49 @@ class App extends Component {
         //   link : '/home'
         // },
         (user && !user.message.roles.includes("ROLE_TEACHER")) && {
-          title : "UTILISATEUR",
+          title : "Utilisateur",
           link : '/user',
-          icon: <FindInPageIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+          icon: <FindInPageIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         },
         (user.message.roles.includes("ROLE_ADMIN") || user.message.roles.includes("ROLE_TEACHER") ) && {
-          title : "ADD QUIZ",
+          title : "Ajouter un Quiz",
           link : '/addQuiz',
-          icon: <AddBoxIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+          icon: <AddBoxIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         },
         (user.message.roles.includes("ROLE_ADMIN") || user.message.roles.includes("ROLE_TEACHER"))  && {
-          title : "PAGE QUESTIONS",
+          title : "Page Questions",
           link : '/questions',
-          icon: <SupervisorAccountIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+          icon: <SupervisorAccountIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         },
         (user.message.roles.includes("ROLE_ADMIN") || user.message.roles.includes("ROLE_TEACHER"))  && {            
-          title : "PAGE REPONSES",
+          title : "Page Reponses",
           link : '/answers',
-          icon: <AssignmentIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+          icon: <AssignmentIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         },
         (user.message.roles.includes("ROLE_ADMIN") || user.message.roles.includes("ROLE_TEACHER"))  && {            
-          title : "PAGE ETUDIANTS",
+          title : "Page Etudiants",
           link : '/students',
-          icon: <RecentActorsIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+          icon: <RecentActorsIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         },
         user.message.roles.includes("ROLE_ADMIN")  && {
-          title : "ADMIN DASHBOARD",
+          title : "Admin Dashboard",
           link : '/dashboard',
-          icon: <DashboardIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+          icon: <DashboardIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         }
 
         
       ],
       actions : [user &&  {
-          title : (user.message.firstname.toUpperCase()),
+          title : (user.message.firstname),
           link : '/profile',
           onclick : '',
-          icon: <AccountCircleIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+          icon: <AccountCircleIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         },
         user &&  {
-          title : "DECONNEXION",
+          title : "Deconnecxion",
           link : '/home',
           onclick : this.logOut,
-          icon: <ExitToAppIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+          icon: <ExitToAppIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         }
       ]
       });
@@ -143,7 +143,7 @@ class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <div>
-          <nav className="navbar navbar-expand navbar-dark " style={{background:'#388087'}}>
+          <nav className="navbar navbar-expand navbar-dark " style={{background:'#4257b2'}}>
             
             {currentUser && 
               <TemporaryDrawer lists = {navList} actions={this.state.actions}></TemporaryDrawer>
@@ -229,7 +229,7 @@ class App extends Component {
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to={"/profile"} className="nav-link">
-                    <Button color="primary"><AccountCircleIcon style={{color:"white",  float:"right"}} fontSize="large" />{currentUser.message.firstname}</Button>
+                    <Button color="primary" style={{textTransform: "none"}}><AccountCircleIcon style={{color:"white",  float:"right"}} fontSize="large" />{currentUser.message.firstname}</Button>
                   </Link>
                 </li>
                 {/* <li className="nav-item">
@@ -242,13 +242,14 @@ class App extends Component {
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to={"/login"} className="nav-link">
-                    <Button color="primary">Se connecter</Button>
+                    <Button color="primary" style={{textTransform: "none"}}>Se Connecter</Button>
                   </Link>
                 </li>
+                
 
                 <li className="nav-item">
                   <Link to={"/register"} className="nav-link">
-                    <Button color="primary">Créer un compte</Button>
+                    <Button color="primary" style={{textTransform: "none", font:"Robotto"}}>Créer un Compte</Button>
                   </Link>
                 </li>
               </div>

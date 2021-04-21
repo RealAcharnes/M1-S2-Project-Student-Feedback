@@ -16,6 +16,16 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import MenuOption from "./menu";
 import EditIcon from '@material-ui/icons/Edit';
+import NoteCard from "./NoteCard";
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import QueueIcon from '@material-ui/icons/Queue';
+import { TextField } from "@material-ui/core";
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import { EmailOutlined } from "@material-ui/icons";
+
+
+
 
 
 function Alert(props) {
@@ -42,13 +52,13 @@ const StyledButtonAddExplanation = withStyles({
 
 const StyledButtonAddQuestion = withStyles({
   root: {
-    background: 'linear-gradient(45deg, #00BCFF 30%, #5355FF 90%)',
+    background: '#4257b2',
     borderRadius: 15,
     border: 0,
     color: 'white',
     height: 48,
     padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     margin: '5px 15px',
   },
   label: {
@@ -119,9 +129,10 @@ class MyForm extends Component {
     super(props);
     this.onChangeQuestion = this.onChangeQuestion.bind(this);
     this.onClickAddExplanation = this.onClickAddExplanation.bind(this);
-
+    console.log(this.props.delete)
     this.state = {
-      explanations: false
+      explanations: false,
+      delete : this.props.delete
     };
   }
 
@@ -143,6 +154,11 @@ class MyForm extends Component {
       explanations: true
     });
   }
+
+  deleteQuiz(){
+    console.log(this.props)
+    // this.props.delete();
+  }
   
   createExplanationUI(){
     return(
@@ -151,7 +167,7 @@ class MyForm extends Component {
             <div>
               <div key={indexExplanation} className="form-group">
                 <label htmlFor="explanation">Explication</label>
-                  <Input
+                  {/* <Input
                     type="text"
                     className="form-control"
                     name="explanation"
@@ -159,13 +175,26 @@ class MyForm extends Component {
                     onChange = {this.onChangeExplanation.bind(this, indexExplanation)}
                     validations = {[required]}
                     autoComplete = "off"
-                  />
+                  /> */}
+                  <form id ="formExp" >
+                    <TextField
+                        onChange={this.onChangeExplanation.bind(this, indexExplanation)}
+                        id="inputExp"
+                        variant="outlined"
+                        fullWidth
+                        required //just adds the asterix
+                        size="small"
+                        style={{height: "50"}}
+                    />
+                    <Tooltip title="Supprimer cette explication">
+                    <button type= "button" id="buttonExp" onClick={this.onClickRemoveExplanation.bind(this, indexExplanation)}> <DeleteForeverIcon style={{color:"red"}}/> </button>
+                    </Tooltip>
+                  </form>
               </div>
 
-              <StyledButtonDelExplanation 
+              {/* <StyledButtonDelExplanation 
                 variant = "contained" onClick = {this.onClickRemoveExplanation.bind(this, indexExplanation)}>Supprimer cette explication
-              </StyledButtonDelExplanation>
-
+              </StyledButtonDelExplanation> */}
 
             </div>
             )) : (<h3>No Explanation props</h3>)
@@ -177,13 +206,24 @@ class MyForm extends Component {
   render(){
 
     const question = this.state.question;
+    const deleteQuiz = this.state.delete;
 
     return (
       <div>
-        <Form>
+        <Form >
 
           <div className="form-group">
-            <label htmlFor="question"><strong>Question</strong></label>
+            <label htmlFor="question" style={{paddingTop: "10px"}}>
+              <span>
+              <strong >Question</strong>
+              <Tooltip title="Supprimer cette question">
+                <IconButton className="deleteQuestion" onClick={deleteQuiz} style={{float:"right"}}>
+                    <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+              </span>
+
+            </label>
             <Input
               type="text"
               className="form-control"
@@ -194,15 +234,34 @@ class MyForm extends Component {
               autoComplete = "off"
             />
           </div>
-
-          <StyledButtonAddExplanation
+          {/* <StyledButtonAddExplanation
             variant = "contained" onClick = {this.onClickAddExplanation}>Ajouter une explication
-          </StyledButtonAddExplanation>
+          </StyledButtonAddExplanation> */}
           
           {
             this.state.explanations &&
               this.createExplanationUI()
           }
+          
+          <Tooltip title="Adjouter une explication">
+            <IconButton  onClick={this.onClickAddExplanation} style={{color: "#4257b2", float:"left", marginBottom: "15px"}}>
+              <QueueIcon />
+            </IconButton>
+          </Tooltip>
+          <br/><br/>
+          {/* <Button
+            onClick = {this.onClickAddExplanation}
+            variant="contained"
+            color="primary"
+            style={{marginBottom: "15px"}}
+            // className={classes.button}
+            title="adjouter une explication"
+            startIcon={<QueueIcon />}
+          >
+            explication
+          </Button> */}
+
+
 
         </Form>
 
@@ -301,7 +360,7 @@ export default class BoardAdmin extends Component {
               {
                 title: "Delete",
                 icon : <DeleteForeverIcon fontsize="large"/>,
-                onclick : this.deleteQuiz
+                onclick : ()=>this.setConfirmDialog("delete","Are you sure you want to Delete this Quiz?", "Question will be deleted permanently but no with Students Records", this.deleteQuiz)
               }
             ]
           })
@@ -332,9 +391,10 @@ export default class BoardAdmin extends Component {
       quiz_idd,
     ).then(
       response => {
-        console.log(response);
+        console.log(response.data.created_by);
         // setsuccessful(true);
         // setcurrentQuiz(response.data);
+        console.log()
         this.setState({
           displayQuiz: true,
           laststate: this.state.displayQuizzes,
@@ -361,20 +421,20 @@ export default class BoardAdmin extends Component {
     );
   }
 
-  setConfirmDialog = () => {
+  setConfirmDialog = (type ,title, subtitle, onconfirm) => {
         this.setState({
           confirmDialog: {
             isOpen: true,
-            title: "Do you want to Edit this Quiz?",
-            subTitle: "You can edit again",
-            onConfirm: this.updateQuiz,
-            onDiscard: ()=>this.discard("update")
+            title: title,
+            subTitle: subtitle,
+            onConfirm: onconfirm,
+            onDiscard: ()=>this.discard(type)
           }
         })
   }
 
   discard = (type) => {
-    if(type==="update"){
+    if(type==="update" || type === "delete"){
       this.setState({
         confirmDialog: {
           isOpen: false,
@@ -529,14 +589,46 @@ export default class BoardAdmin extends Component {
     })
   }
 
-
   deleteQuiz=()=> {
-    this.setState({
-      open: true,
-      message: "Not Functional Yet",
-      danger: true,
-      successful:null
-    })
+        const id = this.state.currentQuiz.quiz_id;
+        const email = this.state.currentQuiz.created_by;
+        axios.delete(`http://localhost:5050/api/delete/${id}/${email}`)
+        .then((res) => {
+            console.log(res)
+            this.setState({
+              open: true,
+              message: "Quiz Deleted",
+              danger: true,
+              successful:null,
+              allQuizzes : this.state.allQuizzes.filter((question) => question.quiz_id !== id)
+            })
+            // setallQuizzes(allQuizzes.filter((question) => question._id !== id))
+        })
+        .catch(err => {
+            console.log(err); 
+            this.setState({
+              message: "Quiz Not Deleted... Please Try Again",
+              open:true,
+              successful: false
+            })
+        });
+        this.setState({
+          confirmDialog: {
+            isOpen: false,
+            title: '',
+            subTitle: "",
+            onConfirm: null,
+            onDiscard: null
+          }
+        })
+
+        this.backToQuizzes()
+    // this.setState({
+    //   open: true,
+    //   message: "Not Functional Yet",
+    //   danger: true,
+    //   successful:null
+    // })
   }
 
   editQuiz=()=>{
@@ -665,12 +757,13 @@ export default class BoardAdmin extends Component {
             onAddExplanationClick = {this.handleAddExplanationClick.bind(this, indexQuestion)}
             onRemoveExplanationClick = {this.handleRemoveExplanationClick.bind(this, indexQuestion)}
             explanations = {this.state.questions[indexQuestion].question_options}
+            delete = {this.onClickDelQuestion.bind(this, indexQuestion)}
           />
-          <div className="delQuestion">
+          {/* <div className="delQuestion">
             <StyledButtonDelQuestion
               variant = "contained" onClick = {this.onClickDelQuestion.bind(this, indexQuestion)}>Supprimer cette question
             </StyledButtonDelQuestion>
-          </div>
+          </div> */}
         </div>
       </div>
       )
@@ -738,11 +831,28 @@ export default class BoardAdmin extends Component {
         }
 
         {(displayQuizzes===false || displayQuizzes) && 
-          <div className="container-questions">
+          <div className="">
             {(allQuizzes && displayQuizzes) && (
                 <div >
-                    <h4>{'Quizzes Created by : '}</h4>
-                    <h4> {currentUser.message.firstname+" "+currentUser.message.lastname}</h4>
+                    <SnackbarContent 
+                    style={{backgroundColor: "white", position:"sticky", top: "0", "z-index": "999"}}
+                    message="" 
+                    action={<button className="btnn" 
+                    onClick={this.createQuiz}>Create new Quiz</button>} 
+                    />
+                    <div >      
+                      <div className="col-xs-12 col-sm-12 col-md-12">
+                        <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}> <span>{'Quizzes Created by : '}</span> <span>{currentUser.message.firstname+" "+currentUser.message.lastname}</span> </h4>
+                        <div className="row" >
+                            {allQuizzes && allQuizzes.map((quiz, index) => (
+                                <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {()=>this.getQuiz(quiz.quiz_id)}> 
+                                    <NoteCard note={quiz.quiz_id}  handleDelete={"no delete"} color={'#4257b2'}/>
+                                </div> 
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+                    
                     <div className={`quiz`} style={{borderRadius: "10px"}}>
                         <List>
                         {allQuizzes && allQuizzes.map((quiz, index) => (
@@ -776,7 +886,12 @@ export default class BoardAdmin extends Component {
         {(displayQuiz || this.state.edit) && currentQuiz &&
           <div className="container-questions">
             <MenuOption options = {this.state.menuOptions}></MenuOption>
-            <button className="btnn"  onClick={this.backToQuizzes}><ArrowBackIcon fontsize="large"/></button> 
+            <Tooltip title="Back to list">
+              <IconButton aria-label="back" style={{color:'#4257b2'}} onClick={this.backToQuizzes}>
+                <ArrowBackIcon fontsize="large"/>
+              </IconButton>
+            </Tooltip>
+            {/* <button className="btnn"  onClick={this.backToQuizzes}><ArrowBackIcon fontsize="large"/></button>  */}
 
             {/* <button className="btnn"  onClick={this.deleteQuiz}><DeleteForeverIcon fontsize="large"/></button>  */}
             {/* <button className="btnn"  onClick={this.editQuiz}>Edit Quiz</button> */}
@@ -787,6 +902,7 @@ export default class BoardAdmin extends Component {
                 onChange={this.handleToggle}
                 name="switch"
                 inputProps={{"aria-label":"test switch"}}
+                style={{color:"#4257b2"}}
                 color="primary"
                 />
             </p>
@@ -797,7 +913,7 @@ export default class BoardAdmin extends Component {
                 <Form id="myForm">
                   <div className="container">
                     <div className="form-group">
-                      <center><h4 >{currentQuiz.quiz}</h4><br/></center>
+                      <center><h5 >{currentQuiz.quiz}</h5><br/></center>
 
                       <Input
                               type="text"
@@ -841,7 +957,7 @@ export default class BoardAdmin extends Component {
                     </div>
                   </div>   
                 </Form> 
-                <button className="btnn" onClick={()=>this.setConfirmDialog("update",this.state.updateTitle,this.state.updateSubTitle)}>Update</button>   
+                <button className="btnn" onClick={()=>this.setConfirmDialog("update","Do you want to Edit this Quiz?", "You can edit again", this.updateQuiz)}>Update</button>   
               </div>
               
               )}
@@ -852,7 +968,7 @@ export default class BoardAdmin extends Component {
                     <center><h4>{currentQuiz.quiz}</h4><br/></center>
                     {currentQuiz.questions && currentQuiz.questions.map((questions, indexx) => (
                       <div key={questions.question_id}>
-                        <h4>{questions.question_id}{'. '}{questions.question_title}</h4>    
+                        <p><strong>{questions.question_id}{'. '}{questions.question_title}</strong></p>    
                       
                           <div>
                             {questions.question_options && questions.question_options.map((options, index) => ( 
@@ -874,13 +990,25 @@ export default class BoardAdmin extends Component {
 
 
         <div>
-          {displayCreate && <div> 
-            <button className="btnn" onClick={this.backToQuizzes}><ArrowBackIcon fontsize="large"/></button> 
-            <div className="container">
+          {displayCreate && <div>
+            <div style={{width:"100%",   display: "inline-flex", "justify-content": "center"}}>
+            <button  id="backButton" onClick={this.backToQuizzes}><ArrowBackIcon fontsize="large"/></button> 
+
+            <SnackbarContent 
+            style={{ width : "100%" ,fontWeight:"bold", fontSize:"1.2rem", color: "#4257b2" ,backgroundColor: "white", position:"sticky", top: "0", "z-index": "999"}}
+            message="Création de nouvelles questions" 
+            action={
+              <button
+               className="btnn" variant = "contained" onClick = {this.handleSubmit}>Valider
+              </button>
+            } 
+            />
+            </div> 
+            {/* <div className="container">
               <header className="jumbotron">
                 <h3>Création de nouvelles questions</h3>
               </header>
-            </div>
+            </div> */}
 
             <Form>
               <div className="container">
@@ -904,13 +1032,20 @@ export default class BoardAdmin extends Component {
 
               <div className="container">
                 <br></br>
-                <StyledButtonAddQuestion
+                <SnackbarContent 
+                style={{backgroundColor: "white"}}
+                message="" 
+                action={<button
+                 className="btnn" type="button" onClick = {this.onClickAddQuestion}>Ajouter une question
+              </button>} 
+                />
+                {/* <StyledButtonAddQuestion
                     variant = "contained" onClick = {this.onClickAddQuestion}>Ajouter une question
                 </StyledButtonAddQuestion>
                 <br></br><br></br>
                 <StyledButtonSubmit
                   variant = "contained" onClick = {this.handleSubmit}>Valider
-                </StyledButtonSubmit>
+                </StyledButtonSubmit> */}
               </div>
             </Form>
 

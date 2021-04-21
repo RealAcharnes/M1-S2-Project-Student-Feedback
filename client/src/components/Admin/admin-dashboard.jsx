@@ -57,12 +57,12 @@ const AdminDashboard = () => {
         title: "ADD ACCOUNT",
         path: '/adminRegister',
         children: [],
-        message: "Add a new Admin or Teacher into the Database. Note this new administrator will have all privilleges",
+        message: "Add a new Admin or Teacher into the Database.",
         actions : {
             one: "Share",
             two: "Learn More"
         },
-        icon: <SupervisorAccountIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        icon: <SupervisorAccountIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },
     {
         title: "EVOLUTION ",
@@ -73,7 +73,7 @@ const AdminDashboard = () => {
             one: "Share",
             two: "Learn More"
         },
-        icon: <TrackChangesIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        icon: <TrackChangesIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },
     {
         title: "ALL QUIZZES",
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
             one: "Share",
             two: "Learn More"
         },
-        icon: <AssignmentIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        icon: <AssignmentIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },    
     {
         title: "ALL ANSWERS",
@@ -95,7 +95,7 @@ const AdminDashboard = () => {
             one: "Share",
             two: "Learn More"
         },
-        icon: <RecentActorsIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        icon: <RecentActorsIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },
     {
         title: "DASHBOARD",
@@ -106,7 +106,7 @@ const AdminDashboard = () => {
             one: "Share",
             two: "Learn More"
         },
-        icon: <DashboardIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        icon: <DashboardIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },
     {
         title: "DATABASE",
@@ -117,7 +117,7 @@ const AdminDashboard = () => {
             one: "Share",
             two: "Learn More"
         },
-        icon: <StorageIcon style={{color:"#388087",  float:"right"}} fontSize="large" />
+        icon: <StorageIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },
   ]
 
@@ -127,7 +127,7 @@ const AdminDashboard = () => {
             <div className="row">
                 {dashboardArray && dashboardArray.map(item => (
                     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
-                        <Card className={classes.root} style={{height:280, padding: "20px", "margin-bottom": "10px"}}>
+                        <Card className={classes.root} style={{height:200, padding: "20px", "margin-bottom": "10px"}}>
                             <CardActionArea>
                                 {/* <CardMedia
                                 className={classes.media}
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
                                     </div> */}
                                     {item.title}
                                     {item.icon}
-                                    {/* <StorageIcon style={{color:"#388087",  float:"right"}} fontSize="large" /> */}
+                                    {/* <StorageIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" /> */}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
                                 {item.message}
@@ -150,11 +150,11 @@ const AdminDashboard = () => {
                                 </CardContent>
                             </CardActionArea>
                             <CardActions>
-                                <Button size="small" style={{background:"#C2EDCE"}} onClick={()=>routeChange(item.path, item.title)}>
+                                <Button size="small" style={{background:"#3ccfcf", color: "white"}} onClick={()=>routeChange(item.path, item.title)}>
                                 GO TO
                                 </Button>
                                 {item.children && item.children.map(child=> (
-                                    <Button size="small" style={{background:"#C2EDCE"}} onClick={()=>childRoute(child)}>
+                                    <Button size="small" style={{background:"#3ccfcf", color: "white"}} onClick={()=>childRoute(child)}>
                                         {child}
                                     </Button>
                                  ))

@@ -604,23 +604,36 @@ exports.allowQuiz = (req, res) => {
 
   // Delete a Quiz with the specified id in the request
 exports.deleteQuiz = (req, res) => {
-  console.log(req);
+  // console.log(req);
   const id = req.params.id;
-  console.log(req.params.id);
+  const email = req.params.email;
+  console.log(email);
 
-  Quiz.findByIdAndRemove({ _id: id})
+  Quiz.deleteOne({ quiz_id: id})
     .then(data => {
       if (!data) {
+        console.log("No quiz");
+
         res.status(404).json({
           message: [{error : "Cannot delete Quiz with id=${id}. Maybe Quiz was not found!"}]
         });
-      } else {
-        res.status(200).json({
-          message: [{error : "Quiz was deleted successfully!"}]
-        });
+      } 
+      else {
+        User.updateOne({"email": email },
+          {$pull: { "quizzes" : { quiz_id: id } } }, (err) => {
+              if (err) {
+                  return res.status(404).json({ message: 'Problem Deleting from teacher History' });
+              }
+              return res.status(200).json({
+                message: [{error : "Quiz was deleted successfully!"}]
+              });
+          }
+        );
       }
     })
     .catch(err => {
+      console.log("Could not delete");
+
       res.status(500).json({
         message:  "Could not delete Quiz with id=" + id 
       });
@@ -904,10 +917,10 @@ exports.submitTeacherForm = async (req, res, next) => {
       // quizMdp: quiz_id
       // })
       
-
       if(findTeacher){
         findTeacher.quizzes.push({
-          quiz_id: quiz_id
+          quiz_id: quiz_id,
+          quiz_title: title
         })
    
         findTeacher.save()

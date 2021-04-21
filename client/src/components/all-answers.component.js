@@ -11,6 +11,18 @@ import { Container, List, ListItem, ListItemText} from '@material-ui/core';
 import DoughnutChart from './DoughnutChart';
 import BookOutlined from '@material-ui/icons/BookOutlined';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import NoteCard from "./NoteCard";
+import Tooltip from '@material-ui/core/Tooltip';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import SearchService from "../services/search.service";
+
+
+import FlippyItems from './Flippy';
+
+
 
 const AllAnswers = () => {
     const [allAnswers, setallAnswers] = useState([]);
@@ -27,6 +39,10 @@ const AllAnswers = () => {
     const [barData, setBarData] = useState("Bar");
     const [pieTitle, setPieTitle] = useState("Graphique en anneau");
     const [barTitle, setBarTitle] = useState("Diagramme à bandes");
+    const [displayAllQuizzes, setdisplayAllQuizzes] = useState(true);
+    const [displayStudentList, setdisplayStudentList] = useState(false);
+    const [displayStats, setdisplayStats] = useState(false)
+    const [actualQuiz, setactualQuiz] = useState(null)
 
 
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
@@ -66,7 +82,7 @@ const AllAnswers = () => {
 
     // SET SELECTED(CLICKED) QUIZ
     const setActiveQuiz = (quiz, index, quiz_id) => {
-        console.log(quiz)
+        console.log(quiz_id)
         setcurrentQuiz(quiz);
         getStats(quiz_id);
         setcurrentStudent(null);
@@ -81,6 +97,28 @@ const AllAnswers = () => {
         .catch(err => {
             console.log("An error occurred", err.response);
         })
+
+
+        // GET ACTUAL QUESTIONS FROM DATABASE
+        SearchService.searchQuiz(
+            quiz.quiz_id,
+        ).then(
+            response => {
+            console.log(response.data);
+            //   setsuccessful(true);
+            setactualQuiz(response.data);
+            })
+            .catch(
+            error => {
+            console.log(error.response);
+            const resMessage =
+                (error.response && error.response.data && error.response.data.message) 
+                || error.message || error.toString();
+
+            //   setmessage(resMessage);
+            //   setsuccessful(false);
+            }
+        );
     }; 
 
     // RETRIEVE GROUPPED DATA FROM THE DATABASE BY SELECTED QUIZ ID 
@@ -104,6 +142,23 @@ const AllAnswers = () => {
     const setActiveStudent = (student) => {
         console.log(student)
         setcurrentStudent(student);
+    }
+
+// HANDLE STUDENT LIST
+    const handleStudentList = () => {
+        setdisplayAllQuizzes(false)
+        setdisplayStudentList(true)
+        setdisplayStats(false)
+    }
+
+    const backToQuizzes = () => {
+        setdisplayAllQuizzes(true)
+        setdisplayStudentList(false)
+        setdisplayStats(false)
+        setcurrentQuiz(null)
+        setcurrentStudent(null);
+        setexplanationStats(null);
+        setarray(null);
     }
 
     // MERGE ALL ANSWERS BY QUESTION NUMBER AND SET COUNT AND STATS
@@ -181,7 +236,9 @@ const AllAnswers = () => {
         })
         // SET COUNT AS A STATE
         setexplanationStats(countExplanations);
-        
+        setdisplayStats(true)
+        setdisplayStudentList(false)
+        setdisplayAllQuizzes(false)    
     }
 
     // RETRIEVE INTEGERS(VALUES) FOR EXPLANATIONS
@@ -215,14 +272,119 @@ const AllAnswers = () => {
 
     return (
         <div className="container-questions">
-            <h4>Liste de toutes les réponses</h4>
             {showSpinner && <div class="spinner">
                 <div></div>
                 <div></div>
             </div>
             }
-            {!showSpinner && (<div className={`quiz`} style={{borderRadius: "10px"}}>
-                <List>
+            {!showSpinner &&  displayAllQuizzes && (<div  style={{borderRadius: "10px"}}>
+                <div >      
+                    <div className="col-xs-12 col-sm-12 col-md-12">
+                    <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}> <span>Liste de toutes les réponses</span> </h4>
+                    <div className="row" >
+                        {allAnswers && allAnswers.map((quiz, index) => (
+                            <FlippyItems
+                             
+                            frontSide={
+                                <div key={index} > 
+                                
+                                <NoteCard 
+
+                                note={quiz.quiz_title}  
+                                handleDelete={"no delete"} 
+                                color={'#4257b2'} 
+                                avatar="no avatar" 
+                                mouseover={() => setActiveQuiz(quiz, index, quiz.quiz_id)}
+                                // content={
+                                //     <div style={{float:"right", color:"#4257b2"}}> 
+                                //     <Tooltip title="Cliquez pour les statistiques">
+                                //         <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
+                                //             <EqualizerIcon />
+                                //         </IconButton>
+                                //     </Tooltip>
+                                //     <Tooltip title="Liste des étudiants">
+                                //         <IconButton  onClick={handleStudentList} style={{float:"right", color:"#4257b2"}}>
+                                //             <FormatListNumberedIcon />
+                                //         </IconButton>
+                                //     </Tooltip>
+                                //     <Tooltip title="Cliquez pour les statistiques">
+                                //         <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
+                                //             <EqualizerIcon />
+                                //         </IconButton>
+                                //     </Tooltip>
+                                //    </div> 
+                                // }
+                                />
+                            </div> 
+                            }
+                            handleStudentList = {()=>handleStudentList()}
+                            stats={()=>stats()}
+                            index={index}
+                            quiz={quiz}
+                            backSide={
+                                <div key={index}  > 
+                                
+                                <NoteCard 
+                                note={quiz.quiz_title}  
+                                handleDelete={"no delete"} 
+                                color={'#4257b2'} 
+                                avatar="no avatar" 
+                                content={
+                                    <div style={{float:"right", color:"#4257b2"}}> 
+                                    <Tooltip title="Cliquez pour les statistiques">
+                                        <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
+                                            <EqualizerIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Liste des étudiants">
+                                        <IconButton  onClick={handleStudentList} style={{float:"right", color:"#4257b2"}}>
+                                            <FormatListNumberedIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                    {/* <Tooltip title="Cliquez pour les statistiques">
+                                        <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
+                                            <EqualizerIcon />
+                                        </IconButton>
+                                    </Tooltip> */}
+                                   </div> 
+                                }
+                                />
+                            </div> 
+                            }
+                            />
+                            // <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {()=>setActiveQuiz(quiz, index, quiz.quiz_id)}> 
+                                
+                            //     <NoteCard 
+                            //     note={quiz.quiz_title}  
+                            //     handleDelete={"no delete"} 
+                            //     color={'#4257b2'} 
+                            //     avatar="no avatar" 
+                            //     content={
+                            //         <div style={{float:"right", color:"#4257b2"}}> 
+                            //         <Tooltip title="Cliquez pour les statistiques">
+                            //             <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
+                            //                 <EqualizerIcon />
+                            //             </IconButton>
+                            //         </Tooltip>
+                            //         <Tooltip title="Liste des étudiants">
+                            //             <IconButton  onClick={handleStudentList} style={{float:"right", color:"#4257b2"}}>
+                            //                 <FormatListNumberedIcon />
+                            //             </IconButton>
+                            //         </Tooltip>
+                            //         {/* <Tooltip title="Cliquez pour les statistiques">
+                            //             <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
+                            //                 <EqualizerIcon />
+                            //             </IconButton>
+                            //         </Tooltip> */}
+                            //        </div> 
+                            //     }
+                            //     />
+                            // </div> 
+                        ))}
+                    </div>
+                    </div>
+                </div>
+                {/* <List>
                     {allAnswers && allAnswers.map((quiz, index) => (
                         <ListItem button onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)} >
                             <ListItemIcon>
@@ -231,30 +393,29 @@ const AllAnswers = () => {
                             <ListItemText primary={
                                  <h4> 
                                      {quiz.quiz_title} {''} 
-                                     {/* <FaTimes 
-                                         style={{color: 'red', cursor: 'pointer'}}
-                                         //  onClick={() => onDelete(quiz._id)}
-                                     /> */}
                                  </h4>
                             } />
                         </ListItem>
                     ))}
-                </List>
+                </List> */}
             </div>)}
 
             <div>
-                {currentQuiz ? (
+                {currentQuiz && (displayStudentList || displayStats) ? (
                     <div>
+                        <IconButton  onClick={()=>backToQuizzes()} style={{float:"left", color:"#4257b2"}}>
+                        <ArrowBackIcon />
+                        </IconButton>
                         <center><h4>{'Vous avez sélectionné le quiz : '}{currentQuiz.quiz_id}</h4></center>
                         
-                        <div >
+                        { displayStudentList && <div >
                             <h4>{'Liste des étudiants : '}</h4>
                             {currentQuiz.quiz_answers && currentQuiz.quiz_answers.map((students, index) => (
                                 <div>
                                     <h4 onClick={() => setActiveStudent(students)}>{students.student_id}</h4>
                                 </div>
                             ))}
-                        </div>
+                        </div>}
 
                         <div>
                             {currentStudent && (
@@ -270,10 +431,11 @@ const AllAnswers = () => {
                             )}
                         </div>
                         <div style={{marginBottom: "20px"}}>
-                            <button className="btnn" onClick={stats}>Cliquez pour les statistiques</button>
+
+                            {/* <button className="btnn" onClick={stats}>Cliquez pour les statistiques</button> */}
                         </div>
                         <Container>
-                            {array && (
+                            {array && displayStats && (
                                 <div>
                                     <Grid container spacing={3}>
                                         {array && array.map((answer, index) => (
@@ -285,8 +447,8 @@ const AllAnswers = () => {
                                                                 <SwapHorizRounded/>
                                                             </IconButton>
                                                         }
-                                                        title={pieTitle}
-                                                        subheader={"Question. " + (index + 1)} 
+                                                        title={""}
+                                                        subheader={actualQuiz ? (`Q${index + 1}.`+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)} 
                                                     />
                                                     <CardContent>
                                                         <DoughnutChart
@@ -314,8 +476,8 @@ const AllAnswers = () => {
                                                                 <SwapHorizRounded/>
                                                             </IconButton>
                                                         } 
-                                                        title={barTitle}
-                                                        subheader={`Question. ${index + 1}`}
+                                                        title={""}
+                                                        subheader={actualQuiz ? (`Q${index + 1}.`+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}
                                                         />
                                                         <CardContent>
                                                             <BarChart

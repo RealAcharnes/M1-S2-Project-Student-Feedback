@@ -1,5 +1,5 @@
 body {
-  background:#e6e6d5;
+  background:hsl(210, 36%, 96%);
   height: 100%;
   margin: 0;
   background-repeat: no-repeat;
@@ -18,7 +18,7 @@ label {
 }
 
 .card {
-  background-color: #f7f7f7;
+  background-color: #FFFFFF;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;
@@ -41,7 +41,7 @@ label {
 }
 
 .success {
-  color: green;
+  color: #4257b2;
 }
 
 .itsanerror {
@@ -51,9 +51,11 @@ label {
 }
 
 .questionContainer {
-  background-color: rgba(65,65,65,0.3);
-  border-radius: 25px;
+  /* border: 1px solid #4257b2; */
+  background-color: #FFFFFF;
+  border-radius: 5px;
 }
+
 
 .mainTeacherForm {
   font-size: 17px;
@@ -67,5 +69,5 @@ label {
 
 p.quizMdp {
   font-size: 35px;
-  color: rgb(255, 23, 23);
+  color: rgb(13, 3, 58);
 }
