@@ -114,7 +114,7 @@ class App extends Component {
           icon: <AccountCircleIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         },
         user &&  {
-          title : "Deconnecxion",
+          title : "Deconnecion",
           link : '/home',
           onclick : this.logOut,
           icon: <ExitToAppIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
@@ -259,7 +259,7 @@ class App extends Component {
 
             <div className="container pt-3">
               <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={Home2} />
                 <Route exact path="/home" component={Home2} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />

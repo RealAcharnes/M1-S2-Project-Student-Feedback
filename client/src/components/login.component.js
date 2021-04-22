@@ -7,7 +7,7 @@ import AuthService from "../services/auth.service";
 import FormCard from './formCard'
 import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
-
+import { useHistory } from "react-router-dom"
 
 
 const required = value => {
@@ -60,7 +60,7 @@ export default class Login extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.email, this.state.password).then(
         () => {
-          this.props.history.push("/profile");
+          this.props.history.push("/");
           window.location.reload();
         },
         error => {
@@ -150,7 +150,12 @@ export default class Login extends Component {
                     )}
                     SE CONNECTER
                     </button>
-                  <button className="btnn" style={{"font-size" : "12px", backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2", width: "45%"}}>CREER EN COMPTE</button>
+                  <button
+                  onClick={() =>  this.props.history.push({
+                       pathname: "/register",
+                     })}
+                  className="btnn" 
+                  style={{"font-size" : "12px", backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2", width: "45%"}}>CREER EN COMPTE</button>
                 </div>
             </div>
               }

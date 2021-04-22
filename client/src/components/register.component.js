@@ -274,7 +274,10 @@ export default class Register extends Component {
                   </div>  
 
                   <div style={{marginTop: "15px", width: "100%"}} className="form-group">
-                    <button 
+                    <button
+                    onClick={() =>  this.props.history.push({
+                      pathname: "/login",
+                    })} 
                     className="btnn" style={{backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2","font-size" : "12px", width: "44%"}}
                     disabled={this.state.loading}
                     >
