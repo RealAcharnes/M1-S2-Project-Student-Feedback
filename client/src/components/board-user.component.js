@@ -14,7 +14,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { Avatar, Typography } from '@material-ui/core';
-
+import {Title} from './Title';
 
 
 function Alert(props) {
@@ -297,7 +297,7 @@ const BoardUser = () => {
               <div >      
                 <div className="col-xs-12 col-sm-12 col-md-12">
                   <center>
-                  <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}>Quiz déjà répondus</h4>
+                    <Title data={'Quiz déjà répondus'} />
                   </center>
                   <div className="row" >
                       {allQuizzes && allQuizzes.map((quiz, index) => (

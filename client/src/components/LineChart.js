@@ -10,7 +10,7 @@ const LineChart = ({ labels, data }) => {
                     labels: labels,
                     datasets: [{
                         data: data,
-                        borderColor: 'rgba(75, 192, 192, 0.6)'
+                        borderColor: 'hsl(205, 78%, 60%)'
                     }]
                 }}
                 options={{

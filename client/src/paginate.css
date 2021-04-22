@@ -215,7 +215,7 @@ Variables
   .info {
     margin-bottom: 0.75rem;
   } */
-  /* .prev-btn,
+  .prev-btn,
   .next-btn {
     color: var(--clr-primary-7);
     font-size: 2rem;
@@ -224,15 +224,18 @@ Variables
     margin: 0 0.5rem;
     transition: var(--transition);
     cursor: pointer;
-  } */
+  }
   /* .prev-btn:hover,
   .next-btn:hover {
     color: var(--clr-primary-5);
   } */
+
   .button-container {
-      display: flex;
-      justify-content: space-between;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
   }
+
   /* .random-btn {
     margin-top: 0.5rem;
     background: var(--clr-primary-10);

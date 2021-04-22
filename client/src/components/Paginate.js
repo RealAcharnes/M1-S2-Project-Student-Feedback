@@ -8,27 +8,13 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
-import {makeStyles} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Tooltip from '@material-ui/core/Tooltip';
-
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-    },
-    heading: {
-      fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular,
-    },
-  }));
 
 
 export const Paginate = ({allStudents, getAllQuizzes, allQuizzes, displayQuizzes, setActiveQuiz, evolution}) => {
     const [start, setStart] = useState(0)
     const [end, setEnd] = useState(10)
-    const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -103,7 +89,7 @@ export const Paginate = ({allStudents, getAllQuizzes, allQuizzes, displayQuizzes
         // ) }
         
 
-        <div className={classes.root}>
+        <div>
             {allStudents && allStudents.slice(start, end).map((student, index) => (
                 <Accordion expanded={expanded === `panel${index + 0}`} onChange={handleChange(`panel${index + 0}`)} onClick={()=> getAllQuizzes(student.email,student.firstname +' ' +student.lastname )}>
                     <AccordionSummary
@@ -121,7 +107,7 @@ export const Paginate = ({allStudents, getAllQuizzes, allQuizzes, displayQuizzes
                             <div style={{display: "flex"}}>
                                 {allQuizzes && allQuizzes.map((quiz, index) => (
                                     <Tooltip title="show evolution">
-                                        <Chip  style={{marginLeft: "5px"}} label={quiz.quiz_id} onMouseOver= {() => setActiveQuiz(quiz, index)} onClick={()=> evolution()}/>
+                                        <Chip  style={{color:"#fff", marginLeft: "5px", backgroundColor: "hsl(205, 78%, 60%)"}} label={quiz.quiz_id} onMouseOver= {() => setActiveQuiz(quiz, index)} onClick={()=> evolution()}/>
                                     </Tooltip>
                                 ))}
                             </div>
@@ -138,7 +124,6 @@ export const Paginate = ({allStudents, getAllQuizzes, allQuizzes, displayQuizzes
                 //     <ListItemText primary={<h4>{student.firstname +' ' +student.lastname}</h4>}/>
                 // </ListItem>
             ))}
-        
             <div className="button-container">
                 <Button size="small" style={{backgroundColor: "transparent", color: "#4257b2"}} startIcon={ <FaChevronLeft />} className="prev-btn" onClick={prevStudent}>
                     Précédent

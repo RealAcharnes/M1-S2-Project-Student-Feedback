@@ -31,7 +31,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { Avatar, makeStyles, Typography } from '@material-ui/core';
 import { DeleteOutlined } from '@material-ui/icons';
 import CardHeader from '@material-ui/core/CardHeader';
-
+import {Title} from './Title';
 
 
 
@@ -816,8 +816,7 @@ export default class BoardAdmin extends Component {
                     />
                     <div >      
                       <div className="col-xs-12 col-sm-12 col-md-12">
-                        <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}> <span>{'Quizs Créé par : '}</span> <span>{currentUser.message.firstname+" "+currentUser.message.lastname}</span> </h4>
-                        
+                        <Title data={'Quizs Créé par : ' + currentUser.message.firstname + " "+ currentUser.message.lastname} />
                         <div className="row" >
                             {allQuizzes && allQuizzes.map((quiz, index) => (
                                 <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4"  onClick= {()=>this.getQuiz(quiz.quiz_id)}> 
@@ -894,7 +893,7 @@ export default class BoardAdmin extends Component {
             {/* <button className="btnn"  onClick={this.deleteQuiz}><DeleteForeverIcon fontsize="large"/></button>  */}
             {/* <button className="btnn"  onClick={this.editQuiz}>Edit Quiz</button> */}
             <p>
-                {currentQuiz.quiz + ' is currently ' + (this.state.toggle ? ("allowed") : ("not allowed")) +" to be taken"}             
+                {currentQuiz.quiz + ' est actuellement ' + (this.state.toggle ? ("permis") : ("interdit")) +"à prendre"}             
                 <Switch
                 checked={this.state.toggle}
                 onChange={this.handleToggle}
