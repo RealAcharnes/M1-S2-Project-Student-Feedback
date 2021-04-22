@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { Avatar, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Avatar, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
 import BookOutlined from '@material-ui/icons/BookOutlined';
 import MoreVert from '@material-ui/icons/MoreVert';
 import LineChart from './LineChart';
 import LineLabels from './LineLabels';
 import SearchService from "../services/search.service";
+import {Paginate} from './Paginate';
 
 
 
@@ -81,7 +82,7 @@ const AllStudents = () => {
     setLineArray(tempLineArray)
 
     
-    setdisplayQuizzes(null);
+    // setdisplayQuizzes(null);
 
 // GET ACTUAL QUESTIONS FROM DATABASE
 SearchService.searchQuiz(
@@ -153,6 +154,13 @@ SearchService.searchQuiz(
     return array
   }
 
+//   import {useHistory} from 'react'
+//   const history = useHistory()
+
+//   const myClickFunction = () => {
+//       history.push('/go-to-somewhere')
+//   }
+
   //GENERATE DATA VALUES FOR LINE CHART 
   const getLineData = (groupArray, index) => {
     let dataArray = []
@@ -180,14 +188,21 @@ SearchService.searchQuiz(
             ):(
                 <div>
                     {displayMain  && <div className="row">
-                        <div className="col-xs-12 col-sm-12 col-md-6">
-                            <h3>{'Liste des étudiants : '}</h3>
+                        <div className="col-xs-12 col-sm-12 col-md-12">
+                            <Typography
+                                style={{textAlign: "center", color:"#4257b2"}}
+                                variant="h5"
+                            >
+                                {'Liste des étudiants '}
+                                <div className="underline"></div>
+                            </Typography>
+                           
                             {showSpinner && (<div class="spinner">
                                 <div></div>
                                 <div></div>
                             </div>)}
                             {!showSpinner && (<div  class="quiz" style={{borderRadius: "10px"}}>
-                                    <List>
+                                    {/* <List>
                                         {allStudents && allStudents.map((student,index) =>(
                                             <ListItem button onClick={()=> getAllQuizzes(student.email,student.firstname +' ' +student.lastname )}>
                                                 <ListItemAvatar>
@@ -198,11 +213,20 @@ SearchService.searchQuiz(
                                                 <ListItemText primary={<h4>{student.firstname +' ' +student.lastname}</h4>} />
                                             </ListItem>
                                         ))}
-                                    </List>
+                                    </List> */}
+                                    <Paginate 
+                                        allStudents={allStudents}
+                                        getAllQuizzes={getAllQuizzes}
+                                        allQuizzes={allQuizzes}
+                                        displayQuizzes={displayQuizzes}
+                                        setActiveQuiz={setActiveQuiz}
+                                        evolution={evolution}
+                                    />
                                 </div>)}
+
                         </div>
-                        <div className="col-xs-12 col-sm-12 col-md-6">  
-                            {(allQuizzes && displayQuizzes) && (
+                        {/* <div className="col-xs-12 col-sm-12 col-md-6">   */}
+                            {/* {(allQuizzes && displayQuizzes) && (
                                 <div >
                                     <h4>{'Questionnaires auxquels ont répondu : '}</h4>
                                     <h4> {currentStudent}</h4>
@@ -223,8 +247,8 @@ SearchService.searchQuiz(
                                         </List>
                                     </div>
                                 </div>
-                            ) }
-                            {(displayQuizzes===false) && (
+                            ) } */}
+                            {/* {(displayQuizzes===false) && (
                                 <div>
                                     <h4>{'Questionnaires auxquels ont répondu : '}</h4>
                                     <h4> {currentStudent}</h4>
@@ -233,9 +257,9 @@ SearchService.searchQuiz(
                                     </div>
                                 </div>
                             
-                            )}
-                            <div >
-                            {(currentQuiz && displayActiveQuiz) && 
+                            )} */}
+                            {/* <div > */}
+                            {/* {(currentQuiz && displayActiveQuiz) && 
                                 <div className={`quiz`} style={{borderRadius: "10px"}}>
                                     <ListItem button>
                                         <ListItemIcon>
@@ -251,11 +275,11 @@ SearchService.searchQuiz(
                                     <button className="btnn" onClick={()=> backToAllQuizzes()}>Back</button>
                                     <button className="btnn" onClick={()=> evolution()}>{'View Answers & Evolution'}</button>
                                 </div>
-                            }
+                            } */}
                                 
 
-                        </div> 
-                        </div>
+                        {/* </div> 
+                        </div> */}
 
             
                     </div>
