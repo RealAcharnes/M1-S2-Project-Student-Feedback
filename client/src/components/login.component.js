@@ -138,7 +138,7 @@ export default class Login extends Component {
                 </div>  
                 <div>
                 {/* <span style={{float:"left", marginTop: "30px", marginBottom: "30px"}}>Remember me?</span> */}
-                <span style={{width: "100%", float:"right", marginTop: "30px", marginBottom: "30px"}}>forgotten password?</span>
+                <span style={{width: "100%", float:"right", marginTop: "30px", marginBottom: "30px"}}>Mot de passe oublié ?</span>
                 </div>
                 <div style={{marginTop: "15px", width: "100%"}}>
                   <button 
