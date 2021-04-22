@@ -24,6 +24,16 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import { EmailOutlined } from "@material-ui/icons";
 
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+// import Button from '@material-ui/core/Button';
+import { Avatar, makeStyles, Typography } from '@material-ui/core';
+import { DeleteOutlined } from '@material-ui/icons';
+import CardHeader from '@material-ui/core/CardHeader';
+
+
+
 
 
 
@@ -167,15 +177,6 @@ class MyForm extends Component {
             <div>
               <div key={indexExplanation} className="form-group">
                 <label htmlFor="explanation">Explication</label>
-                  {/* <Input
-                    type="text"
-                    className="form-control"
-                    name="explanation"
-                    value = {element.options_text||''}
-                    onChange = {this.onChangeExplanation.bind(this, indexExplanation)}
-                    validations = {[required]}
-                    autoComplete = "off"
-                  /> */}
                   <form id ="formExp" >
                     <TextField
                         onChange={this.onChangeExplanation.bind(this, indexExplanation)}
@@ -191,11 +192,6 @@ class MyForm extends Component {
                     </Tooltip>
                   </form>
               </div>
-
-              {/* <StyledButtonDelExplanation 
-                variant = "contained" onClick = {this.onClickRemoveExplanation.bind(this, indexExplanation)}>Supprimer cette explication
-              </StyledButtonDelExplanation> */}
-
             </div>
             )) : (<h3>No Explanation props</h3>)
           }
@@ -234,10 +230,6 @@ class MyForm extends Component {
               autoComplete = "off"
             />
           </div>
-          {/* <StyledButtonAddExplanation
-            variant = "contained" onClick = {this.onClickAddExplanation}>Ajouter une explication
-          </StyledButtonAddExplanation> */}
-          
           {
             this.state.explanations &&
               this.createExplanationUI()
@@ -249,20 +241,6 @@ class MyForm extends Component {
             </IconButton>
           </Tooltip>
           <br/><br/>
-          {/* <Button
-            onClick = {this.onClickAddExplanation}
-            variant="contained"
-            color="primary"
-            style={{marginBottom: "15px"}}
-            // className={classes.button}
-            title="adjouter une explication"
-            startIcon={<QueueIcon />}
-          >
-            explication
-          </Button> */}
-
-
-
         </Form>
 
       </div>
@@ -279,6 +257,8 @@ export default class BoardAdmin extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.allowQuiz = this.allowQuiz.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+    this.getQuiz = this.getQuiz.bind(this);
+    this.test = this.test.bind(this)
 
     this.state = {
       title: '',
@@ -321,17 +301,13 @@ export default class BoardAdmin extends Component {
     axios.get(`https://neuroeducation-feedback.herokuapp.com/api/studentQuizzes/${user.message.email}`).then((response) => {
             console.log(response.data.quizzes);
             if((response.data.quizzes).length ){
-                // setallQuizzes(response.data.quizzes)
-                // setdisplayQuizzes(true); 
                 this.setState({
                   allQuizzes: response.data.quizzes,
                   displayQuizzes: true
                 });
                 // console.log(response.data.quizzes)
             }
-            else{
-                // setallQuizzes(null)
-                // setdisplayQuizzes(false)  
+            else{  
                 this.setState({
                   allQuizzes: null,
                   displayQuizzes: false
@@ -339,7 +315,6 @@ export default class BoardAdmin extends Component {
             }
           })
           .catch(function (err) {
-              // seterrorMessage(err.response.data.message|| err.response.data.message[0].error);
               this.setState({
                 errorMessage: err.response.data.message|| err.response.data.message[0].error,
               });
@@ -386,14 +361,16 @@ export default class BoardAdmin extends Component {
     })
   }
 
+  test(e){
+    alert("test")
+  }
+
   getQuiz = (quiz_idd) => {
     SearchService.searchQuiz(
       quiz_idd,
     ).then(
       response => {
         console.log(response.data.created_by);
-        // setsuccessful(true);
-        // setcurrentQuiz(response.data);
         console.log()
         this.setState({
           displayQuiz: true,
@@ -410,9 +387,6 @@ export default class BoardAdmin extends Component {
         const resMessage =
           (error.response && error.response.data && error.response.data.message) 
           || error.message || error.toString();
-
-        // setmessage(resMessage);
-        // setsuccessful(false);
         this.setState({
           message: resMessage,
           successful: false
@@ -838,22 +812,46 @@ export default class BoardAdmin extends Component {
                     style={{backgroundColor: "white", position:"sticky", top: "0", "z-index": "999"}}
                     message="" 
                     action={<button className="btnn" 
-                    onClick={this.createQuiz}>Create new Quiz</button>} 
+                    onClick={this.createQuiz}>Créer un nouveau Quiz</button>} 
                     />
                     <div >      
                       <div className="col-xs-12 col-sm-12 col-md-12">
-                        <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}> <span>{'Quizzes Created by : '}</span> <span>{currentUser.message.firstname+" "+currentUser.message.lastname}</span> </h4>
+                        <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}> <span>{'Quizs Créé par : '}</span> <span>{currentUser.message.firstname+" "+currentUser.message.lastname}</span> </h4>
+                        
                         <div className="row" >
                             {allQuizzes && allQuizzes.map((quiz, index) => (
-                                <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {()=>this.getQuiz(quiz.quiz_id)}> 
-                                    <NoteCard note={quiz.quiz_id}  handleDelete={"no delete"} color={'#4257b2'}/>
+                                <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4"  onClick= {()=>this.getQuiz(quiz.quiz_id)}> 
+                                    {/* <NoteCard note={quiz.quiz_id}  handleDelete={"no delete"} color={'#4257b2'}/> */}
+
+                                    <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}}  >
+                                        <CardHeader
+                                              avatar={
+                                                  (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                      {quiz.quiz_id[0].toUpperCase()}
+                                                  </Avatar>)
+                                          }
+                                              // action={ handleDelete==="no delete" ? ("") :
+                                              //     (<IconButton style={{color: "#4257b2"}}>
+                                              //         <DeleteOutlined />
+                                              //     </IconButton>)
+                                              // }
+                                              title={quiz.quiz_id}
+                                              // subheader={note}
+                                        />
+                                        <CardContent>
+                                            <Typography variant="body2" color="textSecondary">
+                                                {quiz.quiz_id}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+
                                 </div> 
                             ))}
                         </div>
                       </div>
                     </div>
                     
-                    <div className={`quiz`} style={{borderRadius: "10px"}}>
+                    {/* <div className={`quiz`} style={{borderRadius: "10px"}}>
                         <List>
                         {allQuizzes && allQuizzes.map((quiz, index) => (
                             <ListItem button  onClick= {()=>this.getQuiz(quiz.quiz_id)}>
@@ -868,19 +866,19 @@ export default class BoardAdmin extends Component {
                             </ListItem>
                         ))}
                         </List>
-                    </div>
+                    </div> */}
                 </div>
             )}
             {(displayQuizzes===false) && (
               <div>
-                  <h4>{'Quizzes Created by : '}</h4>
+                  <h4>{'Quizs Créé par : '}</h4>
                   <h4> {currentUser.message.firstname+" "+currentUser.message.lastname}</h4>
                   <div className={`quiz`} style={{borderRadius: "10px"}}>
-                      <h4>You have not created any quiz</h4>
+                      <h4>Vous n'avez pas créé de quiz</h4>
                   </div>
               </div>
             )}
-            <button className="btnn" onClick={this.createQuiz}>Create new Quiz</button>
+            {/* <button className="btnn" onClick={this.createQuiz}>Créer un nouveau Quiz</button> */}
           </div>}
 
         {(displayQuiz || this.state.edit) && currentQuiz &&

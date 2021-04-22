@@ -42,16 +42,16 @@ const NoteCard = ({ note, handleDelete,color, avatar, subHeader, content, mouseo
 //     return randomColor;
 
 //   }
-    let trim;
-    if(note.length<10) {
-        trim = note.substring(0, 10)
-    }
-    else if(note.length===11 || note.length===12){
-        trim = note.substring(0, 12)
-    }
-    else{
-        trim = note.substring(0, 10)+"..."
-    }
+    // let trim;
+    // if(note.length<10) {
+    //     trim = note.substring(0, 10)
+    // }
+    // else if(note.length===11 || note.length===12){
+    //     trim = note.substring(0, 12)
+    // }
+    // else{
+    //     trim = note.substring(0, 10)+"..."
+    // }
 
     return ( 
         <div>
@@ -67,7 +67,7 @@ const NoteCard = ({ note, handleDelete,color, avatar, subHeader, content, mouseo
                             <DeleteOutlined />
                         </IconButton>)
                     }
-                    title={trim}
+                    title={note}
                     // subheader={note}
                />
                <CardContent>

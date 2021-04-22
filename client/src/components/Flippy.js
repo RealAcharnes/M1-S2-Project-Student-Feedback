@@ -10,8 +10,7 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 
 
 
-const FlippyItems = ({frontSide, backSide, handleStudentList, stats, index, quiz}) => {
-    const [lockFlip, setlockFlip] = useState(true)
+const FlippyItems = ({frontSide, backSide}) => {
     return (
         <Flippy
         // onmouseover={onMouseOver}
@@ -30,7 +29,6 @@ const FlippyItems = ({frontSide, backSide, handleStudentList, stats, index, quiz
             padding: 0,
             margin:0
           }}
-        // animationDuration="2000"
         >
           {frontSide}
         </FrontSide>
@@ -39,33 +37,10 @@ const FlippyItems = ({frontSide, backSide, handleStudentList, stats, index, quiz
             backgroundColor: '#4257b2',
             padding: 2,
             margin:0}}
-          // animationDuration="2000"
         >
-
-          <div key={index}  > 
-              
-              <NoteCard 
-              note={quiz.quiz_title}  
-              handleDelete={"no delete"} 
-              color={'#4257b2'} 
-              avatar="no avatar" 
-              content={
-                  <div style={{float:"right", color:"#4257b2"}}> 
-                  <Tooltip title="Cliquez pour les statistiques">
-                      <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
-                          <EqualizerIcon />
-                      </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Liste des étudiants">
-                      <IconButton  onClick={handleStudentList} style={{float:"right", color:"#4257b2"}}>
-                          <FormatListNumberedIcon />
-                      </IconButton>
-                  </Tooltip>
-
-                  </div> 
-              }
-              />
-          </div> 
+        <div> 
+          {backSide}  
+        </div> 
         </BackSide>
       </Flippy>
     )

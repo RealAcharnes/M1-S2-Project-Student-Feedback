@@ -18,6 +18,8 @@ import NoteCard from "./NoteCard";
 import Tooltip from '@material-ui/core/Tooltip';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchService from "../services/search.service";
+import { Avatar, Typography } from '@material-ui/core';
+
 
 
 import FlippyItems from './Flippy';
@@ -283,103 +285,67 @@ const AllAnswers = () => {
                     <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}> <span>Liste de toutes les réponses</span> </h4>
                     <div className="row" >
                         {allAnswers && allAnswers.map((quiz, index) => (
-                            <FlippyItems
-                             
-                            frontSide={
-                                <div key={index} > 
-                                
-                                <NoteCard 
+                            <FlippyItems     
+                                frontSide={
+                                    <div key={index}  > 
+                                        <Card 
+                                        elevation={1} 
+                                        style={{ padding: "20px", "margin-bottom": "10px"}}
+                                        onMouseOver={() => setActiveQuiz(quiz, index, quiz.quiz_id)}
+                                        >
+                                            <CardHeader
+                                                avatar={
+                                                    (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                        {quiz.quiz_id[0].toUpperCase()}
+                                                    </Avatar>)
+                                                }
+                                                title={quiz.quiz_id}
+                                                // subheader={note}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="body2" color="textSecondary">
+                                                    {(quiz.quiz_title).substr(0,27) + "..."}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
 
-                                note={quiz.quiz_title}  
-                                handleDelete={"no delete"} 
-                                color={'#4257b2'} 
-                                avatar="no avatar" 
-                                mouseover={() => setActiveQuiz(quiz, index, quiz.quiz_id)}
-                                // content={
-                                //     <div style={{float:"right", color:"#4257b2"}}> 
-                                //     <Tooltip title="Cliquez pour les statistiques">
-                                //         <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
-                                //             <EqualizerIcon />
-                                //         </IconButton>
-                                //     </Tooltip>
-                                //     <Tooltip title="Liste des étudiants">
-                                //         <IconButton  onClick={handleStudentList} style={{float:"right", color:"#4257b2"}}>
-                                //             <FormatListNumberedIcon />
-                                //         </IconButton>
-                                //     </Tooltip>
-                                //     <Tooltip title="Cliquez pour les statistiques">
-                                //         <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
-                                //             <EqualizerIcon />
-                                //         </IconButton>
-                                //     </Tooltip>
-                                //    </div> 
-                                // }
-                                />
-                            </div> 
-                            }
-                            handleStudentList = {()=>handleStudentList()}
-                            stats={()=>stats()}
-                            index={index}
-                            quiz={quiz}
-                            backSide={
-                                <div key={index}  > 
-                                
-                                <NoteCard 
-                                note={quiz.quiz_title}  
-                                handleDelete={"no delete"} 
-                                color={'#4257b2'} 
-                                avatar="no avatar" 
-                                content={
-                                    <div style={{float:"right", color:"#4257b2"}}> 
-                                    <Tooltip title="Cliquez pour les statistiques">
-                                        <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
-                                            <EqualizerIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Liste des étudiants">
-                                        <IconButton  onClick={handleStudentList} style={{float:"right", color:"#4257b2"}}>
-                                            <FormatListNumberedIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                    {/* <Tooltip title="Cliquez pour les statistiques">
-                                        <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
-                                            <EqualizerIcon />
-                                        </IconButton>
-                                    </Tooltip> */}
-                                   </div> 
+                                </div> 
                                 }
-                                />
-                            </div> 
-                            }
+                            // handleStudentList = {()=>handleStudentList()}
+                            // stats={()=>stats()}
+                            // index={index}
+                            // quiz={quiz}
+                                backSide={
+                                    <div key={index}  > 
+                                        <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}}  >
+                                            <CardHeader
+                                                avatar={
+                                                    (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                        {quiz.quiz_id[0].toUpperCase()}
+                                                    </Avatar>)
+                                                }
+                                                title={(quiz.quiz_title)}
+                                                // subheader={note}
+                                            />
+                                            <CardContent>
+                                                <div style={{float:"right", color:"#4257b2"}}> 
+                                                    <Tooltip title="Cliquez pour les statistiques">
+                                                        <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
+                                                            <EqualizerIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip title="Liste des étudiants">
+                                                        <IconButton  onClick={handleStudentList} style={{float:"right", color:"#4257b2"}}>
+                                                            <FormatListNumberedIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                </div> 
+                                }
                             />
-                            // <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {()=>setActiveQuiz(quiz, index, quiz.quiz_id)}> 
-                                
-                            //     <NoteCard 
-                            //     note={quiz.quiz_title}  
-                            //     handleDelete={"no delete"} 
-                            //     color={'#4257b2'} 
-                            //     avatar="no avatar" 
-                            //     content={
-                            //         <div style={{float:"right", color:"#4257b2"}}> 
-                            //         <Tooltip title="Cliquez pour les statistiques">
-                            //             <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
-                            //                 <EqualizerIcon />
-                            //             </IconButton>
-                            //         </Tooltip>
-                            //         <Tooltip title="Liste des étudiants">
-                            //             <IconButton  onClick={handleStudentList} style={{float:"right", color:"#4257b2"}}>
-                            //                 <FormatListNumberedIcon />
-                            //             </IconButton>
-                            //         </Tooltip>
-                            //         {/* <Tooltip title="Cliquez pour les statistiques">
-                            //             <IconButton  onClick={stats} style={{float:"right", color:"#4257b2"}}>
-                            //                 <EqualizerIcon />
-                            //             </IconButton>
-                            //         </Tooltip> */}
-                            //        </div> 
-                            //     }
-                            //     />
-                            // </div> 
                         ))}
                     </div>
                     </div>

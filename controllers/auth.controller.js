@@ -40,30 +40,29 @@ const History = require('../models/history');
 
   let errors = [];
   if (!firstname) {
-    errors.push({ name: "required" });
+    errors.push("prénom obligatoire");
   }
   if (!lastname) {
-      errors.push({ name: "required" });
+      errors.push("nom obligatoire");
     }
   if (!email) {
-    errors.push({ email: "required" });
+    errors.push("email obligatoire");
   }
   if (!emailRegexp.test(email)) {
-    errors.push({ email: "invalid" });
+    errors.push("email non valide");
   }
   if (!password) {
-    errors.push({ password: "required" });
+    errors.push("mot de passe obligatoire");
   }
   if (!password_confirmation) {
-    errors.push({
-     password_confirmation: "required",
-    });
+    errors.push("confirmation du mot de passe requise");
   }
   if (password != password_confirmation) {
-    errors.push({ password: "mismatch" });
+    errors.push("password mismatch" );
   }
+  console.log(errors)
   if (errors.length > 0) {
-    return res.status(422).json({ message: errors });
+    return res.status(422).json({ message: errors.toString() });
   }
   
   User.findOne({email: email})
@@ -97,20 +96,20 @@ const History = require('../models/history');
         const mailOptions = {
           from: 'neuroeducationfeedback@gmail.com',
           to: email,
-          subject: 'Account Activation Link',
-          html: `<p>Please Click <a href="https://neuroeducation-feedback.herokuapp.com/verifyAccount/${token}">Here</a> to verify your account</p>`
+          subject: "Lien d'activation du compte",
+          html: `<p>Veuillez cliquer <a href="https://neuroeducation-feedback.herokuapp.com/verifyAccount/${token}">Ici</a> pour vérifier votre compte</p>`
         };
         
         transporter.sendMail(mailOptions, function(error, info){
           if (error) {
             console.log(error);
             res.status(500).json({
-              message: "Could not send verification email to "+email,
+              message: "Impossible d'envoyer le courriel de vérification à "+email,
             })
           } else {
             res.status(200).json({
               success: true,
-              message: `Verification email sent to ${email}... Check your email to activated your account`,
+              message: `Courriel de vérification envoyé à ${email}... Vérifiez votre e-mail pour activer votre compte dans les 20 minutes.`,
               mdpTmp: password,
             })
             console.log('Email sent: ' + info.response);
@@ -147,7 +146,7 @@ const History = require('../models/history');
      }
   }).catch(err =>{
       res.status(500).json({
-        message:  'Something went wrong'
+        message:  'Quelque chose a mal tourné'
       });
   })
 }
@@ -160,7 +159,7 @@ exports.verifyAccount =(req, res) => {
       if (err) {
         return res.status(500).json({ 
          success: false, 
-         message: "Incorrect or Expired Link. Please Recreate account" 
+         message: "Lien incorrect ou expiré. Veuillez recréer votre compte" 
         });
      }
        const { firstname, lastname, email, password, roles} =  decodedToken;
@@ -194,14 +193,14 @@ exports.verifyAccount =(req, res) => {
               })
               .catch(err => {
                 res.status(500).json({
-                  message: 'Error Activating account' 
+                  message: "Erreur d'activation du compte" 
                 });
               });
             });
           });
         })
         .catch(err=>{
-          return res.status(423).json({ message:  "Your Account has Already been Verified" });
+          return res.status(423).json({ message:  "Votre compte a déjà été vérifié" });
         })
      
     })
@@ -217,13 +216,13 @@ exports.verifyAccount =(req, res) => {
     email = email.toLowerCase();
     let errors = [];
     if (!email) {
-      errors.push({ email: "required" });
+      errors.push("e-mail requis");
     }
     if (!emailRegexp.test(email)) {
-      errors.push({ email: "invalid email" });
+      errors.push("email non valide");
     }
     if (!password) {
-      errors.push({ password: "required" });
+      errors.push("mot de passe requis");
     }
     if (errors.length > 0) {
      return res.status(422).json({ 
@@ -235,14 +234,14 @@ exports.verifyAccount =(req, res) => {
       if (!user) {
         return res.status(404).json({
           success: false,
-          message:  "User (email) not found",
+          message:  "Utilisateur (email) non trouvé",
         });
       } else {
          bcrypt.compare(password, user.password).then(isMatch => {
             if (!isMatch) {
              return res.status(400).json({ 
               success: false, 
-              message: "incorrect password" 
+              message: "mot de passe incorrect" 
              });
             }
       let access_token = createJWT(
@@ -283,10 +282,10 @@ exports.question = (req, res, next) => {
     
     let errors = [];
     if (!question) {
-      errors.push({ name: "required" });
+      errors.push("required" );
     }
     if (!desc) {
-        errors.push({ name: "required" });
+        errors.push("required" );
       }
    
     if (errors.length > 0) {
@@ -334,7 +333,7 @@ exports.question = (req, res, next) => {
       })
       .catch(err => {
         res.status(500).send({
-          message: "Some error occurred while retrieving Quizzes."
+          message: "Une erreur s'est produite lors de la récupération des Quiz."
         });
       });
   };
@@ -349,7 +348,7 @@ exports.question = (req, res, next) => {
       })
       .catch(err => {
         res.status(500).send({
-          message: "Some error occurred while retrieving Quizzes."
+          message: "Une erreur s'est produite lors de la récupération des Quiz."
         });
       });
   };
@@ -364,7 +363,7 @@ exports.question = (req, res, next) => {
       })
       .catch(err => {
         res.status(500).send({
-          message:  "Some error occurred while retrieving Answered Quizzes."
+          message:  "Une erreur s'est produite lors de la récupération des Quiz Réponses."
         });
       });
   };
@@ -376,13 +375,13 @@ exports.searchQuiz = async (req, res) => {
   Quiz.findOne({quiz_id : id})
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Quiz with id: " + id +" NOT FOUND"});
+        res.status(404).send({ message: "Quiz avec id : " + id +" NON TROUVÉ"});
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Quiz with id=" + id });
+        .send({ message: "Erreur lors de la récupération d'un Quiz avec id=" + id });
     });
 };
 
@@ -398,7 +397,7 @@ exports.findStats = (req, res) => {
     )
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found  Answer with id " + id });
+        res.status(404).send({ message: "Non trouvé Réponse avec id " + id });
       else {
         res.send(data)
           
@@ -407,14 +406,12 @@ exports.findStats = (req, res) => {
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Answer with id=" + id });
+        .send({ message: "Erreur de récupération de la réponse avec id=" + id });
     });
 };
 
 // Find all Students and filter
 exports.findAllStudents = (req, res) => {
-  // const id = req.params.id;
-  // const role = ["ROLE_STUDENT"]
   User.find(
      {roles : ["ROLE_STUDENT"]}
     , {
@@ -425,7 +422,7 @@ exports.findAllStudents = (req, res) => {
     )
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found  Answer with id " + id });
+        res.status(404).send({ message: "Impossible de récupérer les données "});
       else {
         res.send(data)
           
@@ -434,7 +431,7 @@ exports.findAllStudents = (req, res) => {
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Answer with id=" + id });
+        .send({ message: "erreur de récupération des données"});
     });
 };
 
@@ -463,7 +460,7 @@ exports.groupStats = (req, res) => {
   )
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found  Answer with id " + id });
+        res.status(404).send({ message: " n'a pas pu regrouper les quiz avec l'id" + quiz_id });
       else {
         res.send(data)
           
@@ -520,7 +517,7 @@ exports.findStudentQuizzes = (req, res) => {
   User.findOne({email: student_id},{"quizzes.quiz_id" :1, "quizzes.quiz_answers.student_answers":1 })
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found  Answer with id " + id });
+        res.status(404).send({ message: "n'a pas pu trouver de quiz avec l'identifiant de l'étudiant" + student_id });
       else {
         res.send(data)
           

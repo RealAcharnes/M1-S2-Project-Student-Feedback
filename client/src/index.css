@@ -76,6 +76,11 @@ code {
 
 .deleteQuestion:hover{color: red;}
 
+.formCardContent {
+  font-family: 'Roboto', 'Poppins', sans-serif;
+
+}
+
 .container-questions {
   font-family: 'Roboto', 'Poppins', sans-serif;
   max-width: 1000px;

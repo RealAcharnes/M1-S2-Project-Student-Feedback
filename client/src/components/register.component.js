@@ -4,6 +4,9 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
+import FormCard from './formCard'
+import TextField from '@material-ui/core/TextField';
+
 import AuthService from "../services/auth.service";
 
 const required = (value) => {
@@ -167,7 +170,7 @@ export default class Register extends Component {
   render() {
     return (
       <div className="col-md-12">
-        <div className="card card-container">
+        <div >
 
           <Form
             onSubmit={this.handleRegister}
@@ -177,7 +180,125 @@ export default class Register extends Component {
           >
             {!this.state.successful && (
               <div>
-                <div className="form-group">
+
+<FormCard
+                  content={
+                <div className="formCardContent" style={{padding: "35px", paddingTop:"50px", paddingBottom:"60px", clear: "both" }}>
+                  {this.state.message && (
+                    <div className="form-group">
+                      <div
+                        className={
+                          this.state.successful
+                            ? "alert alert-success"
+                            : "alert alert-danger"
+                        }
+                        role="alert"
+                      >
+                        {this.state.message}
+                      </div>
+                    </div>
+                  )}
+                  <h2>Bienvenue sur la page d'inscription</h2>
+
+                  <div style={{marginTop: "20px"}}>
+                    <div className="form-group">
+                      <label htmlFor="firstname" style={{marginTop: "20px", color:"black"}}><strong>Prenom</strong></label>
+                      <TextField
+                          size="small"
+                          name="firstname"
+                          value={this.state.firstname}
+                          onChange={this.onChangeFirstname}
+                          validations={[required, vfirstname]}
+                          variant="outlined"
+                          fullWidth
+                          required //just adds the asterix
+                      />
+                    </div>
+
+                    <div className="form-group">  
+                      <label htmlFor="lastname" style={{marginTop: "10px", color:"black"}}><strong>Nom</strong></label>
+                      <TextField
+                            size="small"
+                            name="lastname"
+                            value={this.state.lastname}
+                            onChange={this.onChangeLastname}
+                            validations={[required, vlastname]}
+                            variant="outlined"
+                            fullWidth
+                            required //just adds the asterix
+                      />
+                    </div>
+
+                    <div className="form-group">    
+                      <label htmlFor="email" style={{marginTop: "10px", color:"black"}}><strong>Email</strong></label>
+                      <TextField
+                            size="small"
+                            name="email"
+                            onChange={this.onChangeEmail}
+                            value={this.state.email}
+                            variant="outlined"
+                            fullWidth
+                            required //just adds the asterix
+                            validations={[required, email]}
+                      />
+                    </div> 
+
+                    <div className="form-group">    
+                      <label htmlFor="password" style={{marginTop: "10px", color:"black"}}><strong>Mot de passe</strong></label>
+                      <TextField
+                            size="small"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.onChangePassword}
+                            validations={[required, vpassword]}
+                            variant="outlined"
+                            fullWidth
+                            required //just adds the asterix 
+                      />
+                    </div>
+
+                    <div className="form-group">    
+                      <label htmlFor="password_confirmation" style={{marginTop: "10px", color:"black"}}><strong> Confirmer Mot de passe</strong></label>
+                      <TextField
+                            size="small"
+                            name="password_confirmation"
+                            value={this.state.password_confirmation}
+                            onChange={this.onChangePasswordConfirmation}
+                            validations={[required, vpasswordConfirmation]}
+                            variant="outlined"
+                            fullWidth
+                            required //just adds the asterix 
+                      />
+                    </div>
+
+                  </div>  
+
+                  <div style={{marginTop: "15px", width: "100%"}} className="form-group">
+                    <button
+                    onClick={() =>  this.props.history.push({
+                      pathname: "/login",
+                    })} 
+                    className="btnn" style={{backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2","font-size" : "12px", width: "44%"}}
+                    disabled={this.state.loading}
+                    >
+                      {this.state.loading && (
+                      <span className="spinner-border spinner-border-sm"></span>
+                      )}
+                      SE CONNECTER
+                      </button> 
+                    <button 
+                    className="btnn" 
+                    style={{"font-size" : "12px", width: "45%"}} 
+                    >
+                      CREER EN COMPTE
+                      </button>
+                  </div>
+                </div>
+                  }
+                  float="right"
+                />
+
+                {/* <div className="form-group">
                   <label htmlFor="firstname">Prenom</label>
                   <Input
                     type="text"
@@ -239,11 +360,11 @@ export default class Register extends Component {
 
                 <div className="form-group">
                   <button className="btnn">Créer le compte</button>
-                </div>
+                </div> */}
               </div>
             )}
 
-            {this.state.message && (
+            {/* {this.state.message && (
               <div className="form-group">
                 <div
                   className={
@@ -256,7 +377,7 @@ export default class Register extends Component {
                   {this.state.message}
                 </div>
               </div>
-            )}
+            )} */}
             <CheckButton
               style={{ display: "none" }}
               ref={c => {
