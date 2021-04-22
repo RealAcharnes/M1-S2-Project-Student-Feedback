@@ -140,7 +140,7 @@ const AdminDashboard = () => {
                                         hii
                                     {Parser(item.icon)}
                                     </div> */}
-                                    {item.title}
+                                    <Typography variant="h6" style={{color:"#4257b2"}}>{item.title} <div className="underlinee"></div></Typography>
                                     {item.icon}
                                     {/* <StorageIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" /> */}
                                 </Typography>

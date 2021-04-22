@@ -14,7 +14,7 @@ import FlippyItems from './Flippy';
 
 import NoteCard from "./NoteCard";
 import Flippy from 'react-flippy/dist/Flippy';
-
+import {Title} from './Title';
 
 
 const AllQuestions = () => {
@@ -183,7 +183,7 @@ const AllQuestions = () => {
                     {/* <h4></h4> */}
                     <div >      
                       <div className="col-xs-12 col-sm-12 col-md-12">
-                        <h4 style={{padding: "20px", "margin-bottom": "10px"}}> <span>Liste de quiz</span> </h4>
+                          <Title data='Liste de quiz' />
                         <div className="row" >
                             {displayQuizzes && allQuizzes && allQuizzes.map((quiz, index) => (
                                 <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {() => setActiveQuiz(quiz, index)} style={{paddingTop: "10px"}}> 

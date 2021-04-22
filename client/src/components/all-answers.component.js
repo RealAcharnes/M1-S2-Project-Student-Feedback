@@ -19,6 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchService from "../services/search.service";
 import { Avatar, Typography } from '@material-ui/core';
+import {Title} from './Title';
 
 
 
@@ -282,7 +283,7 @@ const AllAnswers = () => {
             {!showSpinner &&  displayAllQuizzes && (<div  style={{borderRadius: "10px"}}>
                 <div >      
                     <div className="col-xs-12 col-sm-12 col-md-12">
-                    <h4 style={{padding: "20px", "margin-bottom": "10px", "margin-top": "20px"}}> <span>Liste de toutes les réponses</span> </h4>
+                        <Title data="Liste de toutes les réponses" />
                     <div className="row" >
                         {allAnswers && allAnswers.map((quiz, index) => (
                             <FlippyItems     
@@ -372,7 +373,7 @@ const AllAnswers = () => {
                         <IconButton  onClick={()=>backToQuizzes()} style={{float:"left", color:"#4257b2"}}>
                         <ArrowBackIcon />
                         </IconButton>
-                        <center><h4>{'Vous avez sélectionné le quiz : '}{currentQuiz.quiz_id}</h4></center>
+                        <center><Title data={'Vous avez sélectionné le quiz : '+ currentQuiz.quiz_id} /></center>
                         
                         { displayStudentList && <div >
                             <h4>{'Liste des étudiants : '}</h4>
@@ -414,7 +415,7 @@ const AllAnswers = () => {
                                                             </IconButton>
                                                         }
                                                         title={""}
-                                                        subheader={actualQuiz ? (`Q${index + 1}.`+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)} 
+                                                        subheader={actualQuiz ? (`Q${index + 1}. `+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)} 
                                                     />
                                                     <CardContent>
                                                         <DoughnutChart
@@ -443,7 +444,7 @@ const AllAnswers = () => {
                                                             </IconButton>
                                                         } 
                                                         title={""}
-                                                        subheader={actualQuiz ? (`Q${index + 1}.`+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}
+                                                        subheader={actualQuiz ? (`Q${index + 1}. `+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}
                                                         />
                                                         <CardContent>
                                                             <BarChart
@@ -461,7 +462,7 @@ const AllAnswers = () => {
                                 )}
                         </Container>    
                     </div>
-                ) : (<h4>Veuillez sélectionner un quiz pour afficher les réponses</h4>)}
+                ) : (<Title data="Veuillez sélectionner un quiz pour afficher les réponses" noUnderline={true} subHeader={true} />)}
             </div>   
         </div>
     )

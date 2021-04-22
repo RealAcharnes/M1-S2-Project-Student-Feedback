@@ -7,6 +7,7 @@ import LineChart from './LineChart';
 import LineLabels from './LineLabels';
 import SearchService from "../services/search.service";
 import {Paginate} from './Paginate';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 
@@ -284,9 +285,7 @@ SearchService.searchQuiz(
             
                     </div>
                     }
-                    <div>
-                        { (currentQuiz && displayEvolution) && <button className="btnn" onClick={()=> evolution()}>Back</button>}
-                        
+                    <div>                        
                         {/* <div className="row">
                             
                             {(currentQuiz && displayEvolution) && currentQuiz.quiz_answers.map((quiz, index)=>(                            
@@ -305,6 +304,10 @@ SearchService.searchQuiz(
                         </div> */}
 
                         {displayLineChart && (
+                            <div>
+                             <IconButton  onClick={()=>evolution()} style={{float:"left", color:"#4257b2"}}>
+                                <ArrowBackIcon />
+                            </IconButton>
                             <Grid container spacing={3}>
                                 {(lineArray.length && displayLineChart) && lineArray[0].map((attempt, index) => (
                                     <Grid item md={6} sm={12} lg={4} >
@@ -315,8 +318,8 @@ SearchService.searchQuiz(
                                                         <MoreVert />
                                                     </IconButton>
                                                 }
-                                                title={actualQuiz ? (`Q${index + 1}.`+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}
-                                                subheader={`Oui-4 Plutot Oui-3 Plutot Non-2 Non-1`}
+                                                title={<Typography style={{fontSize: "1rem"}} color="textSecondary" variant="h6" component="p">{actualQuiz ? (`Q${index + 1}. `+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}</Typography>}
+                                                subheader={<div style={{fontSize: "0.8rem"}}>Oui-4 Plutot Oui-3 Plutot Non-2 Non-1</div>}
                                             />
                                             <CardContent>
                                                 <LineChart labels={LineLabels(lineArray.length)} data={getLineData(lineArray, index)} />
@@ -325,6 +328,8 @@ SearchService.searchQuiz(
                                     </Grid>
                                 ))}
                             </Grid>
+                            </div>
+                           
                         )}
                     </div>    
                 </div>)}
