@@ -4,6 +4,11 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 import AuthService from "../services/auth.service";
+import FormCard from './formCard'
+import TextField from '@material-ui/core/TextField';
+import FormLabel from '@material-ui/core/FormLabel';
+
+
 
 const required = value => {
   if (!value) {
@@ -82,7 +87,10 @@ export default class Login extends Component {
   render() {
     return (
       <div className="col-md-12">
-        <div className="card card-container">
+        
+
+
+        <div >
             
           <Form
             onSubmit={this.handleLogin}
@@ -91,7 +99,65 @@ export default class Login extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="email">Email de l'utilisateur</label>
+
+            <FormCard
+              content={
+            <div className="formCardContent" style={{padding: "35px", paddingTop:"70px", paddingBottom:"60px"}}>
+                          {this.state.message && (
+              <div className="form-group">
+                <div className="alert alert-danger" role="alert">
+                  {this.state.message}
+                </div>
+              </div>
+            )}
+              <h2>Welcome to the Login Page</h2>
+              <p>It's great to have you back</p>
+
+              <div style={{marginTop: "50px"}}>
+                {/* <FormLabel style={{marginTop: "30px", color:"black"}}><strong >Email</strong></FormLabel> */}
+                <label htmlFor="email" style={{marginTop: "30px", color:"black"}}><strong>Email de l'utilisateur</strong></label>
+                <TextField
+                      size="small"
+                      onChange={this.onChangeEmail}
+                      value={this.state.email}
+                      variant="outlined"
+                      fullWidth
+                      required //just adds the asterix
+                  />
+                {/* <FormLabel style={{marginTop: "30px", color:"black"}}><strong >Password</strong></FormLabel> */}
+                <label htmlFor="password" style={{marginTop: "30px", color:"black"}}><strong>Mot de passe</strong></label>
+                <TextField
+                      size="small"
+                      value={this.state.password}
+                      onChange={this.onChangePassword}
+                      variant="outlined"
+                      fullWidth
+                      required //just adds the asterix
+                      
+                  />
+                </div>  
+                <div>
+                {/* <span style={{float:"left", marginTop: "30px", marginBottom: "30px"}}>Remember me?</span> */}
+                <span style={{width: "100%", float:"right", marginTop: "30px", marginBottom: "30px"}}>forgotten password?</span>
+                </div>
+                <div style={{marginTop: "15px", width: "100%"}}>
+                  <button 
+                  className="btnn" style={{"font-size" : "12px", width: "45%"}}
+                  disabled={this.state.loading}
+                  >
+                    {this.state.loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                    )}
+                    SE CONNECTER
+                    </button>
+                  <button className="btnn" style={{"font-size" : "12px", backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2", width: "45%"}}>CREER EN COMPTE</button>
+                </div>
+            </div>
+              }
+              float="left"
+            />
+
+              {/* <label htmlFor="email">Email de l'utilisateur</label>
               <Input
                 type="email"
                 className="form-control"
@@ -99,10 +165,10 @@ export default class Login extends Component {
                 value={this.state.email}
                 onChange={this.onChangeEmail}
                 validations={[required]}
-              />
+              /> */}
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="password">Mot de passe</label>
               <Input
                 type="password"
@@ -112,8 +178,8 @@ export default class Login extends Component {
                 onChange={this.onChangePassword}
                 validations={[required]}
               />
-            </div>
-
+            </div> */}
+{/* 
             <div className="form-group">
               <button
                 className="btnn"
@@ -124,15 +190,15 @@ export default class Login extends Component {
                 )}
                 <span>Se connecter</span>
               </button>
-            </div>
-
+            </div> */}
+{/* 
             {this.state.message && (
               <div className="form-group">
                 <div className="alert alert-danger" role="alert">
                   {this.state.message}
                 </div>
               </div>
-            )}
+            )} */}
             <CheckButton
               style={{ display: "none" }}
               ref={c => {

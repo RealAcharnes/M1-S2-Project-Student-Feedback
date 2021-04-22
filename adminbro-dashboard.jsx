@@ -9,7 +9,7 @@ const api = new ApiClient()
 const UserComponent = (props) => {
 const [data, setData] = useState({})
 const mystyle ={
-    background: "linear-gradient(to bottom, rgba(3,75, 82, 1) 0%, rgba(3,75, 82, 0) 100%)",
+    background: "white",
     height: "100%",
     margin: 0,
     "background-repeat": "no-repeat",
@@ -17,7 +17,7 @@ const mystyle ={
 }
 
   useEffect(() => {
-    window.location.href = 'http://localhost:5050/admin/resources/User'; 
+    window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/User'; 
     api.getDashboard().then((response) => {
       setData(response.data)
     })
@@ -29,7 +29,7 @@ const mystyle ={
   return (
       <div style={mystyle}>
           <Route path='/' component={() => { 
-            window.location.href = 'http://localhost:5050/admin/resources/User'; 
+            window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/User'; 
             return null;
             }}
           />

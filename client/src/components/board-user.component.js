@@ -10,6 +10,10 @@ import { Grid, TextField, Button } from "@material-ui/core";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import "bootstrap/dist/css/bootstrap.min.css";
 import NoteCard from "./NoteCard";
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import { Avatar, Typography } from '@material-ui/core';
 
 
 
@@ -163,6 +167,7 @@ const BoardUser = () => {
                 .format(timestamp));
     const answers = {
         quiz_id : currentQuiz.quiz_id,
+        quiz_title : currentQuiz.quiz,
         quiz_answers : {
             student_id : currentUser.message.email,
             student_answers : checkedItems,
@@ -186,7 +191,7 @@ const BoardUser = () => {
     console.log("Radio Answer: ", radioOptions);
     console.log("CheckedItems: ", checkedItems);
     console.log("Final: ", answers);
-    axios.post('https://neuroeducation-feedback.herokuapp.com/api/history', {
+    axios.post('https://neuroeducation-feedback.herokuapp.com/api//history', {
         answers
       }).then((res) => {
           console.log(res);
@@ -284,7 +289,7 @@ const BoardUser = () => {
                     fullWidth
                     required //just adds the asterix
                 />
-                <button id="searchButton" onClick={handleSearch}>Search</button>
+                <button id="searchButton" onClick={handleSearch}>Recherche</button>
               </form>
             </div>
 
@@ -297,7 +302,28 @@ const BoardUser = () => {
                   <div className="row" >
                       {allQuizzes && allQuizzes.map((quiz, index) => (
                           <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
-                              <NoteCard note={quiz.quiz_id}  handleDelete={"handleDelete"} color={'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}/>
+                              {/* <NoteCard note={quiz.quiz_id}  handleDelete={"handleDelete"} color={'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}/> */}
+                              <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}}  >
+                                        <CardHeader
+                                              avatar={
+                                                  (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                      {quiz.quiz_id[0].toUpperCase()}
+                                                  </Avatar>)
+                                          }
+                                              // action={ handleDelete==="no delete" ? ("") :
+                                              //     (<IconButton style={{color: "#4257b2"}}>
+                                              //         <DeleteOutlined />
+                                              //     </IconButton>)
+                                              // }
+                                              title={quiz.quiz_id}
+                                              // subheader={note}
+                                        />
+                                        <CardContent>
+                                            <Typography variant="body2" color="textSecondary">
+                                                {quiz.quiz_id}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card> 
                           </div> 
                       ))}
                   </div>
@@ -307,7 +333,7 @@ const BoardUser = () => {
           </div>
         )}
 
-        <div className={!successful || message ? "card card-container" : ""}>
+        {/* <div className={!successful || message ? "card card-container" : ""}>
             {(!successful || displayAllAnswered)  && (
               <div >
                 <div className="form-group">
@@ -341,10 +367,10 @@ const BoardUser = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
 
-        <div className="col-xs-12 col-sm-12 col-md-6">
+        {/* <div className="col-xs-12 col-sm-12 col-md-6">
           <div className={!successful || message ? "card card-container" : ""}>
             {(displayAllAnswered || !successful )  && allQuizzes && (
               <div >
@@ -360,7 +386,7 @@ const BoardUser = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
 
 
@@ -377,7 +403,7 @@ const BoardUser = () => {
             <center><h4>{currentQuiz.quiz}</h4><br/></center>
             {currentQuiz.questions && currentQuiz.questions.map((questions, indexx) => (
               <div key={questions.question_id}>
-                <h4>{questions.question_id}{'. '}{questions.question_title}</h4>    
+                <span style={{fontSize:"20px"}}>{questions.question_id}{'. '}{questions.question_title}</span>    
                 <div>
                     <input 
                         className="input"

@@ -42,13 +42,13 @@ const AdminDashboard = () => {
 
   const childRoute = route =>{
     if(route==="USER"){
-        window.location.href = 'http://localhost:5050/admin/resources/User'
+        window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/User'
     }
     else if(route==="QUIZZES"){
-        window.location.href = 'http://localhost:5050/admin/resources/Quizzes'
+        window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/Quizzes'
     }
     else if(route==="HISTORY"){
-        window.location.href = 'http://localhost:5050/admin/resources/history'
+        window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/history'
     }
   }
 
@@ -97,22 +97,22 @@ const AdminDashboard = () => {
         },
         icon: <RecentActorsIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },
-    {
-        title: "DASHBOARD",
-        path: '/dashboard',
-        children: [],
-        message: "A link to the admin dashboard where you can see everything",
-        actions : {
-            one: "Share",
-            two: "Learn More"
-        },
-        icon: <DashboardIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
-    },
+    // {
+    //     title: "DASHBOARD",
+    //     path: '/dashboard',
+    //     children: [],
+    //     message: "A link to the admin dashboard where you can see everything",
+    //     actions : {
+    //         one: "Share",
+    //         two: "Learn More"
+    //     },
+    //     icon: <DashboardIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
+    // },
     {
         title: "DATABASE",
         path: 'https://neuroeducation-feedback.herokuapp.com/admin/',
         children: ['USER', 'QUIZZES', 'HISTORY'],
-        message: "This is a special page for the Admin. In desperate times of Database management this is a place to go.",
+        message: "This is a special page for the Admin. For Managing Database.",
         actions : {
             one: "Share",
             two: "Learn More"
@@ -123,7 +123,7 @@ const AdminDashboard = () => {
 
   return (
     <>
-        <div className="col-xs-12 col-sm-12 col-md-12">
+        <div className="col-xs-12 col-sm-12 col-md-12" style={{paddingTop: "60px"}}>
             <div className="row">
                 {dashboardArray && dashboardArray.map(item => (
                     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
@@ -150,13 +150,21 @@ const AdminDashboard = () => {
                                 </CardContent>
                             </CardActionArea>
                             <CardActions>
-                                <Button size="small" style={{background:"#3ccfcf", color: "white"}} onClick={()=>routeChange(item.path, item.title)}>
+                                {item.title=== "DATABASE" ? ("") : 
+                                <Button size="small" style={{backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2"}} onClick={()=>routeChange(item.path, item.title)}>
                                 GO TO
                                 </Button>
+                                }
+
                                 {item.children && item.children.map(child=> (
-                                    <Button size="small" style={{background:"#3ccfcf", color: "white"}} onClick={()=>childRoute(child)}>
+                                    <Button 
+                                    size="small" 
+                                    style={{backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2", width: "45%"}} 
+                                    onClick={()=>childRoute(child)}>
                                         {child}
                                     </Button>
+                                    // <button className="btnn" onClick={()=>childRoute(child)} style={{backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2", width: "45%"}}>{child}</button>
+
                                  ))
                                 }
                             </CardActions>

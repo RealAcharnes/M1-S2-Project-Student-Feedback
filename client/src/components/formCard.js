@@ -35,15 +35,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormCard() {
+export default function FormCard({content, float}) {
   const classes = useStyles();
   const theme = useTheme();
 
   return (
-    <Card style={{height: "500px", width: "100%", backgroundImage: `url(${"/blueBG.png"})`, maxWidth:"880px", margin: "auto"}}
+    <Card style={{ height: "680px", maxHeight:"700", width: "100%", backgroundImage: `url(${"/blueBG.png"})`, maxWidth:"890px",  margin: "auto", marginTop:"70px"}}
     >
-      <div style={{backgroundColor: "white", height: "100%", width:"70%"}}>
-
+      <div style={{backgroundColor: "white", height: "100%",  maxWidth:"480px", minWidth:"300px", float: float}}>
+            {content}
       </div>
     </Card>
   );

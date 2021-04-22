@@ -4,7 +4,16 @@ import Axios from 'axios';
 import { List, ListItem, ListItemText, Button, ListItemIcon } from '@material-ui/core';
 import BookOutlined from '@material-ui/icons/BookOutlined';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import { Avatar, Typography } from '@material-ui/core';
+
+import FlippyItems from './Flippy';
+
+
 import NoteCard from "./NoteCard";
+import Flippy from 'react-flippy/dist/Flippy';
 
 
 
@@ -177,8 +186,53 @@ const AllQuestions = () => {
                         <h4 style={{padding: "20px", "margin-bottom": "10px"}}> <span>Liste de quiz</span> </h4>
                         <div className="row" >
                             {displayQuizzes && allQuizzes && allQuizzes.map((quiz, index) => (
-                                <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {() => setActiveQuiz(quiz, index)}> 
-                                    <NoteCard note={quiz.quiz_id}  handleDelete={"no delete"} color={'#4257b2'}/>
+                                <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {() => setActiveQuiz(quiz, index)} style={{paddingTop: "10px"}}> 
+                                    {/* <NoteCard note={quiz.quiz_id}  handleDelete={"no delete"} color={'#4257b2'}/> */}
+                                    <FlippyItems
+                                    frontSide={
+                                        <Card 
+                                        elevation={1} 
+                                        style={{ padding: "20px", "margin-bottom": "10px"}}  >
+                                            <CardHeader
+                                                  avatar={
+                                                      (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                          {quiz.quiz_id[0].toUpperCase()}
+                                                      </Avatar>)
+                                              }
+        
+                                                  title={quiz.quiz_id}
+                                                  // subheader={note}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="body2" color="textSecondary">
+                                                    {(quiz.quiz).substr(0,27) + "..."}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card> 
+                                    }
+                                    backSide={
+                                        <Card 
+                                        elevation={1} 
+                                        style={{ padding: "20px", "margin-bottom": "10px"}}  >
+                                            <CardHeader
+                                                  avatar={
+                                                      (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                          {quiz.quiz_id[0].toUpperCase()}
+                                                      </Avatar>)
+                                              }
+        
+                                                  title={quiz.quiz_id}
+                                                  // subheader={note}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="body2" color="textSecondary">
+                                                    {(quiz.quiz).substr(0,27) + "..."}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card> 
+                                    }
+                                    />
+
                                 </div> 
                             ))}
                         </div>

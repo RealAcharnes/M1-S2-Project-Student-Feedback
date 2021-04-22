@@ -37,21 +37,21 @@ const UserComponents = (props) => {
         label: 'Users',
         href: 'User',
         onClick: (event) => {
-            window.location.href = `http://localhost:5050/admin/resources/User`
+            window.location.href = `https://neuroeducation-feedback.herokuapp.com/admin/resources/User`
         },
         id: 'user',
       }, {
         label: 'Quizzes',
         href: 'Quiz',
         onClick: (event) => {
-            window.location.href = `http://localhost:5050/admin/resources/Quiz`
+            window.location.href = `https://neuroeducation-feedback.herokuapp.com/admin/resources/Quiz`
         },
         id: 'quiz',
       }, {
         label: 'History',
         href: 'history',
         onClick: (event) => {
-            window.location.href = `http://localhost:5050/admin/resources/history`
+            window.location.href = `https://neuroeducation-feedback.herokuapp.com/admin/resources/history`
         },
         id: 'history',
       }],
