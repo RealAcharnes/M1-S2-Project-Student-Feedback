@@ -246,6 +246,7 @@ export default class Register extends Component {
                     <div className="form-group">    
                       <label htmlFor="password" style={{marginTop: "10px", color:"black"}}><strong>Mot de passe</strong></label>
                       <TextField
+                            type="password"
                             size="small"
                             name="password"
                             value={this.state.password}
@@ -260,6 +261,7 @@ export default class Register extends Component {
                     <div className="form-group">    
                       <label htmlFor="password_confirmation" style={{marginTop: "10px", color:"black"}}><strong> Confirmer Mot de passe</strong></label>
                       <TextField
+                            type="password"
                             size="small"
                             name="password_confirmation"
                             value={this.state.password_confirmation}

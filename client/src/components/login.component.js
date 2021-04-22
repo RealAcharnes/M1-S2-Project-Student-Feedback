@@ -127,6 +127,7 @@ export default class Login extends Component {
                 {/* <FormLabel style={{marginTop: "30px", color:"black"}}><strong >Password</strong></FormLabel> */}
                 <label htmlFor="password" style={{marginTop: "30px", color:"black"}}><strong>Mot de passe</strong></label>
                 <TextField
+                      type="password"
                       size="small"
                       value={this.state.password}
                       onChange={this.onChangePassword}
