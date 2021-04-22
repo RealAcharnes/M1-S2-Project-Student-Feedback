@@ -198,7 +198,7 @@ export default class Register extends Component {
                       </div>
                     </div>
                   )}
-                  <h2>Welcome to the Signup Page</h2>
+                  <h2>Bienvenue sur la page d'inscription</h2>
 
                   <div style={{marginTop: "20px"}}>
                     <div className="form-group">

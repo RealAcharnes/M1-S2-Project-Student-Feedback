@@ -103,15 +103,15 @@ export default class Login extends Component {
             <FormCard
               content={
             <div className="formCardContent" style={{padding: "35px", paddingTop:"70px", paddingBottom:"60px"}}>
-                          {this.state.message && (
-              <div className="form-group">
-                <div className="alert alert-danger" role="alert">
-                  {this.state.message}
+              {this.state.message && (
+                <div className="form-group">
+                  <div className="alert alert-danger" role="alert">
+                    {this.state.message}
+                  </div>
                 </div>
-              </div>
-            )}
-              <h2>Welcome to the Login Page</h2>
-              <p>It's great to have you back</p>
+              )}
+              <h2 style={{marginTop: "30px"}}>Bienvenue sur la page de connexion</h2>
+              <p>C'est génial que tu sois de retour</p>
 
               <div style={{marginTop: "50px"}}>
                 {/* <FormLabel style={{marginTop: "30px", color:"black"}}><strong >Email</strong></FormLabel> */}
