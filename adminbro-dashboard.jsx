@@ -22,9 +22,7 @@ const mystyle ={
       setData(response.data)
     })
   }, [])
-  const log = () => {
-      console.log(props)
-  }
+
 
   return (
       <div style={mystyle}>

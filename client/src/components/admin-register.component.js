@@ -152,7 +152,7 @@ export default class AdminRegister extends Component {
   render() {
     return (
       <div className="col-md-12">
-                <TextField
+                {/* <TextField
                     onChange={this.onChangeFirstname}
                     // className={classes.field}
                     // label="Note Title"
@@ -160,10 +160,10 @@ export default class AdminRegister extends Component {
                     fullWidth
                     required //just adds the asterix
                     // error={titleError} //this prop just adds a 'red styling' to the TextField to indicate an error, it is set to either true or false
-                />
+                /> */}
         
 
-        <FormCard/>
+        {/* <FormCard/> */}
 
         <div className="card card-container">
 

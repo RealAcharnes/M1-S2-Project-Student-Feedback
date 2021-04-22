@@ -60,7 +60,7 @@ const History = require('../models/history');
   if (password != password_confirmation) {
     errors.push("password mismatch" );
   }
-  console.log(errors)
+  // console.log(errors)
   if (errors.length > 0) {
     return res.status(422).json({ message: errors.toString() });
   }
@@ -71,7 +71,7 @@ const History = require('../models/history');
          return res.status(423).json({ message:  "l'email exite déjà" });
       }
       else {
-        console.log('No User found')
+        // console.log('No User found')
 
         let token = createVerificationJWT(
           firstname,
@@ -82,7 +82,7 @@ const History = require('../models/history');
           '20m'
         );
 
-        console.log(token)
+        // console.log(token)
 
         const transporter = nodemailer.createTransport({
           service: 'gmail',
@@ -604,12 +604,12 @@ exports.deleteQuiz = (req, res) => {
   // console.log(req);
   const id = req.params.id;
   const email = req.params.email;
-  console.log(email);
+  // console.log(email);
 
   Quiz.deleteOne({ quiz_id: id})
     .then(data => {
       if (!data) {
-        console.log("No quiz");
+        // console.log("No quiz");
 
         res.status(404).json({
           message: [{error : "Cannot delete Quiz with id=${id}. Maybe Quiz was not found!"}]
@@ -644,7 +644,7 @@ exports.history = async (req,res) => {
   let errors = [];
   let messages = [];
 
-  console.log('quiz:' +quiz_title);
+  // console.log('quiz:' +quiz_title);
 
   //CHECK IF QUIZ IS ALLOWED
   let teacher = await Quiz.findOne({quiz_id : quiz_id})
@@ -1019,7 +1019,7 @@ exports.changePassword = async (req, res, next) => {
 
           bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
             if (err) throw err;
-            console.log(typeof user) 
+            // console.log(typeof user) 
             User.updateOne({email: user.email}, {password : hash})
             .then(response => {
               res.status(200).json({

@@ -47,7 +47,7 @@ const classes = useStyles();
 
   useEffect(() => {
     api.getDashboard().then((response) => {
-        console.log(response)
+        // console.log(response)
       setData(response.data.some)
     })
   }, [])

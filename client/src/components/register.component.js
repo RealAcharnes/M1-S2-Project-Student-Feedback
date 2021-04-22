@@ -161,7 +161,7 @@ export default class Register extends Component {
             successful: false,
             message: resMessage
           });
-          console.log(this.state);
+          // console.log(this.state);
         }
       );
     }

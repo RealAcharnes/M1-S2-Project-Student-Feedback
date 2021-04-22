@@ -14,7 +14,6 @@ const UserComponents = (props) => {
     
     const handleClick = (event) => {
       event.preventDefault()
-      console.log(event)
     //   window.location.href = `http://localhost:5050/admin${href}`; 
     }
     

@@ -52,12 +52,10 @@ const ModifyPassword = (props) =>{
     const currentUser = props.currentuser
 
     const ApplyModifications =(email,oldPass, newPass, confirmPass) => {
-        console.log(email)
         setmessage('');
         setsuccessful(false);
         AuthService.changePassword(email, oldPass, newPass, confirmPass)
         .then((res) => {
-            console.log(res.data);
             setmessage("Mot de passe modifié avec succès");
             setsuccessful(true);
         })

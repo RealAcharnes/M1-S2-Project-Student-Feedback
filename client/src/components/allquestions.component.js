@@ -31,7 +31,7 @@ const AllQuestions = () => {
     // LOAD ALL QUIZZES FROM DATABASE ON PAGE REFRESH AND SET RESPONSE INTO AN ARRAY
     useEffect(() => {
         Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllQ').then((response) => {
-          console.log(response.data);
+        //   console.log(response.data);
           setallQuizzes(response.data) 
           setShowSpinner(false);
         })
@@ -43,7 +43,7 @@ const AllQuestions = () => {
 
     // SET SELECTED(CLICKED) QUIZ
     const setActiveQuiz = (quiz, index) => {
-        console.log(quiz)
+        // console.log(quiz)
         setcurrentQuiz(quiz);
         setdisplayQuizzes(false);
         setdisplayQuiz(true);
@@ -67,11 +67,11 @@ const AllQuestions = () => {
     const setradio = (id , answer) => {
         let checkedArray = checkedItems.map(x => {return {...x}})
         const find_question = checkedArray.find(a => a.question_answer_id === id);
-        console.log(find_question)
+        // console.log(find_question)
         if(find_question) {
             checkedArray.find(a => a.question_answer_id === id).answer = answer;
             setradioOptions((state) => {
-                console.log(state);
+                // console.log(state);
                 return {
                     ...state,
                     [id] : answer

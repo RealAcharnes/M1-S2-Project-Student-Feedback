@@ -51,12 +51,12 @@ const AllAnswers = () => {
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
     useEffect(() => {
         Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllAnswered').then((response) => {
-          console.log(response.data);
+        //   console.log(response.data);
           setallAnswers(response.data);
           setShowSpinner(false);
         })
         .catch(function (error) {
-            console.log(error);
+            // console.log(error);
         });
     }, []);
 
@@ -85,7 +85,7 @@ const AllAnswers = () => {
 
     // SET SELECTED(CLICKED) QUIZ
     const setActiveQuiz = (quiz, index, quiz_id) => {
-        console.log(quiz_id)
+        // console.log(quiz_id)
         setcurrentQuiz(quiz);
         getStats(quiz_id);
         setcurrentStudent(null);
@@ -95,10 +95,10 @@ const AllAnswers = () => {
         Axios.get(`https://neuroeducation-feedback.herokuapp.com/api/searchQuiz/${quiz_id}`)
         .then(response => {
             setAllQuestions(response.data.questions);
-            console.log(response.data.questions);
+            // console.log(response.data.questions);
         })
         .catch(err => {
-            console.log("An error occurred", err.response);
+            // console.log("An error occurred", err.response);
         })
 
 
@@ -107,7 +107,7 @@ const AllAnswers = () => {
             quiz.quiz_id,
         ).then(
             response => {
-            console.log(response.data);
+            // console.log(response.data);
             //   setsuccessful(true);
             setactualQuiz(response.data);
             })
@@ -131,11 +131,11 @@ const AllAnswers = () => {
             if(response){
             // SET GROUPPED ANSWERS "FOR EACH STUDENT" ARRAY
             setanswersArray(response.data[0]._id.answer);
-            console.log(response.data[0]._id.answer)
+            // console.log(response.data[0]._id.answer)
 
             // SET GROUPPED EXPLANATIONS "FOR EACH STUDENT" ARRAY
             setexplanationsArray(response.data[0]._id.explanation);
-            console.log(response.data[0]._id.explanation)
+            // console.log(response.data[0]._id.explanation)
             }
         })
         .catch()
@@ -143,7 +143,7 @@ const AllAnswers = () => {
 
     // SET SELECTED(CLICKED) STUDENT ARRAY
     const setActiveStudent = (student) => {
-        console.log(student)
+        // console.log(student)
         setcurrentStudent(student);
     }
 
@@ -174,10 +174,10 @@ const AllAnswers = () => {
                     mergeAllStudentsByIndex.push(answersArray[i][index])
                 }
             }
-            console.log(mergeAllStudentsByIndex);
+            // console.log(mergeAllStudentsByIndex);
             return mergeAllStudentsByIndex;
         });
-        console.log(arrayAns);
+        // console.log(arrayAns);
 
          // MERGE ALL EXPLANATIONS INTO AN ARRAY (arrExp)
         const arrayExp = explanationsArray[0].map(function(explanation, index) {
@@ -190,11 +190,11 @@ const AllAnswers = () => {
 
             return mergeAllExplanation;
         });
-        console.log(arrayExp)
+        // console.log(arrayExp)
         
         // COUNT NUMBER OF OCCURRENCE OF AN ANSWER("Plutot Oui", "Non"... etc) FOR EACH QUESTION
         const countAnswers = arrayAns.map((answers, index) => {
-            console.log(array)
+            // console.log(array)
             let all = {
                 "Oui" : 0,
                 "Plutot Oui" : 0,
@@ -218,12 +218,12 @@ const AllAnswers = () => {
         })
 
         setAllExplanations(labelsArray);
-        console.log(labelsArray);
+        // console.log(labelsArray);
 
         // COUNT NUMBER OF OCCURRENCE OF AN EXPLANATION("a", "b", "c"... etc) FOR EACH QUESTION
         const countExplanations = arrayExp.map((array,index) => {
             //return arr.filter((a) => {return a === "a"}).length
-            console.log(array)
+            // console.log(array)
             let all = {
                 a : 0,
                 b : 0,
