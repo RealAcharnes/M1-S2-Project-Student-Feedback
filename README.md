@@ -240,7 +240,9 @@ Unlike creating a student account, to create a teacher or administrator account 
 The administrator can see what is stored in the database directly in the application with a good-looking page by clicking on **User**, **Quizzes** or **History** in the **Admin Dashboard**.
 
 <div align="center">
-    <img src=".github/media/AdminRegister.JPG">
+    <img src=".github/media/AdminDatabase.JPG">
 </div>
 
+
 In this page you can display, filter or edit data directly from the database.
+
