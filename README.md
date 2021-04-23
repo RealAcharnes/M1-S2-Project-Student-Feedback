@@ -127,7 +127,7 @@ On the top, the teacher can **close or open** the quizz to answers.
 
 ##### Create a new quiz
 
-To create a new quiz, at the topof the page with the list of quizzes already created you can click on Create new quiz (**Créer un nouveau quiz**). A new page will appear :
+To create a new quiz, at the top of the page with the list of quizzes already created you can click on Create new quiz (**Créer un nouveau quiz**). A new page will appear :
 
 <div align="center">
     <img src=".github/media/AddQuiz.JPG" width="60%">
