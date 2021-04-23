@@ -176,13 +176,13 @@ You can see the details of the answers for each students by clicking on their na
 Below are the first type of graphics :
 
 <div align="center">
-    <img src=".github/media/1stGraph.JPG" width="50%">
+    <img src=".github/media/1stGraph.JPG" width="60%">
 </div>
 
 And here is the second graph the teacher can see : 
 
 <div align="center">
-    <img src=".github/media/2ndGraph.JPG" width="50%">
+    <img src=".github/media/2ndGraph.JPG" width="60%">
 </div>
 
 You can see the questions in the title of each graph. In addition by hovering the different element on the graph, you can see which explanation corresponds to each answer.
@@ -203,7 +203,7 @@ On the left side navigation bar, the teacher can also see the evolution of the a
 You can then click on a student and on the quiz you want to see statistics. Different curves will appear representing the evolution of the answers for each question. 
 
 <div align="center">
-    <img src=".github/media/StudentEvolution.JPG" width="50%">
+    <img src=".github/media/StudentEvolution.JPG" width="60%">
 </div>
 
 **Note**, On the y-axis :
