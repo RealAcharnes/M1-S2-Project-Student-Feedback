@@ -224,8 +224,9 @@ For security reason (prevent students from creating accounts with higher rights)
 When you are logged in as administrator in your left navigation bar you will find a button Admin Dashboard (**Admin Dashboard**) you can click on it. You will be redirected to the administrator page :
 
 <div align="center">
-    <img src=".github/media/AdminDashBoard.JPG" width="50%">
+    <img src=".github/media/AdminDashBoard.JPG" width="60%">
 </div>
+
 
 You can click on the "GO TO" button to go to the creation account page for teachers and administrators.
 
