@@ -276,7 +276,7 @@ class App extends Component {
                 <ProtectedRoute  component={Home} />
               </Switch>
             </div>
-          
+
 
         </div>
       </ThemeProvider>

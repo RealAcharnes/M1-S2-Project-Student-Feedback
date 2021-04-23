@@ -15,6 +15,10 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { Avatar, Typography } from '@material-ui/core';
 import {Title} from './Title';
+import LineLabels from './LineLabels';
+import LineChart from './LineChart';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 function Alert(props) {
@@ -71,7 +75,87 @@ const BoardUser = () => {
   const [allQuizzes, setallQuizzes] = useState([]);
   const [displayAllAnswered, setdisplayAllAnswered] = useState(false);
   const [validate, setvalidate] = useState(false)
+  const [lineArray, setLineArray] = useState([]);
+  const [actualQuiz, setactualQuiz] = useState([]);
+  const [displayMain, setdisplayMain] = useState(true);
+  const [displayLineChart, setDisplayLineChart] = useState(false);
+
+  
+
+  const evolution = () => {
+    setdisplayMain(false);
+    setDisplayLineChart(true);
+  }
+  const goBack = () => {
+    setDisplayLineChart(false);
+    setdisplayMain(true);
+  }
+
   const classes = useStyles();
+
+  // CREATE ARRAY CONTAINING ANSWERS OF EACH ATTEMPT
+  const getAllAns = quiz => {
+    let array = []
+    quiz.student_answers.forEach(answers=> {
+        switch(answers.answer){
+            case "Non":
+                array.push(1)
+                break
+            case "Plutot Non":
+                array.push(2)
+                break
+            case "Plutot Oui":
+                array.push(3)
+                break
+            default:
+                array.push(4)
+                break
+        }
+    })
+    return array
+  }
+
+  //GENERATE DATA VALUES FOR LINE CHART 
+  const getLineData = (groupArray, index) => {
+    let dataArray = []
+    groupArray.forEach((item) => {
+        dataArray.push(item[index])
+    })
+    return dataArray
+  }
+
+  //SET ACTIVE QUIZ
+  const setActiveQuiz = (quiz, index) => {
+    let tempLineArray = [];
+    quiz.quiz_answers.forEach((quiz, index) => {
+        tempLineArray.push(getAllAns(quiz))
+    })
+    setLineArray(tempLineArray)
+
+    
+    // setdisplayQuizzes(null);
+
+// GET ACTUAL QUESTIONS FROM DATABASE
+SearchService.searchQuiz(
+    quiz.quiz_id,
+  ).then(
+    response => {
+    //   console.log(response.data);
+    //   setsuccessful(true);
+      setactualQuiz(response.data);
+    })
+    .catch(
+    error => {
+    //   console.log(error.response);
+      const resMessage =
+        (error.response && error.response.data && error.response.data.message) 
+        || error.message || error.toString();
+
+    //   setmessage(resMessage);
+    //   setsuccessful(false);
+    }
+  );
+  };
 
 
   // LOAD ALL QUIZZES ANSWERED BY CURRENT STUDENT FROM DATABASE 
@@ -88,11 +172,11 @@ const BoardUser = () => {
   }, [currentUser]);
 
   // SET SELECTED(CLICKED) QUIZ
-  const setActiveQuiz = (quiz, index) => {
-    console.log(quiz)
+  // const setActiveQuiz = (quiz, index) => {
+    // console.log(quiz)
     // setcurrentQuiz(quiz);
     // setcurrentIndex(index)
-  };
+  // };
 
   const onChangeSearch = (e) =>{
     setsearch(e.target.value)
@@ -251,143 +335,145 @@ const BoardUser = () => {
 
   return (
     <div>
-    <div >
-      <div >
-        {errorMessage && (
-          <div className="form-group">
-            <div
-              className={"alert alert-danger"}
-              role="alert"
-            >
-              {errorMessage}
-            </div>
-          </div>
-        )}
-
-        {(!successful || displayAllAnswered)  && (
-          <div>
-            <div style={{"margin-top" :"50px"}}>
-              {message && (
+      {displayMain && (
+            <div >
+            <div >
+              {errorMessage && (
                 <div className="form-group">
                   <div
-                    className={
-                      successful
-                        ? "alert alert-success"
-                        : "alert alert-danger"
-                    }
+                    className={"alert alert-danger"}
                     role="alert"
                   >
-                    {message}
+                    {errorMessage}
                   </div>
                 </div>
               )}
-              <form id ="form" >
-                <TextField
-                    onChange={onChangeSearch}
-                    id="commonSearchTerm"
-                    variant="outlined"
-                    fullWidth
-                    required //just adds the asterix
-                />
-                <button id="searchButton" onClick={handleSearch}>Recherche</button>
-              </form>
-            </div>
-
-            {(displayAllAnswered || !successful )  && allQuizzes && (
-              <div >      
-                <div className="col-xs-12 col-sm-12 col-md-12">
-                  <center>
-                    <Title data={'Quiz déjà répondus'} />
-                  </center>
-                  <div className="row" >
-                      {allQuizzes && allQuizzes.map((quiz, index) => (
-                          <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
-                              {/* <NoteCard note={quiz.quiz_id}  handleDelete={"handleDelete"} color={'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}/> */}
-                              <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}}  >
-                                        <CardHeader
-                                              avatar={
-                                                  (<Avatar  style={{backgroundColor: "#4257b2"}}>
-                                                      {quiz.quiz_id[0].toUpperCase()}
-                                                  </Avatar>)
-                                          }
-                                              // action={ handleDelete==="no delete" ? ("") :
-                                              //     (<IconButton style={{color: "#4257b2"}}>
-                                              //         <DeleteOutlined />
-                                              //     </IconButton>)
-                                              // }
-                                              title={quiz.quiz_id}
-                                              // subheader={note}
-                                        />
-                                        <CardContent>
-                                            <Typography variant="body2" color="textSecondary">
-                                                {quiz.quiz_id}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card> 
-                          </div> 
-                      ))}
+      
+              {(!successful || displayAllAnswered)  && (
+                <div>
+                  <div style={{"margin-top" :"50px"}}>
+                    {message && (
+                      <div className="form-group">
+                        <div
+                          className={
+                            successful
+                              ? "alert alert-success"
+                              : "alert alert-danger"
+                          }
+                          role="alert"
+                        >
+                          {message}
+                        </div>
+                      </div>
+                    )}
+                    <form id ="form" >
+                      <TextField
+                          onChange={onChangeSearch}
+                          id="commonSearchTerm"
+                          variant="outlined"
+                          fullWidth
+                          required //just adds the asterix
+                      />
+                      <button id="searchButton" onClick={handleSearch}>Recherche</button>
+                    </form>
                   </div>
+      
+                  {(displayAllAnswered || !successful )  && allQuizzes && (
+                    <div >      
+                      <div className="col-xs-12 col-sm-12 col-md-12">
+                        <center>
+                          <Title data={'Quiz déjà répondus'} />
+                        </center>
+                        <div className="row" >
+                            {allQuizzes && allQuizzes.map((quiz, index) => (
+                                <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
+                                    {/* <NoteCard note={quiz.quiz_id}  handleDelete={"handleDelete"} color={'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}/> */}
+                                    <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}} onMouseOver={() => setActiveQuiz(quiz, index)} onClick={evolution} >
+                                              <CardHeader
+                                                    avatar={
+                                                        (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                            {quiz.quiz_id[0].toUpperCase()}
+                                                        </Avatar>)
+                                                }
+                                                    // action={ handleDelete==="no delete" ? ("") :
+                                                    //     (<IconButton style={{color: "#4257b2"}}>
+                                                    //         <DeleteOutlined />
+                                                    //     </IconButton>)
+                                                    // }
+                                                    title={quiz.quiz_id}
+                                                    // subheader={note}
+                                              />
+                                              <CardContent>
+                                                  <Typography variant="body2" color="textSecondary">
+                                                      {quiz.quiz_id}
+                                                  </Typography>
+                                              </CardContent>
+                                          </Card> 
+                                </div> 
+                            ))}
+                        </div>
+                      </div>
+                    </div>  
+                  )}
                 </div>
-              </div>  
-            )}
-          </div>
-        )}
-
-        {/* <div className={!successful || message ? "card card-container" : ""}>
-            {(!successful || displayAllAnswered)  && (
-              <div >
-                <div className="form-group">
-                  <label htmlFor="search">Search for Quiz</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="search"
-                    value={search}
-                    onChange={onChangeSearch}
-                    validations={[required, vsearch]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <button className="btn btn-primary btn-block"  onClick={handleSearch}>Search Quiz</button>
-                </div>
+              )}
+      
+              {/* <div className={!successful || message ? "card card-container" : ""}>
+                  {(!successful || displayAllAnswered)  && (
+                    <div >
+                      <div className="form-group">
+                        <label htmlFor="search">Search for Quiz</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="search"
+                          value={search}
+                          onChange={onChangeSearch}
+                          validations={[required, vsearch]}
+                        />
+                      </div>
+      
+                      <div className="form-group">
+                        <button className="btn btn-primary btn-block"  onClick={handleSearch}>Search Quiz</button>
+                      </div>
+                    </div>
+                  )}
+                  {message && (
+                    <div className="form-group">
+                      <div
+                        className={
+                          successful
+                            ? "alert alert-success"
+                            : "alert alert-danger"
+                        }
+                        role="alert"
+                      >
+                        {message}
+                      </div>
+                    </div>
+                  )}
+                </div> */}
               </div>
-            )}
-            {message && (
-              <div className="form-group">
-                <div
-                  className={
-                    successful
-                      ? "alert alert-success"
-                      : "alert alert-danger"
-                  }
-                  role="alert"
-                >
-                  {message}
+      
+              {/* <div className="col-xs-12 col-sm-12 col-md-6">
+                <div className={!successful || message ? "card card-container" : ""}>
+                  {(displayAllAnswered || !successful )  && allQuizzes && (
+                    <div >
+                      <h4>Quiz déjà répondus</h4>
+                      <div className={`quiz`} >
+                          {allQuizzes && allQuizzes.map((quiz, index) => (
+                              <h4 
+                              onClick= {() => setActiveQuiz(quiz, index)}
+                              > {quiz.quiz_id} 
+                              </h4>
+                          ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            )}
-          </div> */}
-        </div>
-
-        {/* <div className="col-xs-12 col-sm-12 col-md-6">
-          <div className={!successful || message ? "card card-container" : ""}>
-            {(displayAllAnswered || !successful )  && allQuizzes && (
-              <div >
-                <h4>Quiz déjà répondus</h4>
-                <div className={`quiz`} >
-                    {allQuizzes && allQuizzes.map((quiz, index) => (
-                        <h4 
-                        onClick= {() => setActiveQuiz(quiz, index)}
-                        > {quiz.quiz_id} 
-                        </h4>
-                    ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div> */}
-      </div>
+              </div> */}
+            </div>
+      )}
 
 
       <div >
@@ -463,6 +549,29 @@ const BoardUser = () => {
             )
           }
       </div>
+      {displayLineChart && (
+                            <div>
+                             <IconButton  onClick={()=>goBack()} style={{float:"left", color:"#4257b2"}}>
+                                <ArrowBackIcon />
+                            </IconButton>
+                            <Grid container spacing={3}>
+                                {(lineArray.length && displayLineChart) && lineArray[0].map((attempt, index) => (
+                                    <Grid item md={6} sm={12} lg={4} >
+                                        <Card elevation={2}>
+                                            <CardHeader
+                                                title={<Typography style={{fontSize: "1rem"}} color="textSecondary" variant="h6" component="p">{actualQuiz ? (`Q${index + 1}. `+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}</Typography>}
+                                                subheader={<div style={{fontSize: "0.8rem"}}>Oui-4 Plutot Oui-3 Plutot Non-2 Non-1</div>}
+                                            />
+                                            <CardContent>
+                                                <LineChart labels={LineLabels(lineArray.length)} data={getLineData(lineArray, index)} />
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                            </div>
+                           
+                        )}
   </div>
   );
 }
