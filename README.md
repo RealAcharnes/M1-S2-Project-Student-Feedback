@@ -118,7 +118,7 @@ On the navigation bar at the left, the teacher can click on Add quiz (**Ajouter 
 Here the teacher can click on the quizzes already created by himself and he will get de detail of the quiz :
 
 <div align="center">
-    <img src=".github/media/OptionsQuizCreated.JPG" width="50%">
+    <img src=".github/media/OptionsQuizCreated.JPG" width="60%">
 </div>
 
 On the top-right corner you can click on Options and you will be able to **edit** or **delete** the quiz.
@@ -130,7 +130,7 @@ On the top, the teacher can **close or open** the quizz to answers.
 To create a new quiz, at the topof the page with the list of quizzes already created you can click on Create new quiz (**Créer un nouveau quiz**). A new page will appear :
 
 <div align="center">
-    <img src=".github/media/AddQuiz.JPG" width="50%">
+    <img src=".github/media/AddQuiz.JPG" width="60%">
 </div>
 
 In this page you can dynamically add new questions, new explanations or no explanations for each questions. 
@@ -140,7 +140,7 @@ The explanation the teacher writes will appear to the student if he answer "Non"
 Once the teacher create the quizz, a code will be automatically generated and display in the screen so the teacher can share the code to the students. By entering this code, the students will be able to answer the quizz if it is open (cf [Answer quiz with student account](#add-a-quizz-to-answer)).
 
 <div align="center">
-    <img src=".github/media/AddQuizSuccess.JPG" width="50%">
+    <img src=".github/media/AddQuizSuccess.JPG" width="60%">
 </div>
 
 #### See and display all the quizzes created
