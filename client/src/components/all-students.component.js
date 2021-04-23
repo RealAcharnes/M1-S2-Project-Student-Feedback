@@ -313,11 +313,6 @@ SearchService.searchQuiz(
                                     <Grid item md={6} sm={12} lg={4} >
                                         <Card elevation={2}>
                                             <CardHeader
-                                                action={
-                                                    <IconButton>
-                                                        <MoreVert />
-                                                    </IconButton>
-                                                }
                                                 title={<Typography style={{fontSize: "1rem"}} color="textSecondary" variant="h6" component="p">{actualQuiz ? (`Q${index + 1}. `+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}</Typography>}
                                                 subheader={<div style={{fontSize: "0.8rem"}}>Oui-4 Plutot Oui-3 Plutot Non-2 Non-1</div>}
                                             />
