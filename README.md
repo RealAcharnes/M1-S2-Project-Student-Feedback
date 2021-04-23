@@ -90,13 +90,13 @@ Open the left navigation bar window and click on the button User to take a quiz 
 The student can add a quiz to answer by entering the quiz code (given by the teacher who created the quiz previously) in this page. He will be automatically redirected to the quiz page where he can answer the quiz questions and check off explanations when necessary. He can also see the quizzes he already answered.
 
 <div align="center">
-    <img src=".github/media/QuizUser.JPG" width="50%">
+    <img src=".github/media/QuizUser.JPG" width="60%">
 </div>
 
 Here is an example of a quiz snippet :
 
 <div align="center">
-    <img src=".github/media/QuizSnippet.JPG" width="50%">
+    <img src=".github/media/QuizSnippet.JPG" width="60%">
 </div>
 
 ## Teacher features
