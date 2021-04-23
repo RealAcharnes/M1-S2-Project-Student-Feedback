@@ -227,7 +227,6 @@ When you are logged in as administrator in your left navigation bar you will fin
     <img src=".github/media/AdminDashBoard.JPG" width="60%">
 </div>
 
-
 You can click on the "GO TO" button to go to the creation account page for teachers and administrators.
 
 <div align="center">
