@@ -54,7 +54,7 @@ By clicking on the login (**Se connecter**) button you can log in the applicatio
 Once you get connected to the application, you are automatically redirected to the home page. By clicking on your name on the top-right corner you can access your profil page.
 
 <div align="center">
-    <img src=".github/media/Profil.JPG" width="50%">
+    <img src=".github/media/Profil.JPG" width="70%">
 </div>
 
 You can get information about your email and your rights in the application (student, teacher or administrator).
