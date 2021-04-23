@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import AuthService from "../services/auth.service";
 import ModifyPassword from "./modifyPassword.component";
+import FormCard2 from './formCard2'
+import TextField from '@material-ui/core/TextField';
+
 
 export default class Profile extends Component {
   constructor(props) {
@@ -17,7 +20,10 @@ export default class Profile extends Component {
 
     return (
       <div className="container">
-        <header className="jumbotron">
+
+
+
+        {/* <header className="jumbotron">
           <h3>
           Profile : <strong>{currentUser.message.firstname}{' '}{currentUser.message.lastname}</strong> 
           </h3>
@@ -39,8 +45,8 @@ export default class Profile extends Component {
         <ul>
           {currentUser.message.roles &&
             currentUser.message.roles.map((role, index) => <li key={index}>{role}</li>)}
-        </ul>
-        <ModifyPassword email={currentUser.message.email}/>        
+        </ul> */}
+        <ModifyPassword currentuser={currentUser} email={currentUser.message.email}/>        
       </div>
     );
   }

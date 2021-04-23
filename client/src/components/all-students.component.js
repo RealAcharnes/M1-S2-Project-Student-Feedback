@@ -32,7 +32,7 @@ const AllStudents = () => {
     useEffect(() => {
         axios.get( "https://neuroeducation-feedback.herokuapp.com/api/findAllStudents")
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             setallStudents(res.data);
             setShowSpinner(false);
         })
@@ -51,7 +51,7 @@ const AllStudents = () => {
         setallQuizzes([]);
         setdisplayQuizzes(null) 
         axios.get(`https://neuroeducation-feedback.herokuapp.com/api/studentQuizzes/${student_id}`).then((response) => {
-            console.log(response.data.quizzes);
+            // console.log(response.data.quizzes);
             if((response.data.quizzes).length ){
                 setallQuizzes(response.data.quizzes)
                 setdisplayQuizzes(true); 
@@ -73,7 +73,7 @@ const AllStudents = () => {
 
       // SET SELECTED(CLICKED) QUIZ
   const setActiveQuiz = (quiz, index) => {
-    console.log(quiz);
+    // console.log(quiz);
     setdisplayActiveQuiz(true);
     setcurrentQuiz(quiz);
     let tempLineArray = [];
@@ -90,13 +90,13 @@ SearchService.searchQuiz(
     quiz.quiz_id,
   ).then(
     response => {
-      console.log(response.data);
+    //   console.log(response.data);
     //   setsuccessful(true);
       setactualQuiz(response.data);
     })
     .catch(
     error => {
-      console.log(error.response);
+    //   console.log(error.response);
       const resMessage =
         (error.response && error.response.data && error.response.data.message) 
         || error.message || error.toString();
@@ -108,7 +108,7 @@ SearchService.searchQuiz(
   };
 
   const setActiveStudent = (name) => {
-    console.log(name)
+    // console.log(name)
     setcurrentStudent(name);
     // setcurrentQuiz(quiz);
     // setcurrentIndex(index)

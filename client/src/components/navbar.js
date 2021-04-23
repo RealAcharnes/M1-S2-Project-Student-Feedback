@@ -31,7 +31,7 @@ export default function TemporaryDrawer(props) {
   });
 
   useEffect(() => {
-      console.log(props)
+      // console.log(props)
   }, [props])
 
   const toggleDrawer = (anchor, open) => (event) => {

@@ -114,7 +114,7 @@ class App extends Component {
           icon: <AccountCircleIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
         },
         user &&  {
-          title : "Deconnecion",
+          title : "Deconnexion",
           link : '/home',
           onclick : this.logOut,
           icon: <ExitToAppIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />

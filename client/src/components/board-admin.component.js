@@ -139,7 +139,7 @@ class MyForm extends Component {
     super(props);
     this.onChangeQuestion = this.onChangeQuestion.bind(this);
     this.onClickAddExplanation = this.onClickAddExplanation.bind(this);
-    console.log(this.props.delete)
+    // console.log(this.props.delete)
     this.state = {
       explanations: false,
       delete : this.props.delete
@@ -370,8 +370,8 @@ export default class BoardAdmin extends Component {
       quiz_idd,
     ).then(
       response => {
-        console.log(response.data.created_by);
-        console.log()
+        // console.log(response.data.created_by);
+        // console.log()
         this.setState({
           displayQuiz: true,
           laststate: this.state.displayQuizzes,
@@ -462,13 +462,13 @@ export default class BoardAdmin extends Component {
 
   allowQuiz = (message) => {
     let allow = this.state.toggle
-    console.log(allow)
+    // console.log(allow)
     const quiz_id = this.state.currentQuiz.quiz_id;
     axios.post(`https://neuroeducation-feedback.herokuapp.com/api/allowQuiz/${quiz_id}` , {
       allow
     })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       let success;
       if(allow){
         success = allow
@@ -529,14 +529,14 @@ export default class BoardAdmin extends Component {
       updated_questions.push({question_id:i, question_title: id, question_options : expArr})
     }
 
-    console.log(updated_questions)
+    // console.log(updated_questions)
     const quiz_id = document.getElementById("quiz_id").value;
-    console.log(quiz_id)
+    // console.log(quiz_id)
     axios.post(`https://neuroeducation-feedback.herokuapp.com/api/updateQuiz/${quiz_id}` , {
       updated_questions
     })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       this.setState({
         message: "Quiz Updated",
         open: true,
@@ -568,7 +568,7 @@ export default class BoardAdmin extends Component {
         const email = this.state.currentQuiz.created_by;
         axios.delete(`https://neuroeducation-feedback.herokuapp.com/api/delete/${id}/${email}`)
         .then((res) => {
-            console.log(res)
+            // console.log(res)
             this.setState({
               open: true,
               message: "Quiz Deleted",
@@ -691,7 +691,7 @@ export default class BoardAdmin extends Component {
         //   state:{quizMdp: response.quizMdp}
         // })
         // window.location.reload();
-       console.log(response);
+      //  console.log(response);
         this.setState({
           message: 'Quiz submitted',
           submitted: true,
