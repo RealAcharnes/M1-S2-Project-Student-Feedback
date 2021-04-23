@@ -148,7 +148,7 @@ Once the teacher create the quizz, a code will be automatically generated and di
 On the left navigation bar, the teacher can click on the questions page (**Page Questions**) button to display all the quizz.
 
 <div align="center">
-    <img src=".github/media/DisplayAllQuizzes.JPG" width="50%">
+    <img src=".github/media/DisplayAllQuizzes.JPG" width="60%">
 </div>
 
 Again, you can simply click on a quizz to see the details of the quiz (questions, explanations).
@@ -158,7 +158,7 @@ See the answers
 On the left navigation bar, by clicking on Answers Page (**Page Reponses**) button you can see the list of the quizzes that have been answered by students.
 
 <div align="center">
-    <img src=".github/media/SeeAnswers.JPG" width="50%">
+    <img src=".github/media/SeeAnswers.JPG" width="60%">
 </div>
 
 When you hover a quiz two options are available to you : You can see the list of students who answered or you can see the global statistics for thiz quiz.
