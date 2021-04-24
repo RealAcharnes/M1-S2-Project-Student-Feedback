@@ -152,20 +152,9 @@ export default class AdminRegister extends Component {
   render() {
     return (
       <div className="col-md-12">
-                {/* <TextField
-                    onChange={this.onChangeFirstname}
-                    // className={classes.field}
-                    // label="Note Title"
-                    variant="outlined"
-                    fullWidth
-                    required //just adds the asterix
-                    // error={titleError} //this prop just adds a 'red styling' to the TextField to indicate an error, it is set to either true or false
-                /> */}
-        
-
-        {/* <FormCard/> */}
-
-        <div className="card card-container">
+        <FormCard
+        content={
+          <div className="formCardContent" style={{padding: "35px", paddingTop:"70px", paddingBottom:"60px"}}>
 
           <Form
             onSubmit={this.handleRegister}
@@ -183,6 +172,7 @@ export default class AdminRegister extends Component {
                     name="username"
                     value={this.state.firstname}
                     onChange={this.onChangeFirstname}
+                    required
                     validations={[required, vusername]}
                   />
                 </div>
@@ -195,6 +185,7 @@ export default class AdminRegister extends Component {
                     name="username"
                     value={this.state.lastname}
                     onChange={this.onChangeLastname}
+                    required
                     validations={[required, vusername]}
                   />
                 </div>
@@ -207,6 +198,7 @@ export default class AdminRegister extends Component {
                     name="email"
                     value={this.state.email}
                     onChange={this.onChangeEmail}
+                    required
                     validations={[required, email]}
                   />
                 </div>
@@ -283,6 +275,10 @@ export default class AdminRegister extends Component {
             />
           </Form>
         </div>
+ 
+        }
+        />
+
       </div>
     );
   }

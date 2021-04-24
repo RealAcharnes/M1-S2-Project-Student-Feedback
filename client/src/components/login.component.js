@@ -9,6 +9,14 @@ import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
 import { useHistory } from "react-router-dom"
 
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 
 const required = value => {
   if (!value) {
@@ -73,7 +81,8 @@ export default class Login extends Component {
 
           this.setState({
             loading: false,
-            message: resMessage
+            message: resMessage,
+            open: true
           });
         }
       );
@@ -82,6 +91,12 @@ export default class Login extends Component {
         loading: false
       });
     }
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
   }
 
   render() {
@@ -104,11 +119,16 @@ export default class Login extends Component {
               content={
             <div className="formCardContent" style={{padding: "35px", paddingTop:"70px", paddingBottom:"60px"}}>
               {this.state.message && (
-                <div className="form-group">
-                  <div className="alert alert-danger" role="alert">
+                // <div className="form-group">
+                //   <div className="alert alert-danger" role="alert">
+                //     {this.state.message}
+                //   </div>
+                // </div>
+                <Snackbar anchorOrigin={{ vertical :'center', horizontal: 'center' }}open={this.state.open} autoHideDuration={6000} onClose={()=>this.handleClose()}>
+                  <Alert onClose={()=>this.handleClose()} severity={this.state.successful ? "success" : "warning" }>
                     {this.state.message}
-                  </div>
-                </div>
+                  </Alert>
+                </Snackbar>
               )}
               <h2 style={{marginTop: "30px"}}>Bienvenue sur la page de connexion</h2>
               <p>C'est génial que tu sois de retour</p>
@@ -116,25 +136,25 @@ export default class Login extends Component {
               <div style={{marginTop: "50px"}}>
                 {/* <FormLabel style={{marginTop: "30px", color:"black"}}><strong >Email</strong></FormLabel> */}
                 <label htmlFor="email" style={{marginTop: "30px", color:"black"}}><strong>Email de l'utilisateur</strong></label>
-                <TextField
+                <input
                       size="small"
                       onChange={this.onChangeEmail}
                       value={this.state.email}
                       variant="outlined"
-                      fullWidth
-                      required //just adds the asterix
+                      className="form-control"
+                      required 
                   />
                 {/* <FormLabel style={{marginTop: "30px", color:"black"}}><strong >Password</strong></FormLabel> */}
                 <label htmlFor="password" style={{marginTop: "30px", color:"black"}}><strong>Mot de passe</strong></label>
-                <TextField
+                <input
                       type="password"
                       size="small"
                       value={this.state.password}
                       onChange={this.onChangePassword}
                       variant="outlined"
                       fullWidth
-                      required //just adds the asterix
-                      
+                      required 
+                      className="form-control" 
                   />
                 </div>  
                 <div>

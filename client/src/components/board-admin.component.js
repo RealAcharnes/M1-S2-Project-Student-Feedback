@@ -7,8 +7,6 @@ import PostForm from "../services/admin-submit-form";
 import AuthService from "../services/auth.service";
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { List, ListItem,ListItemIcon, ListItemText } from '@material-ui/core';
-import BookOutlined from '@material-ui/icons/BookOutlined';
 import SearchService from "../services/search.service";
 import ConfirmDialogue from "./confirm-dialogue";
 import MuiAlert from '@material-ui/lab/Alert';
@@ -22,14 +20,9 @@ import QueueIcon from '@material-ui/icons/Queue';
 import { TextField } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import { EmailOutlined } from "@material-ui/icons";
-
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-// import Button from '@material-ui/core/Button';
-import { Avatar, makeStyles, Typography } from '@material-ui/core';
-import { DeleteOutlined } from '@material-ui/icons';
+import { Avatar, Typography } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import {Title} from './Title';
 
@@ -183,7 +176,7 @@ class MyForm extends Component {
                         id="inputExp"
                         variant="outlined"
                         fullWidth
-                        required //just adds the asterix
+                        required 
                         size="small"
                         style={{height: "50"}}
                     />

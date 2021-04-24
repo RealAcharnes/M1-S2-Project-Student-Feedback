@@ -3,28 +3,32 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-
 import FormCard from './formCard'
-import TextField from '@material-ui/core/TextField';
-
 import AuthService from "../services/auth.service";
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const required = (value) => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                Ce champ est obligatoire !
-            </div>
-        );
-    }
+  if (!value) {
+      return (
+        <Alert  severity={"warning"}>
+        Ce champ est obligatoire !
+        </Alert>
+      );
+  }
 };
 
 const email = value => {
   if (!isEmail(value)) {
     return (
-      <div className="alert alert-danger" role="alert">
-        Adresse email non valide.
-      </div>
+      <Alert  severity={"warning"}>
+      Adresse email non valide.
+      </Alert>
     );
   }
 };
@@ -32,9 +36,9 @@ const email = value => {
 const vlastname = value => {
   if (value.length < 3 || value.length > 50) {
     return (
-      <div className="alert alert-danger" role="alert">
-        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
-      </div>
+      <Alert  severity={"warning"}>
+      Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
+      </Alert>
     );
   }
 };
@@ -42,9 +46,9 @@ const vlastname = value => {
 const vfirstname = value => {
   if (value.length < 3 || value.length > 50) {
     return (
-      <div className="alert alert-danger" role="alert">
-        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
-      </div>
+      <Alert  severity={"warning"}>
+        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.    
+      </Alert>
     );
   }
 };
@@ -52,18 +56,18 @@ const vfirstname = value => {
 const vpassword = value => {
   if (value.length < 6 || value.length > 50) {
     return (
-      <div className="alert alert-danger" role="alert">
-        Le mot de passe doit contenir entre 6 et 50 charactères.
-      </div>
+      <Alert  severity={"warning"}>
+      Le mot de passe doit contenir entre 6 et 50 charactères.
+      </Alert>
     );
   }
 };
 const vpasswordConfirmation = value => {
-  if (value.length < 3 || value.length > 50) {
+  if (value.length < 6 || value.length > 50) {
     return (
-      <div className="alert alert-danger" role="alert">
-        Le nom d'utilisateur doit contenir entre 3 et 50 charactères.
-      </div>
+      <Alert  severity={"warning"}>
+      Le mot de passe doit contenir entre 6 et 50 charactères.
+      </Alert>
     );
   }
 };
@@ -85,15 +89,10 @@ export default class Register extends Component {
       password: "",
       password_confirmation: "",
       successful: false,
-      message: ""
+      message: "",
+      open: false
     };
   }
-
-  // onChangeUsername(e) {
-  //   this.setState({
-  //     username: e.target.value
-  //   });
-  // }
 
   onChangeFirstname(e) {
     this.setState({
@@ -145,7 +144,8 @@ export default class Register extends Component {
         response => {
           this.setState({
             message: response.data.message,
-            successful: true
+            successful: true,
+            open: true
           });
 
         },
@@ -159,12 +159,18 @@ export default class Register extends Component {
 
           this.setState({
             successful: false,
-            message: resMessage
+            message: resMessage,
+            open : true
           });
-          // console.log(this.state);
         }
       );
     }
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
   }
 
   render() {
@@ -181,95 +187,83 @@ export default class Register extends Component {
             {!this.state.successful && (
               <div>
 
-<FormCard
+              <FormCard
                   content={
                 <div className="formCardContent" style={{padding: "35px", paddingTop:"50px", paddingBottom:"60px", clear: "both" }}>
                   {this.state.message && (
-                    <div className="form-group">
-                      <div
-                        className={
-                          this.state.successful
-                            ? "alert alert-success"
-                            : "alert alert-danger"
-                        }
-                        role="alert"
-                      >
+                      <Snackbar anchorOrigin={{ vertical :'center', horizontal: 'center' }}open={this.state.open} autoHideDuration={6000} onClose={()=>this.handleClose()}>
+                      <Alert onClose={()=>this.handleClose()} severity={this.state.successful ? "success" : "warning" }>
                         {this.state.message}
-                      </div>
-                    </div>
+                      </Alert>
+                    </Snackbar>
                   )}
                   <h2>Bienvenue sur la page d'inscription</h2>
 
                   <div style={{marginTop: "20px"}}>
                     <div className="form-group">
                       <label htmlFor="firstname" style={{marginTop: "20px", color:"black"}}><strong>Prenom</strong></label>
-                      <TextField
+                      <Input
                           size="small"
                           name="firstname"
                           value={this.state.firstname}
                           onChange={this.onChangeFirstname}
                           validations={[required, vfirstname]}
-                          variant="outlined"
-                          fullWidth
-                          required //just adds the asterix
+                          className="form-control"
+                          required 
                       />
                     </div>
 
                     <div className="form-group">  
                       <label htmlFor="lastname" style={{marginTop: "10px", color:"black"}}><strong>Nom</strong></label>
-                      <TextField
+                      <Input
                             size="small"
                             name="lastname"
                             value={this.state.lastname}
                             onChange={this.onChangeLastname}
                             validations={[required, vlastname]}
-                            variant="outlined"
-                            fullWidth
-                            required //just adds the asterix
+                            className="form-control"
+                            required 
                       />
                     </div>
 
                     <div className="form-group">    
                       <label htmlFor="email" style={{marginTop: "10px", color:"black"}}><strong>Email</strong></label>
-                      <TextField
+                      <Input
                             size="small"
                             name="email"
                             onChange={this.onChangeEmail}
                             value={this.state.email}
-                            variant="outlined"
-                            fullWidth
-                            required //just adds the asterix
+                            className="form-control"
+                            required 
                             validations={[required, email]}
                       />
                     </div> 
 
                     <div className="form-group">    
                       <label htmlFor="password" style={{marginTop: "10px", color:"black"}}><strong>Mot de passe</strong></label>
-                      <TextField
+                      <Input
                             type="password"
                             size="small"
                             name="password"
                             value={this.state.password}
                             onChange={this.onChangePassword}
                             validations={[required, vpassword]}
-                            variant="outlined"
-                            fullWidth
-                            required //just adds the asterix 
+                            className="form-control"
+                            required  
                       />
                     </div>
 
                     <div className="form-group">    
                       <label htmlFor="password_confirmation" style={{marginTop: "10px", color:"black"}}><strong> Confirmer Mot de passe</strong></label>
-                      <TextField
+                      <Input
                             type="password"
                             size="small"
                             name="password_confirmation"
                             value={this.state.password_confirmation}
                             onChange={this.onChangePasswordConfirmation}
                             validations={[required, vpasswordConfirmation]}
-                            variant="outlined"
-                            fullWidth
-                            required //just adds the asterix 
+                            className="form-control"
+                            required  
                       />
                     </div>
 
@@ -299,87 +293,8 @@ export default class Register extends Component {
                   }
                   float="right"
                 />
-
-                {/* <div className="form-group">
-                  <label htmlFor="firstname">Prenom</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="firstname"
-                    value={this.state.firstname}
-                    onChange={this.onChangeFirstname}
-                    validations={[required, vfirstname]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="lastname">Nom</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="lastname"
-                    value={this.state.lastname}
-                    onChange={this.onChangeLastname}
-                    validations={[required, vlastname]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChangeEmail}
-                    validations={[required, email]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="password">Mot de passe</label>
-                  <Input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.onChangePassword}
-                    validations={[required, vpassword]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="password_confirmation">Confirmer Mot de passe</label>
-                  <Input
-                    type="password"
-                    className="form-control"
-                    name="password_confirmation"
-                    value={this.state.password_confirmation}
-                    onChange={this.onChangePasswordConfirmation}
-                    validations={[required, vpasswordConfirmation]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <button className="btnn">Créer le compte</button>
-                </div> */}
               </div>
             )}
-
-            {/* {this.state.message && (
-              <div className="form-group">
-                <div
-                  className={
-                    this.state.successful
-                      ? "alert alert-success"
-                      : "alert alert-danger"
-                  }
-                  role="alert"
-                >
-                  {this.state.message}
-                </div>
-              </div>
-            )} */}
             <CheckButton
               style={{ display: "none" }}
               ref={c => {

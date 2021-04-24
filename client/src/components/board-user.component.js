@@ -372,7 +372,7 @@ SearchService.searchQuiz(
                           id="commonSearchTerm"
                           variant="outlined"
                           fullWidth
-                          required //just adds the asterix
+                          required 
                       />
                       <button id="searchButton" onClick={handleSearch}>Recherche</button>
                     </form>
