@@ -44,100 +44,56 @@ const handleClick = () => {
 };
 
   useEffect(() => {
-    // api.getDashboard().then((response) => {
-    //   setData(response.data)
-    // })
     setresources(props.resources)
   }, [props.resources])
 
 
-  const log = () => {
-      console.log(props)
-  }
 
   return (
-      <div style={mystyle}>
-          <button onClick={()=>log()}>LOG</button>
+    <div style={mystyle}>
 
-          <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          ADMIN PANEL
-        </ListSubheader>
-      }
-      className={classes.root}
-    >
-      {/* <ListItem button>
-        <ListItemIcon>
-          <SendIcon />
-        </ListItemIcon>
-        <ListItemText primary="All Questions" />
-      </ListItem>
+      <List
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            ADMIN PANEL
+          </ListSubheader>
+        }
+        className={classes.root}
+      >
 
+        {resources && 
+          <div>
+            <ListItem button onClick={handleClick}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Manage Database" />
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
 
-      <ListItem button>
-        <ListItemIcon>
-          <DraftsIcon />
-        </ListItemIcon>
-        <ListItemText primary="All Answers" />
-      </ListItem> */}
+            {open && resources.map((resource)=> (
+              <Collapse in={open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem button className={classes.nested}>
+                  <ListItemIcon>
+                    <StarBorder />
+                  </ListItemIcon>
+                  <ListItemText primary={resource.name} />
+                </ListItem>
+              </List>
+            </Collapse>
+            ))
+            }
 
-
-      { resources && 
-        <div>
-          <ListItem button onClick={handleClick}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary="Manage Database" />
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-
-          {open && resources.map((resource)=> (
-            <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <StarBorder />
-                </ListItemIcon>
-                <ListItemText primary={resource.name} />
-              </ListItem>
-            </List>
-          </Collapse>
-          ))
-          }
-
-        </div>
-      }
-      
-      
-
-      
-    </List>
-          {/* <div className={`quiz`}>
-            <a href="/">
-            <span role="img" aria-label="about us">&#x1f481;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;</span>
-            About us
-            </a>
-            <a href="/">
-            <span role="img" aria-label="price">&#x1f4b8;</span>
-            Pricing
-            </a>
-            <a href="/">
-            <span role="img" aria-label="contact">&#x1f4e9;</span>
-            Contact
-            </a>
           </div>
-          <div className={`quiz`} style={sidebar}>
-              <h4>Cet étudiant n'a répondu à aucun quiz</h4>
+        }
+        
+        
 
-          </div>  
-          <div className={`quiz`} style={sidebar}>
-              <h4>Cet étudiant n'a répondu à aucun quiz</h4>
-
-          </div>  */}
+        
+      </List>
     </div>
   )
 }

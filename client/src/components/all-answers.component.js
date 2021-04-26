@@ -51,17 +51,14 @@ const AllAnswers = () => {
     // FIND ALL ANSWERED QUESTIONS ON PAGE LOAD
     useEffect(() => {
         Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllAnswered').then((response) => {
-        //   console.log(response.data);
           setallAnswers(response.data);
           setShowSpinner(false);
         })
         .catch(function (error) {
-            // console.log(error);
         });
     }, []);
 
     //ALTERNATE BETWEEN PIE AND DOUGHNUT CHART
-
     const handlePieChartChange = () => {
         if(pieData === "Doughnut"){
             setPieData("Pie")
@@ -85,7 +82,6 @@ const AllAnswers = () => {
 
     // SET SELECTED(CLICKED) QUIZ
     const setActiveQuiz = (quiz, index, quiz_id) => {
-        // console.log(quiz_id)
         setcurrentQuiz(quiz);
         getStats(quiz_id);
         setcurrentStudent(null);
@@ -95,7 +91,6 @@ const AllAnswers = () => {
         Axios.get(`https://neuroeducation-feedback.herokuapp.com/api/searchQuiz/${quiz_id}`)
         .then(response => {
             setAllQuestions(response.data.questions);
-            // console.log(response.data.questions);
         })
         .catch(err => {
             // console.log("An error occurred", err.response);
@@ -107,8 +102,6 @@ const AllAnswers = () => {
             quiz.quiz_id,
         ).then(
             response => {
-            // console.log(response.data);
-            //   setsuccessful(true);
             setactualQuiz(response.data);
             })
             .catch(
@@ -117,9 +110,6 @@ const AllAnswers = () => {
             const resMessage =
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
-
-            //   setmessage(resMessage);
-            //   setsuccessful(false);
             }
         );
     }; 
@@ -131,11 +121,8 @@ const AllAnswers = () => {
             if(response){
             // SET GROUPPED ANSWERS "FOR EACH STUDENT" ARRAY
             setanswersArray(response.data[0]._id.answer);
-            // console.log(response.data[0]._id.answer)
-
             // SET GROUPPED EXPLANATIONS "FOR EACH STUDENT" ARRAY
             setexplanationsArray(response.data[0]._id.explanation);
-            // console.log(response.data[0]._id.explanation)
             }
         })
         .catch()
@@ -143,17 +130,17 @@ const AllAnswers = () => {
 
     // SET SELECTED(CLICKED) STUDENT ARRAY
     const setActiveStudent = (student) => {
-        // console.log(student)
         setcurrentStudent(student);
     }
 
-// HANDLE STUDENT LIST
+    // HANDLE STUDENT LIST
     const handleStudentList = () => {
         setdisplayAllQuizzes(false)
         setdisplayStudentList(true)
         setdisplayStats(false)
     }
 
+    // HANDLE BACK TO QUIZ LIST
     const backToQuizzes = () => {
         setdisplayAllQuizzes(true)
         setdisplayStudentList(false)
@@ -174,10 +161,8 @@ const AllAnswers = () => {
                     mergeAllStudentsByIndex.push(answersArray[i][index])
                 }
             }
-            // console.log(mergeAllStudentsByIndex);
             return mergeAllStudentsByIndex;
         });
-        // console.log(arrayAns);
 
          // MERGE ALL EXPLANATIONS INTO AN ARRAY (arrExp)
         const arrayExp = explanationsArray[0].map(function(explanation, index) {
@@ -190,11 +175,9 @@ const AllAnswers = () => {
 
             return mergeAllExplanation;
         });
-        // console.log(arrayExp)
         
         // COUNT NUMBER OF OCCURRENCE OF AN ANSWER("Plutot Oui", "Non"... etc) FOR EACH QUESTION
         const countAnswers = arrayAns.map((answers, index) => {
-            // console.log(array)
             let all = {
                 "Oui" : 0,
                 "Plutot Oui" : 0,
@@ -218,12 +201,9 @@ const AllAnswers = () => {
         })
 
         setAllExplanations(labelsArray);
-        // console.log(labelsArray);
 
         // COUNT NUMBER OF OCCURRENCE OF AN EXPLANATION("a", "b", "c"... etc) FOR EACH QUESTION
         const countExplanations = arrayExp.map((array,index) => {
-            //return arr.filter((a) => {return a === "a"}).length
-            // console.log(array)
             let all = {
                 a : 0,
                 b : 0,
@@ -266,13 +246,6 @@ const AllAnswers = () => {
         return Object.keys(object);
     }
 
-    // const disp = () => {
-    //     console.log(array);
-    //     console.log(explanationStats)
-    // }
-
-
-
     return (
         <div className="container-questions">
             {showSpinner && <div class="spinner">
@@ -312,10 +285,6 @@ const AllAnswers = () => {
 
                                 </div> 
                                 }
-                            // handleStudentList = {()=>handleStudentList()}
-                            // stats={()=>stats()}
-                            // index={index}
-                            // quiz={quiz}
                                 backSide={
                                     <div key={index}  > 
                                         <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}}  >
@@ -326,7 +295,6 @@ const AllAnswers = () => {
                                                     </Avatar>)
                                                 }
                                                 title={(quiz.quiz_title)}
-                                                // subheader={note}
                                             />
                                             <CardContent>
                                                 <div style={{float:"right", color:"#4257b2"}}> 
@@ -351,20 +319,6 @@ const AllAnswers = () => {
                     </div>
                     </div>
                 </div>
-                {/* <List>
-                    {allAnswers && allAnswers.map((quiz, index) => (
-                        <ListItem button onClick= {() => setActiveQuiz(quiz, index, quiz.quiz_id)} >
-                            <ListItemIcon>
-                                <BookOutlined />
-                            </ListItemIcon>
-                            <ListItemText primary={
-                                 <h4> 
-                                     {quiz.quiz_title} {''} 
-                                 </h4>
-                            } />
-                        </ListItem>
-                    ))}
-                </List> */}
             </div>)}
 
             <div>
@@ -398,8 +352,6 @@ const AllAnswers = () => {
                             )}
                         </div>
                         <div style={{marginBottom: "20px"}}>
-
-                            {/* <button className="btnn" onClick={stats}>Cliquez pour les statistiques</button> */}
                         </div>
                         <Container>
                             {array && displayStats && (

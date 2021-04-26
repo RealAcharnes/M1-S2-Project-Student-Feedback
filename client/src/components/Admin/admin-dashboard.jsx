@@ -45,7 +45,7 @@ const AdminDashboard = () => {
         window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/User'
     }
     else if(route==="QUIZZES"){
-        window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/Quizzes'
+        window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/Quiz'
     }
     else if(route==="HISTORY"){
         window.location.href = 'https://neuroeducation-feedback.herokuapp.com/admin/resources/history'
@@ -54,32 +54,22 @@ const AdminDashboard = () => {
 
   const dashboardArray = [
       {
-        title: "ADD ACCOUNT",
+        title: "AJOUTER UN COMPTE",
         path: '/adminRegister',
         children: [],
-        message: "Add a new Admin or Teacher into the Database.",
+        message: "Ajouter un nouvel administrateur ou enseignant dans la base de données.",
         actions : {
             one: "Share",
             two: "Learn More"
         },
         icon: <SupervisorAccountIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },
+
     {
-        title: "EVOLUTION ",
-        path: '/students',
-        children: [],
-        message: "As an admin or teacher, view all students progress with a few clicks",
-        actions : {
-            one: "Share",
-            two: "Learn More"
-        },
-        icon: <TrackChangesIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
-    },
-    {
-        title: "ALL QUIZZES",
+        title: "TOUS LES QUIZZ",
         path: '/questions',
         children: [],
-        message: "A list of all quizzes in the database. View all with a few clicks",
+        message: "Une liste de tous les quiz de la base de données. Visualisez-les tous en quelques clics",
         actions : {
             one: "Share",
             two: "Learn More"
@@ -87,15 +77,26 @@ const AdminDashboard = () => {
         icon: <AssignmentIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },    
     {
-        title: "ALL ANSWERS",
+        title: "PAGE RÉPONSES",
         path: '/answers',
         children: [],
-        message: "A history of all student answers in the database. View all with a few clicks",
+        message: "Un historique de toutes les réponses des élèves dans la base de données. Tout visualiser en quelques clics",
         actions : {
             one: "Share",
             two: "Learn More"
         },
         icon: <RecentActorsIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
+    },
+    {
+        title: "EVOLUTION",
+        path: '/students',
+        children: [],
+        message: "En tant qu'administrateur ou enseignant, vous pouvez visualiser les progrès de tous les élèves en quelques clics.",
+        actions : {
+            one: "Share",
+            two: "Learn More"
+        },
+        icon: <TrackChangesIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     },
     // {
     //     title: "DASHBOARD",
@@ -109,10 +110,10 @@ const AdminDashboard = () => {
     //     icon: <DashboardIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" />
     // },
     {
-        title: "DATABASE",
+        title: "BASE DE DONNEES",
         path: 'https://neuroeducation-feedback.herokuapp.com/admin/',
         children: ['USER', 'QUIZZES', 'HISTORY'],
-        message: "This is a special page for the Admin. For Managing Database.",
+        message: "Il s'agit d'une page spéciale pour l'administrateur. Pour la gestion de la base de données.",
         actions : {
             one: "Share",
             two: "Learn More"
@@ -127,30 +128,20 @@ const AdminDashboard = () => {
             <div className="row">
                 {dashboardArray && dashboardArray.map(item => (
                     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
-                        <Card className={classes.root} style={{height:200, padding: "20px", "margin-bottom": "10px"}}>
+                        <Card className={classes.root} style={{height:235, padding: "20px", "margin-bottom": "10px"}}>
                             <CardActionArea>
-                                {/* <CardMedia
-                                className={classes.media}
-                                image="/static/images/cards/contemplative-reptile.jpg"
-                                title="Contemplative Reptile"
-                                /> */}
                                 <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" >
-                                    {/* <div className="row" >
-                                        hii
-                                    {Parser(item.icon)}
-                                    </div> */}
                                     <Typography variant="h6" style={{color:"#4257b2"}}>{item.title} <div className="underlinee"></div></Typography>
                                     {item.icon}
-                                    {/* <StorageIcon style={{color:"#4257b2",  float:"right"}} fontSize="large" /> */}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
                                 {item.message}
                                 </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                {item.title=== "DATABASE" ? ("") : 
+                            <CardActions >
+                                {item.title=== ( "BASE DE DONNEES") ? ("") : 
                                 <Button size="small" style={{backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2"}} onClick={()=>routeChange(item.path, item.title)}>
                                 GO TO
                                 </Button>
@@ -163,8 +154,6 @@ const AdminDashboard = () => {
                                     onClick={()=>childRoute(child)}>
                                         {child}
                                     </Button>
-                                    // <button className="btnn" onClick={()=>childRoute(child)} style={{backgroundColor: "transparent", color: "#4257b2", border: "1px solid #4257b2", width: "45%"}}>{child}</button>
-
                                  ))
                                 }
                             </CardActions>

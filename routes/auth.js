@@ -12,7 +12,6 @@ router.post('/signup', signup);
 router.post('/changePassword', changePassword);
 router.post('/signin', signin);
 router.post('/verifyAccount', verifyAccount);
-router.post('/question', question);
 router.post('/history', history);
 router.post('/postform/submit', submitTeacherForm);
 router.post('/updateQuiz/:id', updateQuiz);
@@ -20,7 +19,6 @@ router.post('/allowQuiz/:id', allowQuiz);
 
 
 // GET REQUESTS
-router.get('/findAll', findAll);
 router.get('/findAllQ', findAllQ);
 router.get('/searchQuiz/:id', searchQuiz);
 router.get('/findAllAnswered', findAllAnsweredQuizzes);
@@ -34,10 +32,5 @@ router.get('/studentAnswers/:id', studentAnswers);
 // DELETE REQUESTS
 router.delete('/delete/:id/:email', deleteQuiz);
 
-
-// UNUSED REQUESTS
-// router.get('/test/all', saySomething);
-// router.post('/auth/signin', login);
-// router.get('/authenticated', verifyJWT, authenticated);
 
 module.exports = router;

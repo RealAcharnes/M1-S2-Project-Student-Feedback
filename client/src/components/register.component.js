@@ -203,6 +203,7 @@ export default class Register extends Component {
                     <div className="form-group">
                       <label htmlFor="firstname" style={{marginTop: "20px", color:"black"}}><strong>Prenom</strong></label>
                       <Input
+                          type="text"
                           size="small"
                           name="firstname"
                           value={this.state.firstname}
@@ -216,6 +217,7 @@ export default class Register extends Component {
                     <div className="form-group">  
                       <label htmlFor="lastname" style={{marginTop: "10px", color:"black"}}><strong>Nom</strong></label>
                       <Input
+                            type="text"
                             size="small"
                             name="lastname"
                             value={this.state.lastname}
@@ -229,6 +231,7 @@ export default class Register extends Component {
                     <div className="form-group">    
                       <label htmlFor="email" style={{marginTop: "10px", color:"black"}}><strong>Email</strong></label>
                       <Input
+                            type="email"
                             size="small"
                             name="email"
                             onChange={this.onChangeEmail}

@@ -134,9 +134,9 @@ export default class Login extends Component {
               <p>C'est génial que tu sois de retour</p>
 
               <div style={{marginTop: "50px"}}>
-                {/* <FormLabel style={{marginTop: "30px", color:"black"}}><strong >Email</strong></FormLabel> */}
                 <label htmlFor="email" style={{marginTop: "30px", color:"black"}}><strong>Email de l'utilisateur</strong></label>
                 <input
+                      type="email"
                       size="small"
                       onChange={this.onChangeEmail}
                       value={this.state.email}
@@ -144,7 +144,6 @@ export default class Login extends Component {
                       className="form-control"
                       required 
                   />
-                {/* <FormLabel style={{marginTop: "30px", color:"black"}}><strong >Password</strong></FormLabel> */}
                 <label htmlFor="password" style={{marginTop: "30px", color:"black"}}><strong>Mot de passe</strong></label>
                 <input
                       type="password"
@@ -158,7 +157,6 @@ export default class Login extends Component {
                   />
                 </div>  
                 <div>
-                {/* <span style={{float:"left", marginTop: "30px", marginBottom: "30px"}}>Remember me?</span> */}
                 <span style={{width: "100%", float:"right", marginTop: "30px", marginBottom: "30px"}}>Mot de passe oublié ?</span>
                 </div>
                 <div style={{marginTop: "15px", width: "100%"}}>
@@ -183,48 +181,8 @@ export default class Login extends Component {
               float="left"
             />
 
-              {/* <label htmlFor="email">Email de l'utilisateur</label>
-              <Input
-                type="email"
-                className="form-control"
-                name="email"
-                value={this.state.email}
-                onChange={this.onChangeEmail}
-                validations={[required]}
-              /> */}
             </div>
 
-            {/* <div className="form-group">
-              <label htmlFor="password">Mot de passe</label>
-              <Input
-                type="password"
-                className="form-control"
-                name="password"
-                value={this.state.password}
-                onChange={this.onChangePassword}
-                validations={[required]}
-              />
-            </div> */}
-{/* 
-            <div className="form-group">
-              <button
-                className="btnn"
-                disabled={this.state.loading}
-              >
-                {this.state.loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
-                <span>Se connecter</span>
-              </button>
-            </div> */}
-{/* 
-            {this.state.message && (
-              <div className="form-group">
-                <div className="alert alert-danger" role="alert">
-                  {this.state.message}
-                </div>
-              </div>
-            )} */}
             <CheckButton
               style={{ display: "none" }}
               ref={c => {

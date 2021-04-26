@@ -132,7 +132,6 @@ class MyForm extends Component {
     super(props);
     this.onChangeQuestion = this.onChangeQuestion.bind(this);
     this.onClickAddExplanation = this.onClickAddExplanation.bind(this);
-    // console.log(this.props.delete)
     this.state = {
       explanations: false,
       delete : this.props.delete
@@ -158,10 +157,6 @@ class MyForm extends Component {
     });
   }
 
-  deleteQuiz(){
-    console.log(this.props)
-    // this.props.delete();
-  }
   
   createExplanationUI(){
     return(
@@ -292,13 +287,11 @@ export default class BoardAdmin extends Component {
     }
 
     axios.get(`https://neuroeducation-feedback.herokuapp.com/api/studentQuizzes/${user.message.email}`).then((response) => {
-            console.log(response.data.quizzes);
             if((response.data.quizzes).length ){
                 this.setState({
                   allQuizzes: response.data.quizzes,
                   displayQuizzes: true
                 });
-                // console.log(response.data.quizzes)
             }
             else{  
                 this.setState({
@@ -363,8 +356,6 @@ export default class BoardAdmin extends Component {
       quiz_idd,
     ).then(
       response => {
-        // console.log(response.data.created_by);
-        // console.log()
         this.setState({
           displayQuiz: true,
           laststate: this.state.displayQuizzes,
@@ -455,19 +446,17 @@ export default class BoardAdmin extends Component {
 
   allowQuiz = (message) => {
     let allow = this.state.toggle
-    // console.log(allow)
     const quiz_id = this.state.currentQuiz.quiz_id;
     axios.post(`https://neuroeducation-feedback.herokuapp.com/api/allowQuiz/${quiz_id}` , {
       allow
     })
     .then((response) => {
-      // console.log(response.data);
       let success;
       if(allow){
         success = allow
       }
       else{
-        success=allow
+        success=false;
       }
       this.setState({
         message: message,
@@ -477,9 +466,6 @@ export default class BoardAdmin extends Component {
       })
     })
     .catch(function (err) {
-        // this.setState({
-        //   toggle: !this.state.toggle
-        // });
         console.log(err.response.data.message|| err.response);
     });
     
@@ -522,14 +508,11 @@ export default class BoardAdmin extends Component {
       updated_questions.push({question_id:i, question_title: id, question_options : expArr})
     }
 
-    // console.log(updated_questions)
     const quiz_id = document.getElementById("quiz_id").value;
-    // console.log(quiz_id)
     axios.post(`https://neuroeducation-feedback.herokuapp.com/api/updateQuiz/${quiz_id}` , {
       updated_questions
     })
     .then((response) => {
-      // console.log(response.data);
       this.setState({
         message: "Quiz Updated",
         open: true,
@@ -561,7 +544,6 @@ export default class BoardAdmin extends Component {
         const email = this.state.currentQuiz.created_by;
         axios.delete(`https://neuroeducation-feedback.herokuapp.com/api/delete/${id}/${email}`)
         .then((res) => {
-            // console.log(res)
             this.setState({
               open: true,
               message: "Quiz Deleted",
@@ -569,7 +551,6 @@ export default class BoardAdmin extends Component {
               successful:null,
               allQuizzes : this.state.allQuizzes.filter((question) => question.quiz_id !== id)
             })
-            // setallQuizzes(allQuizzes.filter((question) => question._id !== id))
         })
         .catch(err => {
             console.log(err); 
@@ -590,12 +571,6 @@ export default class BoardAdmin extends Component {
         })
 
         this.backToQuizzes()
-    // this.setState({
-    //   open: true,
-    //   message: "Not Functional Yet",
-    //   danger: true,
-    //   successful:null
-    // })
   }
 
   editQuiz=()=>{
@@ -679,12 +654,6 @@ export default class BoardAdmin extends Component {
 
     PostForm.submit(this.state.title, currentUser.message.email, this.state.questions).then(
       (response) => {
-        // this.props.history.push({
-        //   pathname: "/postSubmitForm",
-        //   state:{quizMdp: response.quizMdp}
-        // })
-        // window.location.reload();
-      //  console.log(response);
         this.setState({
           message: 'Quiz submitted',
           submitted: true,
@@ -813,22 +782,14 @@ export default class BoardAdmin extends Component {
                         <div className="row" >
                             {allQuizzes && allQuizzes.map((quiz, index) => (
                                 <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4"  onClick= {()=>this.getQuiz(quiz.quiz_id)}> 
-                                    {/* <NoteCard note={quiz.quiz_id}  handleDelete={"no delete"} color={'#4257b2'}/> */}
-
-                                    <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}}  >
+                                    <Card className="card" elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}}  >
                                         <CardHeader
                                               avatar={
                                                   (<Avatar  style={{backgroundColor: "#4257b2"}}>
                                                       {quiz.quiz_id[0].toUpperCase()}
                                                   </Avatar>)
                                           }
-                                              // action={ handleDelete==="no delete" ? ("") :
-                                              //     (<IconButton style={{color: "#4257b2"}}>
-                                              //         <DeleteOutlined />
-                                              //     </IconButton>)
-                                              // }
                                               title={quiz.quiz_id}
-                                              // subheader={note}
                                         />
                                         <CardContent>
                                             <Typography variant="body2" color="textSecondary">
@@ -843,22 +804,6 @@ export default class BoardAdmin extends Component {
                       </div>
                     </div>
                     
-                    {/* <div className={`quiz`} style={{borderRadius: "10px"}}>
-                        <List>
-                        {allQuizzes && allQuizzes.map((quiz, index) => (
-                            <ListItem button  onClick= {()=>this.getQuiz(quiz.quiz_id)}>
-                                <ListItemIcon>
-                                    <BookOutlined />
-                                </ListItemIcon>
-                                <ListItemText primary={
-                                    <h4>
-                                    {quiz.quiz_id} 
-                                    </h4>
-                                }/>
-                            </ListItem>
-                        ))}
-                        </List>
-                    </div> */}
                 </div>
             )}
             {(displayQuizzes===false) && (

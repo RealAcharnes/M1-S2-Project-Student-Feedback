@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Link} from "react-router-dom";
 
 import clsx from 'clsx';
@@ -30,9 +30,6 @@ export default function TemporaryDrawer(props) {
     right: false,
   });
 
-  useEffect(() => {
-      // console.log(props)
-  }, [props])
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

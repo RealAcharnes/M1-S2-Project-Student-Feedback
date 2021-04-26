@@ -20,13 +20,10 @@ const mystyle ={
       setData(response.data)
     })
   }, [])
-  const log = () => {
-      console.log(props)
-  }
+
 
   return (
       <div style={mystyle}>
-          <button onClick={()=>log()}>LOG</button>
           <a href="/">
         <span role="img" aria-label="about us">&#x1f481;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;</span>
         About us

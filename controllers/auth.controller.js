@@ -3,18 +3,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
-const {
-    createJWT, createVerificationJWT
- } = require("../utils/auth.util"); 
+const {createJWT, createVerificationJWT} = require("../utils/auth.util"); 
 const Quiz = require('../models/Quiz');
-const Q = require('../models/Q');
 const History = require('../models/history');
 
+const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
- const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
- exports.signup = (req, res, next) => {
-
+// SIGNUP/REGISTER API... 
+exports.signup = (req, res) => {
   function makeid(length) {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -36,8 +32,6 @@ const History = require('../models/history');
     roles = ["ROLE_STUDENT"]
   }
   
-  // console.log(firstname,lastname,email,password,roles);
-
   let errors = [];
   if (!firstname) {
     errors.push("prénom obligatoire");
@@ -58,9 +52,9 @@ const History = require('../models/history');
     errors.push("confirmation du mot de passe requise");
   }
   if (password != password_confirmation) {
-    errors.push("password mismatch" );
+    errors.push("inadéquation du mot de passe" );
   }
-  // console.log(errors)
+
   if (errors.length > 0) {
     return res.status(422).json({ message: errors.toString() });
   }
@@ -71,8 +65,6 @@ const History = require('../models/history');
          return res.status(423).json({ message:  "l'email exite déjà" });
       }
       else {
-        // console.log('No User found')
-
         let token = createVerificationJWT(
           firstname,
           lastname,
@@ -82,19 +74,17 @@ const History = require('../models/history');
           '20m'
         );
 
-        // console.log(token)
-
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           host: 'smtp.gmail.com',
           auth: {
-            user: 'neuroeducationfeedback@gmail.com',
-            pass: 'Project20neuroeducation'
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
           }
         });
         
         const mailOptions = {
-          from: 'neuroeducationfeedback@gmail.com',
+          from: process.env.EMAIL,
           to: email,
           subject: "Lien d'activation du compte",
           html: `<p>Veuillez cliquer <a href="https://neuroeducation-feedback.herokuapp.com/verifyAccount/${token}">Ici</a> pour vérifier votre compte</p>`
@@ -115,42 +105,15 @@ const History = require('../models/history');
             console.log('Email sent: ' + info.response);
           }
         });
-        // const user = new User({
-        //    firstname: firstname,
-        //    lastname: lastname,
-        //    email: email.toLowerCase(),
-        //    password: password,
-        //    roles : roles,
-        //    quizzes : []
-        //  });
-
-
-        // bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
-        //     if (err) throw err;
-        //     user.password = hash;
-        //     user.save()
-        //     .then(response => {
-        //       res.status(200).json({
-        //         success: true,
-        //         message: response,
-        //         mdpTmp: password,
-        //       })
-        //     })
-        //     .catch(err => {
-        //       res.status(500).json({
-        //         message: err 
-        //       });
-        //     });
-        //   });
-        // });
      }
   }).catch(err =>{
       res.status(500).json({
         message:  'Quelque chose a mal tourné'
       });
   })
-}
+};
 
+// VERIFY ACCOUNT API
 exports.verifyAccount =(req, res) => {
   const {token} = req.body
 
@@ -205,13 +168,16 @@ exports.verifyAccount =(req, res) => {
      
     })
   }
+  else{
+    return res.status(423).json({ message:  "Lien incorrect ou expiré. Veuillez recréer votre compte" });
+  }
 
 
 
-}
+};
 
 
-  exports.signin = (req, res) => {
+exports.signin = (req, res) => {
     let { email, password } = req.body;
     email = email.toLowerCase();
     let errors = [];
@@ -274,71 +240,10 @@ exports.verifyAccount =(req, res) => {
       success: false, 
       message: err });
   });
-}
+};
 
-
-exports.question = (req, res, next) => {
-    let { question, desc } = req.body;
-    
-    let errors = [];
-    if (!question) {
-      errors.push("required" );
-    }
-    if (!desc) {
-        errors.push("required" );
-      }
-   
-    if (errors.length > 0) {
-      return res.status(422).json({ errors: errors });
-    }
-    
-   Quiz.findOne({question: question})
-     .then(quiz=>{
-        if(quiz){
-           return res.status(422).json({ errors: [{ quiz: "La question existe déjà" }] });
-        }
-        else {
-           const quiz = new Quiz({
-             question: question,
-             desc: desc,
-           });
-
-           quiz.save()
-           .then(response => {
-              res.status(200).json({
-                success: true,
-                message: response
-              })
-           })
-           .catch(err => {
-             res.status(500).json({
-                message: err 
-             });
-          });
-       }
-    }).catch(err =>{
-        res.status(500).json({
-          message: 'Something went wrong' 
-        });
-    })
-  }
-
-  exports.findAll = (req, res) => {
-    const question = req.query.question;
-    var condition = question ? { question: { $regex: new RegExp(question), $options: "i" } } : {};
-  
-    Quiz.find(condition)
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Une erreur s'est produite lors de la récupération des Quiz."
-        });
-      });
-  };
-
-  exports.findAllQ = (req, res) => {
+//FIND ALL QUIZZES
+exports.findAllQ = (req, res) => {
     const quiz = req.query.quiz;
     var condition = quiz ? { quiz: { $regex: new RegExp(quiz), $options: "i" } } : {};
   
@@ -351,9 +256,9 @@ exports.question = (req, res, next) => {
           message: "Une erreur s'est produite lors de la récupération des Quiz."
         });
       });
-  };
+};
 
-  exports.findAllAnsweredQuizzes = (req, res) => {
+exports.findAllAnsweredQuizzes = (req, res) => {
     const answer = req.query.quiz_id;
     var condition = answer ? { answer: { $regex: new RegExp(answer), $options: "i" } } : {};
   
@@ -366,7 +271,7 @@ exports.question = (req, res, next) => {
           message:  "Une erreur s'est produite lors de la récupération des Quiz Réponses."
         });
       });
-  };
+};
 
 // Find a single Quiz with an id
 exports.searchQuiz = async (req, res) => {
@@ -511,6 +416,7 @@ exports.studentAnswers = (req, res) => {
     });
 };
 
+// FIND ALL QUIZZES ANSWERED BY STUDENT
 exports.findStudentQuizzes = (req, res) => {
   const student_id = req.params.id;
 
@@ -530,6 +436,7 @@ exports.findStudentQuizzes = (req, res) => {
     });
 };
 
+// FIND ALL QUIZZES CREATED BY TEACHER
 exports.findTeachersQuizzes = (req, res) => {
   const teacher_id = req.params.id;
 
@@ -548,10 +455,10 @@ exports.findTeachersQuizzes = (req, res) => {
     });
 };
 
+// UPDATE QUIZ API
 exports.updateQuiz = (req, res) => {
   const quiz_id = req.params.id;
   const updated_questions = req.body.updated_questions;
-  console.log(updated_questions)
   Quiz.updateOne(
     {quiz_id: quiz_id},
     {
@@ -573,11 +480,11 @@ exports.updateQuiz = (req, res) => {
     });
 };
 
+// ALLOW QUIZ TO BE TAKEN API
 exports.allowQuiz = (req, res) => {
   const quiz_id = req.params.id;
   const allowData = req.body.allow;
-  console.log(allowData);
-  console.log(quiz_id)
+
   Quiz.updateOne(
     {quiz_id: quiz_id},
     {
@@ -601,16 +508,12 @@ exports.allowQuiz = (req, res) => {
 
   // Delete a Quiz with the specified id in the request
 exports.deleteQuiz = (req, res) => {
-  // console.log(req);
   const id = req.params.id;
   const email = req.params.email;
-  // console.log(email);
 
   Quiz.deleteOne({ quiz_id: id})
     .then(data => {
       if (!data) {
-        // console.log("No quiz");
-
         res.status(404).json({
           message: [{error : "Cannot delete Quiz with id=${id}. Maybe Quiz was not found!"}]
         });
@@ -637,14 +540,13 @@ exports.deleteQuiz = (req, res) => {
     });
 };
 
+// API FOR SUBMITTING STUDENT ANSWERS
 exports.history = async (req,res) => {
   let {quiz_id , quiz_title, quiz_answers } = req.body.answers;
   let student_id = quiz_answers.student_id;
 
   let errors = [];
   let messages = [];
-
-  // console.log('quiz:' +quiz_title);
 
   //CHECK IF QUIZ IS ALLOWED
   let teacher = await Quiz.findOne({quiz_id : quiz_id})
@@ -653,14 +555,13 @@ exports.history = async (req,res) => {
   let find_quiz = await History.findOne({quiz_id})
   // FIND THE STUDENT SUBMITTING THE QUIZ
   let find_student_history = await User.findOne({"email" : student_id})
+  // CHECK IF STUDENT HAS TAKEN QUIZ ALREADY
   let checkExisting = await User.findOne({"email" : student_id, "quizzes.quiz_id" : quiz_id})
 
-  console.log(teacher);
-
-  // console.log(checkExisting)
   if(allow === null){
     return res.status(500).json({
-    message: "Quiz is not opened for answering... Please contact "+ teacher.created_by
+      // QUIZ NOT OPENED
+    message: "Le questionnaire n'est pas ouvert pour répondre... Veuillez contacter "+ teacher.created_by
     })
   }
   else{
@@ -750,7 +651,6 @@ exports.history = async (req,res) => {
         return res.status(200).json({ 
           success: true,
           message: messages,
-          line: 578 
         });
       }
     } 
@@ -797,7 +697,6 @@ exports.history = async (req,res) => {
           return res.status(200).json({ 
             success: true,
             message: messages,
-            line: 625
           });
         }
       }
@@ -826,22 +725,6 @@ exports.history = async (req,res) => {
             line: 654
           });
         });
-
-        
-        // SEND HEADERS TO THE FRONTEND
-        // if (errors.length > 0) {
-        //   return res.status(422).json({ 
-        //     message: errors 
-        //   });
-        // }
-        // else{
-        //   return res.status(200).json({ 
-        //     success: true,
-        //     message: messages,
-        //     line: 662
-        //   });
-        // }
-
       }
     }  
 
@@ -851,7 +734,8 @@ exports.history = async (req,res) => {
 
 }
 
-exports.submitTeacherForm = async (req, res, next) => {
+//API FOR SUBMITTING CREATED QUIZZES
+exports.submitTeacherForm = async (req, res) => {
   let { title, created_by, questions  } = req.body;
 
   function makeid(length) {
@@ -866,7 +750,7 @@ exports.submitTeacherForm = async (req, res, next) => {
    const quizboolean = true;
   //  while(quizboolean === true ){
   //     const quiz_id = makeid(6);
-  //     // console.log(quiz_id);
+  //     console.log(quiz_id);
 
   //     Quiz.findOne(quiz_id) 
   //     .then(find_quiz => {
@@ -895,7 +779,6 @@ exports.submitTeacherForm = async (req, res, next) => {
    if (errors.length > 0) {
      return res.status(422).json({ errors: errors });
    }
-   console.log(title);
    const quiz = new Quiz({
       quiz: title,
       quiz_id: quiz_id,
@@ -903,17 +786,9 @@ exports.submitTeacherForm = async (req, res, next) => {
       allow: false,
       questions: questions
     });
-    console.log(quiz);
     let findTeacher =  await User.findOne({email: created_by})
     quiz.save()
-    .then(response => {
-      // console.log("line 785")
-      // res.status(200).json({
-      // success: true,
-      // message: response,
-      // quizMdp: quiz_id
-      // })
-      
+    .then(response => {      
       if(findTeacher){
         findTeacher.quizzes.push({
           quiz_id: quiz_id,
@@ -922,7 +797,6 @@ exports.submitTeacherForm = async (req, res, next) => {
    
         findTeacher.save()
         .then(findTeacherResponse => {
-          console.log("line 794")
           return res.status(200).json({
           success: true,
           message: response,
@@ -930,14 +804,12 @@ exports.submitTeacherForm = async (req, res, next) => {
           })
         })
         .catch(error => {
-          console.log("line 809")
           res.status(500).json({
             message:  error 
          });
         })
       }
       else{
-        console.log("line 816")
         res.status(422).json({
           message:  "You are not a Teacher" 
        });
@@ -945,7 +817,6 @@ exports.submitTeacherForm = async (req, res, next) => {
 
     })
     .catch(err => {
-      console.log("line 824")
       res.status(500).json({
          message:  err 
       });
@@ -969,30 +840,30 @@ exports.submitTeacherForm = async (req, res, next) => {
 
 };
 
-exports.changePassword = async (req, res, next) => {
-
+// API FOR CHANGING USER PASSWORD
+exports.changePassword = async (req, res) => {
   let { email, old_password, password, password_confirmation} = req.body;
       
   let errors = [];
   if (!old_password) {
-    errors.push({ old_password: "old password required" });
+    errors.push({ old_password: "ancient mot de passe requise" });
   }
   if (!email) {
-    errors.push({ email: "email required" });
+    errors.push({ email: "email obligatoire" });
   }
   if (!emailRegexp.test(email)) {
-    errors.push({ email: "email invalid" });
+    errors.push({ email: "email non valide" });
   }
   if (!password) {
-    errors.push({ password: "password required" });
+    errors.push({ password: "mot de passe requise" });
   }
   if (!password_confirmation) {
     errors.push({
-      password_confirmation: "password confirmation required",
+      password_confirmation: "confirmation du mot de passe requise",
     });
   }
   if (password != password_confirmation) {
-    errors.push({ password: "password mismatch" });
+    errors.push({ password: "inadéquation du mot de passe" });
   }
   if (errors.length > 0) {
     return res.status(422).json({ message: errors });
@@ -1004,7 +875,7 @@ exports.changePassword = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message:  "User (email) not found",
+        message:  "Utilisateur (email) non trouvé",
       });
     } 
     else {
@@ -1013,13 +884,12 @@ exports.changePassword = async (req, res, next) => {
           if (!isMatch) {
             return res.status(400).json({ 
             success: false, 
-            message: "incorrect password" 
+            message: "mot de passe incorrect" 
             });
           }
 
           bcrypt.genSalt(10, function(err, salt) { bcrypt.hash(password, salt, function(err, hash) {
             if (err) throw err;
-            // console.log(typeof user) 
             User.updateOne({email: user.email}, {password : hash})
             .then(response => {
               res.status(200).json({
@@ -1043,4 +913,4 @@ exports.changePassword = async (req, res, next) => {
         });
     }
 
-}
+};

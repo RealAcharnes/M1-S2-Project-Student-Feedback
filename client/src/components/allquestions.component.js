@@ -31,7 +31,6 @@ const AllQuestions = () => {
     // LOAD ALL QUIZZES FROM DATABASE ON PAGE REFRESH AND SET RESPONSE INTO AN ARRAY
     useEffect(() => {
         Axios.get('https://neuroeducation-feedback.herokuapp.com/api/findAllQ').then((response) => {
-        //   console.log(response.data);
           setallQuizzes(response.data) 
           setShowSpinner(false);
         })
@@ -43,11 +42,9 @@ const AllQuestions = () => {
 
     // SET SELECTED(CLICKED) QUIZ
     const setActiveQuiz = (quiz, index) => {
-        // console.log(quiz)
         setcurrentQuiz(quiz);
         setdisplayQuizzes(false);
         setdisplayQuiz(true);
-        
     };
 
     const backToQuizzes = () => {
@@ -67,11 +64,9 @@ const AllQuestions = () => {
     const setradio = (id , answer) => {
         let checkedArray = checkedItems.map(x => {return {...x}})
         const find_question = checkedArray.find(a => a.question_answer_id === id);
-        // console.log(find_question)
         if(find_question) {
             checkedArray.find(a => a.question_answer_id === id).answer = answer;
             setradioOptions((state) => {
-                // console.log(state);
                 return {
                     ...state,
                     [id] : answer
@@ -81,7 +76,6 @@ const AllQuestions = () => {
         }
         else{
         setradioOptions((state) => {
-            console.log(state);
             return {
                 ...state,
                 [id] : answer
@@ -102,7 +96,6 @@ const AllQuestions = () => {
     const setCheckbox = (value, checked, question_id, question_title, quiz_id) => {
         let checkedArray = checkedItems.map(x => {return {...x}})
         const find_question = checkedArray.find(a => a.question_answer_id === question_id);
-        console.log(find_question)
         if(find_question) {
             checkedArray.find(a => a.question_answer_id === question_id).explanation = value;
             setCheckedItems(checkedArray);
@@ -122,15 +115,9 @@ const AllQuestions = () => {
     //             student_answers : checkedItems
     //         }
     //     }
-    //     console.log("current: ", currentQuiz);
-
-    //     console.log("Radio Answer: ", radioOptions);
-    //     console.log("CheckedItems: ", checkedItems);
-    //     console.log("Final: ", answers);
     //     Axios.post('https://neuroeducation-feedback.herokuapp.com/api/history', {
     //         answers
     //       }).then((res) => {
-    //             console.log(res);
     //             if(res){
     //                 //   window.location.reload(false);
     //                 setmessage('You submitted Quiz as Admin or Teacher... Please Delete from the answers page else Stats will be affected');
@@ -140,7 +127,6 @@ const AllQuestions = () => {
 
     //             }
     //       }).catch(error => {
-    //             console.log(error);
     //             const errMessage =
     //             (error.response.data.message[0].password || (error.response &&
     //               error.response.data &&
@@ -156,20 +142,6 @@ const AllQuestions = () => {
     // }
 
 
-
-    //DELETE SLECTED QUIZ WITH THE QUIZ ID FROM DAATABASE
-    // const onDelete = (id) => {
-    //     Axios.delete(`https://neuroeducation-feedback.herokuapp.com/api/delete/${id}`)
-    //     .then((res) => {
-    //         console.log(res)
-    //         setallQuizzes(allQuizzes.filter((question) => question._id !== id))
-    //     })
-    //     .catch(err => {
-    //         console.log(err); 
-    //     });
-    // }; 
-
-
     return (
         <div >
             {/* html for spinner */}
@@ -179,15 +151,12 @@ const AllQuestions = () => {
             </div>
             }
             {!showSpinner && displayQuizzes && (<div  style={{borderRadius: "10px", marginTop: "10px"}}>
-                <List>
-                    {/* <h4></h4> */}
                     <div >      
                       <div className="col-xs-12 col-sm-12 col-md-12">
                           <Title data='Liste de quiz' />
                         <div className="row" >
                             {displayQuizzes && allQuizzes && allQuizzes.map((quiz, index) => (
                                 <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4" onClick= {() => setActiveQuiz(quiz, index)} style={{paddingTop: "10px"}}> 
-                                    {/* <NoteCard note={quiz.quiz_id}  handleDelete={"no delete"} color={'#4257b2'}/> */}
                                     <FlippyItems
                                     frontSide={
                                         <Card 
@@ -201,7 +170,6 @@ const AllQuestions = () => {
                                               }
         
                                                   title={quiz.quiz_id}
-                                                  // subheader={note}
                                             />
                                             <CardContent>
                                                 <Typography variant="body2" color="textSecondary">
@@ -222,7 +190,6 @@ const AllQuestions = () => {
                                               }
         
                                                   title={quiz.quiz_id}
-                                                  // subheader={note}
                                             />
                                             <CardContent>
                                                 <Typography variant="body2" color="textSecondary">
@@ -238,19 +205,7 @@ const AllQuestions = () => {
                         </div>
                       </div>
                     </div>
-                    {/* { displayQuizzes && allQuizzes && allQuizzes.map((quiz, index) => (
-                        <ListItem button onClick= {() => setActiveQuiz(quiz, index)} >
-                            <ListItemIcon>
-                                <BookOutlined />
-                            </ListItemIcon>
-                            <ListItemText primary={
-                                <h4> 
-                                    {quiz.quiz} {''} 
-                                </h4>
-                            } />
-                        </ListItem>
-                    ))} */}
-                </List>
+
             </div>)}
 
             <div>
@@ -311,7 +266,6 @@ const AllQuestions = () => {
                     </div>
                 ) }
             </div>
-            {/* <Button disableElevation variant="contained" onClick={submitAnswers}>Soumettre les réponses</Button> */}
 
         </div>
     )

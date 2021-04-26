@@ -47,14 +47,11 @@ const classes = useStyles();
 
   useEffect(() => {
     api.getDashboard().then((response) => {
-        // console.log(response)
       setData(response.data.some)
     })
   }, [])
 
-  const log = () =>{
-      console.log(data)
-  }
+
 
   const routeChange = (path, item) =>{
     let newPath = path;
@@ -64,27 +61,16 @@ const classes = useStyles();
 
   return (
       <div style={mystyle}>
-          <button onClick={()=>log()}>LOG</button>
 
           <div className="row">
                 { data && data.map(item => (
                     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
                         <Card className={classes.root} style={{height:280, padding: "20px", "margin-bottom": "10px"}}>
                             <CardActionArea>
-                                {/* <CardMedia
-                                className={classes.media}
-                                image="/static/images/cards/contemplative-reptile.jpg"
-                                title="Contemplative Reptile"
-                                /> */}
+
                                 <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" >
-                                    {/* <div className="row" >
-                                        hii
-                                    {Parser(item.icon)}
-                                    </div> */}
                                     {item._decorated.name}
-                                    {/* {item.icon} */}
-                                    {/* <StorageIcon style={{color:"green",  float:"right"}} fontSize="large" /> */}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
                                 {item._decorated.name+' Resource in the database is shd.ksnkjsfmsfsdlfm.msf/sf/smf/sfns/.,fsmdfsn/s,fmsfms,msfnslkf.'}

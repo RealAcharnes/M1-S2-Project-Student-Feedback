@@ -19,7 +19,10 @@ import LineLabels from './LineLabels';
 import LineChart from './LineChart';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
+import FlippyItems from './Flippy';
+import Tooltip from '@material-ui/core/Tooltip';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -79,16 +82,20 @@ const BoardUser = () => {
   const [actualQuiz, setactualQuiz] = useState([]);
   const [displayMain, setdisplayMain] = useState(true);
   const [displayLineChart, setDisplayLineChart] = useState(false);
+  const [displayCurrentQuiz, setdisplayCurrentQuiz] = useState(false);
 
   
 
   const evolution = () => {
     setdisplayMain(false);
     setDisplayLineChart(true);
+    setdisplayCurrentQuiz(false);
   }
   const goBack = () => {
-    setDisplayLineChart(false);
     setdisplayMain(true);
+    setdisplayAllAnswered(true);
+    setDisplayLineChart(false);
+    setdisplayCurrentQuiz(false);
   }
 
   const classes = useStyles();
@@ -135,27 +142,21 @@ const BoardUser = () => {
     
     // setdisplayQuizzes(null);
 
-// GET ACTUAL QUESTIONS FROM DATABASE
-SearchService.searchQuiz(
-    quiz.quiz_id,
-  ).then(
-    response => {
-    //   console.log(response.data);
-    //   setsuccessful(true);
-      setactualQuiz(response.data);
-    })
-    .catch(
-    error => {
-    //   console.log(error.response);
-      const resMessage =
-        (error.response && error.response.data && error.response.data.message) 
-        || error.message || error.toString();
-
-    //   setmessage(resMessage);
-    //   setsuccessful(false);
-    }
-  );
-  };
+    // GET ACTUAL QUESTIONS FROM DATABASE
+    SearchService.searchQuiz(
+        quiz.quiz_id,
+      ).then(
+        response => {
+          setactualQuiz(response.data);
+        })
+        .catch(
+        error => {
+          const resMessage =
+            (error.response && error.response.data && error.response.data.message) 
+            || error.message || error.toString();
+        }
+      );
+      };
 
 
   // LOAD ALL QUIZZES ANSWERED BY CURRENT STUDENT FROM DATABASE 
@@ -163,20 +164,12 @@ SearchService.searchQuiz(
   useEffect(() => {
     const student_id = currentUser.message.email;
     axios.get(`https://neuroeducation-feedback.herokuapp.com/api/studentQuizzes/${student_id}`).then((response) => {
-      console.log(response.data.quizzes);
       setallQuizzes(response.data.quizzes) 
     })
     .catch(function (err) {
         seterrorMessage(err.response);
     });
   }, [currentUser]);
-
-  // SET SELECTED(CLICKED) QUIZ
-  // const setActiveQuiz = (quiz, index) => {
-    // console.log(quiz)
-    // setcurrentQuiz(quiz);
-    // setcurrentIndex(index)
-  // };
 
   const onChangeSearch = (e) =>{
     setsearch(e.target.value)
@@ -194,11 +187,9 @@ SearchService.searchQuiz(
     const setradio = (id , answer) => {
       let checkedArray = checkedItems.map(x => {return {...x}})
       const find_question = checkedArray.find(a => a.question_answer_id === id);
-      console.log(find_question)
       if(find_question) {
           checkedArray.find(a => a.question_answer_id === id).answer = answer;
           setradioOptions((state) => {
-              console.log(state);
               return {
                   ...state,
                   [id] : answer
@@ -208,7 +199,6 @@ SearchService.searchQuiz(
       }
       else{
       setradioOptions((state) => {
-          console.log(state);
           return {
               ...state,
               [id] : answer
@@ -229,7 +219,6 @@ SearchService.searchQuiz(
     const setCheckbox = (value, checked, question_id, question_title, quiz_id) => {
       let checkedArray = checkedItems.map(x => {return {...x}})
       const find_question = checkedArray.find(a => a.question_answer_id === question_id);
-      console.log(find_question)
       if(find_question) {
           checkedArray.find(a => a.question_answer_id === question_id).explanation = value;
           setCheckedItems(checkedArray);
@@ -239,16 +228,10 @@ SearchService.searchQuiz(
 
   // SUBMIT ANSWERS TO THE BACKEND
   const submitAnswers = () =>{
-    // setmessage("");
-    // setsuccessful(false);
-    // setdisplayAllAnswered(false);
-    const timestamp = Date.now(); // This would be the timestamp you want to format
+    const timestamp = Date.now();
     const formatedTimestamp = new Intl.DateTimeFormat('en-US', {year: 'numeric',
                               month: '2-digit',day: '2-digit', hour: '2-digit', 
                               minute: '2-digit', second: '2-digit'}).format(timestamp);
-    console.log(new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',
-                day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'})
-                .format(timestamp));
     const answers = {
         quiz_id : currentQuiz.quiz_id,
         quiz_title : currentQuiz.quiz,
@@ -261,24 +244,13 @@ SearchService.searchQuiz(
 
 
     if((currentQuiz.questions).length !== (answers.quiz_answers.student_answers).length){
-      // setmessage(null);
-      // setsuccessful(null);
-      // setdisplayAllAnswered(false);
-      console.log((currentQuiz.questions).length);
-      console.log((answers.quiz_answers.student_answers).length);
       setvalidate(true);
-      // setmessage('Please answer all quizzes');
-              // setsuccessful(false);
-              return setvalidate(true);
+      return setvalidate(true);
     }
 
-    console.log("Radio Answer: ", radioOptions);
-    console.log("CheckedItems: ", checkedItems);
-    console.log("Final: ", answers);
     axios.post('https://neuroeducation-feedback.herokuapp.com/api//history', {
         answers
       }).then((res) => {
-          console.log(res);
           if(res){
               //   window.location.reload(false);
               setcurrentQuiz(null);
@@ -293,7 +265,6 @@ SearchService.searchQuiz(
       }).catch(err => {
           setcurrentQuiz(null)  
           setsuccessful(false);
-          console.log(err.response.data.message|| err.response.data.message[0].error);   
           setmessage(err.response.data.message|| err.response.data.message[0].error);
                  
       });
@@ -307,7 +278,6 @@ SearchService.searchQuiz(
     e.preventDefault();
     setmessage("");
     setsuccessful(false);
-    setdisplayAllAnswered(false);
 
     // this.form.validateAll();
 
@@ -315,9 +285,10 @@ SearchService.searchQuiz(
       search,
     ).then(
       response => {
-        console.log(response.data);
+        setdisplayAllAnswered(false);
         setsuccessful(true);
         setcurrentQuiz(response.data);
+        setdisplayCurrentQuiz(true);
       })
       .catch(
       error => {
@@ -332,6 +303,7 @@ SearchService.searchQuiz(
     );}
     
   }
+
 
   return (
     <div>
@@ -367,14 +339,14 @@ SearchService.searchQuiz(
                       </div>
                     )}
                     <form id ="form" >
-                      <TextField
+                      <input
                           onChange={onChangeSearch}
                           id="commonSearchTerm"
-                          variant="outlined"
-                          fullWidth
+                          class="input-field" 
+                          placeholder="Entrez un code de quiz valide..."
                           required 
                       />
-                      <button id="searchButton" onClick={handleSearch}>Recherche</button>
+                      <button id="searchButton" class="input-field" onClick={handleSearch}>Rechercher</button>
                     </form>
                   </div>
       
@@ -387,28 +359,73 @@ SearchService.searchQuiz(
                         <div className="row" >
                             {allQuizzes && allQuizzes.map((quiz, index) => (
                                 <div key={index} className="col-xs-12 col-sm-12 col-md-6 col-lg-4"> 
-                                    {/* <NoteCard note={quiz.quiz_id}  handleDelete={"handleDelete"} color={'#'+Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}/> */}
-                                    <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}} onMouseOver={() => setActiveQuiz(quiz, index)} onClick={evolution} >
-                                              <CardHeader
-                                                    avatar={
-                                                        (<Avatar  style={{backgroundColor: "#4257b2"}}>
-                                                            {quiz.quiz_id[0].toUpperCase()}
-                                                        </Avatar>)
+                                    {/* <Card className="card" elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}} onMouseOver={() => setActiveQuiz(quiz, index)} onClick={evolution} >
+                                      <CardHeader
+                                            avatar={
+                                                (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                    {quiz.quiz_id[0].toUpperCase()}
+                                                </Avatar>)
+                                        }
+                                            title={quiz.quiz_id}
+                                      />
+                                      <CardContent>
+                                          <Typography variant="body2" color="textSecondary">
+                                              {quiz.quiz_id}
+                                          </Typography>
+                                      </CardContent>
+                                    </Card> */}
+
+                                  <FlippyItems     
+                                frontSide={
+                                    <div key={index}  > 
+                                        <Card 
+                                        elevation={1} 
+                                        style={{ padding: "20px", "margin-bottom": "10px"}}
+                                        onMouseOver={() => setActiveQuiz(quiz, index)}
+                                        >
+                                            <CardHeader
+                                                avatar={
+                                                    (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                        {quiz.quiz_id[0].toUpperCase()}
+                                                    </Avatar>)
                                                 }
-                                                    // action={ handleDelete==="no delete" ? ("") :
-                                                    //     (<IconButton style={{color: "#4257b2"}}>
-                                                    //         <DeleteOutlined />
-                                                    //     </IconButton>)
-                                                    // }
-                                                    title={quiz.quiz_id}
-                                                    // subheader={note}
-                                              />
-                                              <CardContent>
-                                                  <Typography variant="body2" color="textSecondary">
-                                                      {quiz.quiz_id}
-                                                  </Typography>
-                                              </CardContent>
-                                          </Card> 
+                                                title={quiz.quiz_id}
+                                                // subheader={note}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="body2" color="textSecondary">
+                                                {quiz.quiz_id}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+
+                                </div> 
+                                }
+                                backSide={
+                                    <div key={index}  > 
+                                        <Card elevation={1} style={{ padding: "20px", "margin-bottom": "10px"}}  >
+                                            <CardHeader
+                                                avatar={
+                                                    (<Avatar  style={{backgroundColor: "#4257b2"}}>
+                                                        {quiz.quiz_id[0].toUpperCase()}
+                                                    </Avatar>)
+                                                }
+                                                title={quiz.quiz_id}
+                                            />
+                                            <CardContent>
+                                                <div style={{float:"right", color:"#4257b2"}}> 
+                                                    <Tooltip title="Cliquez pour les statistiques">
+                                                        <IconButton  onClick={evolution} style={{float:"right", color:"#4257b2"}}>
+                                                            <EqualizerIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                </div> 
+                                }
+                            />
+
                                 </div> 
                             ))}
                         </div>
@@ -417,68 +434,17 @@ SearchService.searchQuiz(
                   )}
                 </div>
               )}
-      
-              {/* <div className={!successful || message ? "card card-container" : ""}>
-                  {(!successful || displayAllAnswered)  && (
-                    <div >
-                      <div className="form-group">
-                        <label htmlFor="search">Search for Quiz</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="search"
-                          value={search}
-                          onChange={onChangeSearch}
-                          validations={[required, vsearch]}
-                        />
-                      </div>
-      
-                      <div className="form-group">
-                        <button className="btn btn-primary btn-block"  onClick={handleSearch}>Search Quiz</button>
-                      </div>
-                    </div>
-                  )}
-                  {message && (
-                    <div className="form-group">
-                      <div
-                        className={
-                          successful
-                            ? "alert alert-success"
-                            : "alert alert-danger"
-                        }
-                        role="alert"
-                      >
-                        {message}
-                      </div>
-                    </div>
-                  )}
-                </div> */}
               </div>
-      
-              {/* <div className="col-xs-12 col-sm-12 col-md-6">
-                <div className={!successful || message ? "card card-container" : ""}>
-                  {(displayAllAnswered || !successful )  && allQuizzes && (
-                    <div >
-                      <h4>Quiz déjà répondus</h4>
-                      <div className={`quiz`} >
-                          {allQuizzes && allQuizzes.map((quiz, index) => (
-                              <h4 
-                              onClick= {() => setActiveQuiz(quiz, index)}
-                              > {quiz.quiz_id} 
-                              </h4>
-                          ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div> */}
             </div>
       )}
 
 
       <div >
-        {currentQuiz && (
-          <div className="container-questions"> 
+        {(displayCurrentQuiz && currentQuiz) && (
+          <div className="container-questions">
+            <IconButton  onClick={()=>goBack()} style={{float:"left", color:"#4257b2"}}>
+                <ArrowBackIcon />
+            </IconButton> 
             { validate &&
                 <Snackbar anchorOrigin={{ vertical :'top', horizontal: 'center' }}open={validate} autoHideDuration={6000} onClose={()=>handleClose()}>
                 <Alert onClose={()=>handleClose()} severity="error">
@@ -550,28 +516,28 @@ SearchService.searchQuiz(
           }
       </div>
       {displayLineChart && (
-                            <div>
-                             <IconButton  onClick={()=>goBack()} style={{float:"left", color:"#4257b2"}}>
-                                <ArrowBackIcon />
-                            </IconButton>
-                            <Grid container spacing={3}>
-                                {(lineArray.length && displayLineChart) && lineArray[0].map((attempt, index) => (
-                                    <Grid item md={6} sm={12} lg={4} >
-                                        <Card elevation={2}>
-                                            <CardHeader
-                                                title={<Typography style={{fontSize: "1rem"}} color="textSecondary" variant="h6" component="p">{actualQuiz ? (`Q${index + 1}. `+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}</Typography>}
-                                                subheader={<div style={{fontSize: "0.8rem"}}>Oui-4 Plutot Oui-3 Plutot Non-2 Non-1</div>}
-                                            />
-                                            <CardContent>
-                                                <LineChart labels={LineLabels(lineArray.length)} data={getLineData(lineArray, index)} />
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                            </div>
-                           
-                        )}
+        <div>
+          <IconButton  onClick={()=>goBack()} style={{float:"left", color:"#4257b2"}}>
+            <ArrowBackIcon />
+        </IconButton>
+        <Grid container spacing={3}>
+            {(lineArray.length && displayLineChart) && lineArray[0].map((attempt, index) => (
+                <Grid item md={6} sm={12} lg={4} >
+                    <Card elevation={2}>
+                        <CardHeader
+                            title={<Typography style={{fontSize: "1rem"}} color="textSecondary" variant="h6" component="p">{actualQuiz ? (`Q${index + 1}. `+actualQuiz.questions[index].question_title) : (`Question ${index + 1}`)}</Typography>}
+                            subheader={<div style={{fontSize: "0.8rem"}}>Oui-4 Plutot Oui-3 Plutot Non-2 Non-1</div>}
+                        />
+                        <CardContent>
+                            <LineChart labels={LineLabels(lineArray.length)} data={getLineData(lineArray, index)} />
+                        </CardContent>
+                    </Card>
+                </Grid>
+            ))}
+        </Grid>
+        </div>
+        
+      )}
   </div>
   );
 }
