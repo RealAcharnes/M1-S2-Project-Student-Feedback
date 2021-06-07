@@ -84,13 +84,13 @@ exports.signup = (req, res) => {
           service: 'gmail',
           host: 'smtp.gmail.com',
           auth: {
-            user: process.env.EMAIL,
+            user: 'neuroeducationfeedback@gmail.com',
             pass: process.env.PASSWORD
           }
         });
         
         const mailOptions = {
-          from: process.env.EMAIL,
+          from: 'neuroeducationfeedback@gmail.com',
           to: email,
           subject: "Lien d'activation du compte",
           html: `<p>Veuillez cliquer <a href="https://neuroeducation-feedback.herokuapp.com/verifyAccount/${token}">Ici</a> pour vérifier votre compte</p>`
