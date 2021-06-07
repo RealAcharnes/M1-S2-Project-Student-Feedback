@@ -1,4 +1,5 @@
 # Web application for student help
+[Cliquer ici pour rejoindre le site](https://neuroeducation-feedback.herokuapp.com/)
 
 <div align="center">
     <img src=".github/media/brain-storming.png" width="50%">
