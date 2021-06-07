@@ -166,7 +166,7 @@ class MyForm extends Component {
               <div key={indexExplanation} className="form-group">
                 <label htmlFor="explanation">Explication</label>
                   <form id ="formExp" >
-                    <TextField
+                    <input
                         onChange={this.onChangeExplanation.bind(this, indexExplanation)}
                         id="inputExp"
                         variant="outlined"
@@ -208,7 +208,7 @@ class MyForm extends Component {
               </span>
 
             </label>
-            <Input
+            <input
               type="text"
               className="form-control"
               name="question"
@@ -850,7 +850,7 @@ export default class BoardAdmin extends Component {
                     <div className="form-group">
                       <center><h5 >{currentQuiz.quiz}</h5><br/></center>
 
-                      <Input
+                      <input
                               type="text"
                               className="form-control"
                               name="quiz_id"
@@ -861,7 +861,7 @@ export default class BoardAdmin extends Component {
                       {currentQuiz.questions && currentQuiz.questions.map((questions, indexx) => (
                         <div key={questions.question_id}>
                           <label htmlFor={'Q'+questions.question_id}><strong>{'Question : '+questions.question_id}</strong></label>
-                          <Input
+                          <input
                               type="text"
                               className="form-control"
                               name={'Q'+questions.question_id}
@@ -875,7 +875,7 @@ export default class BoardAdmin extends Component {
                           {questions.question_options && questions.question_options.map((options, index) => ( 
                             <div>
                             <label htmlFor={'Q'+questions.question_id+'E'+options.options_id}><strong>{'Explanation : '+options.options_id}</strong></label>
-                            <Input
+                            <input
                             type="text"
                             className="form-control"
                             name={'Q'+questions.question_id+'E'+options.options_id}
@@ -949,7 +949,7 @@ export default class BoardAdmin extends Component {
               <div className="container">
                 <div className="form-group">
                   <label htmlFor="form-title"><strong>Titre du formulaire</strong></label>
-                    <Input
+                    <input
                       type="text"
                       className="form-control"
                       name="form-title"

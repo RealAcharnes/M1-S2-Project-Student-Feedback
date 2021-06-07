@@ -8,10 +8,10 @@ const path = require('path');
 
 
 //import routes
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/routes');
 const { db } = require('./models/User');
 
-// Create a new express application named 'app'
+// Create a new express instance named 'app'
 const app = express();
 
 // Set our backend port to be either an environment variable or port 5000

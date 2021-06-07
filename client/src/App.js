@@ -3,7 +3,6 @@ import { Component } from "react";
 import { Switch, Route, Link, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-// import axios from 'axios';
 
 import AuthService from "./services/auth.service";
 
@@ -70,10 +69,6 @@ class App extends Component {
         showAdminBoard: user.message.roles.includes("ROLE_ADMIN"),
         showTeacherBoard: user.message.roles.includes("ROLE_TEACHER"),
         navList : [
-        // {
-        //   title : "Accueil",
-        //   link : '/home'
-        // },
         (user && !user.message.roles.includes("ROLE_TEACHER")) && {
           title : "Utilisateur",
           link : '/user',
@@ -137,7 +132,6 @@ class App extends Component {
   }
 
   render() {
-    //  const { currentUser, showAdminBoard, showTeacherBoard, admin, adminTeacher, allUsers, student, navList } = this.state;
     const { currentUser, admin, adminTeacher, allUsers, studentAdmin, navList } = this.state;
 
     return (
@@ -152,78 +146,6 @@ class App extends Component {
             <Link to={"/"} className="navbar-brand">
               Outsmarted
             </Link>
-            
-            {/* <div className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link to={"/home"} className="nav-link">
-                  <Button color="primary">Accueil</Button>
-                </Link>
-              </li>
-
-              {(showAdminBoard || showTeacherBoard) && (
-                <div>
-                  <li className="nav-item">
-                    <Link to={"/admin"} className="nav-link">
-                      <Button color="primary">Ajouter un quiz</Button>
-                    </Link>
-                  </li>
-                </div> 
-              )}
-
-              {showAdminBoard && (
-                <li className="nav-item">
-                  <Link to={"/adminRegister"} className="nav-link">
-                    <Button color="primary">Ajouter un compte</Button>
-                  </Link>
-                </li>
-              )}
-
-              {(showAdminBoard || showTeacherBoard) && (
-                <div>
-                  <li className="nav-item">
-                    <Link to={"/questions"} className="nav-link">
-                      <Button color="primary">Page Questions</Button>
-                    </Link>
-                  </li>
-                </div> 
-              )}
-
-              {(showAdminBoard || showTeacherBoard) && (
-                <div>
-                  <li className="nav-item">
-                    <Link to={"/answers"} className="nav-link">
-                      <Button color="primary">Page Réponses</Button>
-                    </Link>
-                  </li>
-                </div> 
-              )}
-
-              {(showAdminBoard || showTeacherBoard) && (
-                <div>
-                  <li className="nav-item">
-                    <Link to={"/students"} className="nav-link">
-                      <Button color="primary">Page Etudiants</Button>
-                    </Link>
-                  </li>
-                </div> 
-              )}
-
-                {(currentUser && !showTeacherBoard) && (
-                <li className="nav-item">
-                  <Link to={"/user"} className="nav-link">
-                    <Button color="primary">Répondre à un quiz</Button>
-                  </Link>
-                </li>
-                )}
-
-                {showAdminBoard  && (
-                <li className="nav-item">
-                  <Link to={"/dashboard"} className="nav-link">
-                    <Button color="primary">TEST</Button>
-                  </Link>
-                </li>
-                )}
-            </div> */}
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">
@@ -232,11 +154,7 @@ class App extends Component {
                     <Button color="primary" style={{textTransform: "none"}}><AccountCircleIcon style={{color:"white",  float:"right"}} fontSize="large" />{currentUser.message.firstname}</Button>
                   </Link>
                 </li>
-                {/* <li className="nav-item">
-                  <Link to={"/home"} className="nav-link" onClick={this.logOut}>
-                    <Button color="primary">Déconnexion</Button>
-                  </Link>
-                </li> */}
+
               </div>
             ) : (
               <div className="navbar-nav ml-auto">
@@ -257,7 +175,7 @@ class App extends Component {
 
             </nav>
 
-            <div className="container pt-3">
+            <div className="container">
               <Switch>
                 <Route exact path="/" component={Home2} />
                 <Route exact path="/home" component={Home2} />

@@ -5,11 +5,9 @@ import {useState, useEffect} from 'react';
 import axios from "axios";
 import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import { FormControlLabel, makeStyles } from '@material-ui/core';
-import { Grid, TextField, Button } from "@material-ui/core";
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { makeStyles } from '@material-ui/core';
+import { Grid } from "@material-ui/core";
 import "bootstrap/dist/css/bootstrap.min.css";
-import NoteCard from "./NoteCard";
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -22,32 +20,11 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import FlippyItems from './Flippy';
 import Tooltip from '@material-ui/core/Tooltip';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-
-const required = (value) => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                Ce champ est obligatoire !
-            </div>
-        );
-    }
-};
-
-const vsearch = value => {
-  if (value.length < 6) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Le nom d'utilisateur doit contenir entre 6 charactères.
-      </div>
-    );
-  }
-};
 
 const useStyles = makeStyles((theme) =>({ //makeStyles returns to us a hook, the hook subsequently gives us the object. NB: react hooks must begin with the word 'use'
   field: {
