@@ -100,7 +100,9 @@ exports.signup = (req, res) => {
           if (error) {
             console.log(error);
             res.status(500).json({
-              message: "Impossible d'envoyer le courriel de vérification à "+email,
+              // message: "Impossible d'envoyer le courriel de vérification à "+email,
+              message: error.toString(),
+
             })
           } else {
             res.status(200).json({
