@@ -87,7 +87,7 @@ exports.signup = (req, res) => {
           secure: true,
           auth: {
             user: 'neuroeducationfeedback@gmail.com',
-            pass: process.env.PASSWORD
+            pass: 'oaqzpjvnpyvniety'
           }
         });
         
