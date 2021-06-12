@@ -177,9 +177,25 @@ export default class Register extends Component {
     return (
       <div className="col-md-12">
         <div >
+        {this.state.message && (
+          <div>
+            <Snackbar anchorOrigin={{ vertical :'center', horizontal: 'center' }}open={this.state.open} autoHideDuration={600000} onClose={()=>this.handleClose()}>
+            <Alert onClose={()=>this.handleClose()} severity={this.state.successful ? "success" : "warning" }>
+              {this.state.message}
+            </Alert>
+          </Snackbar>
+
+          <FormCard
+          content={
+            <div className="formCardContent" style={{padding: "35px", paddingTop:"50px", paddingBottom:"60px", clear: "both" }}>
+                <p>{this.state.message}</p>
+            </div>
+          }
+          />
+          </div>
+        )}
 
           <Form
-            onSubmit={this.handleRegister}
             ref={c => {
               this.form = c;
             }}
@@ -191,7 +207,7 @@ export default class Register extends Component {
                   content={
                 <div className="formCardContent" style={{padding: "35px", paddingTop:"50px", paddingBottom:"60px", clear: "both" }}>
                   {this.state.message && (
-                      <Snackbar anchorOrigin={{ vertical :'center', horizontal: 'center' }}open={this.state.open} autoHideDuration={6000} onClose={()=>this.handleClose()}>
+                      <Snackbar anchorOrigin={{ vertical :'center', horizontal: 'center' }}open={this.state.open} autoHideDuration={600000} onClose={()=>this.handleClose()}>
                       <Alert onClose={()=>this.handleClose()} severity={this.state.successful ? "success" : "warning" }>
                         {this.state.message}
                       </Alert>
@@ -288,6 +304,7 @@ export default class Register extends Component {
                     <button 
                     className="btnn" 
                     style={{"font-size" : "12px", width: "45%"}} 
+                    onClick={this.handleRegister}
                     >
                       CREER EN COMPTE
                       </button>
