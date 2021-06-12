@@ -181,7 +181,7 @@ export default class Register extends Component {
           <div>
             <Snackbar anchorOrigin={{ vertical :'center', horizontal: 'center' }}open={this.state.open} autoHideDuration={600000} onClose={()=>this.handleClose()}>
             <Alert onClose={()=>this.handleClose()} severity={this.state.successful ? "success" : "warning" }>
-              {this.state.message }{this.state.successful}
+              {this.state.message}
             </Alert>
           </Snackbar>
 
