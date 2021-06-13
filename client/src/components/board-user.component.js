@@ -152,7 +152,7 @@ const BoardUser = () => {
       .catch(function (err) {
         seterrorMessage(err.response);
       });
-  }, [currentUser]);
+  }, [currentUser, allQuizzes]);
 
   const onChangeSearch = (e) => {
     setsearch(e.target.value);
@@ -605,7 +605,7 @@ const BoardUser = () => {
               ))}
             <div className="form-group">
               <button className="btnn" onClick={submitAnswers}>
-                Submit Answers
+                Soumettre les réponses
               </button>
             </div>
           </div>
