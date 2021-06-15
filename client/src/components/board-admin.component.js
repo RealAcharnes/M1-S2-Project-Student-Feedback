@@ -817,10 +817,6 @@ export default class BoardAdmin extends Component {
 
         {(displayQuizzes === false || displayQuizzes) && (
           <div className="">
-
-
-            {allQuizzes && displayQuizzes && (
-              <div>
                 <SnackbarContent
                   style={{
                     backgroundColor: 'white',
@@ -835,6 +831,10 @@ export default class BoardAdmin extends Component {
                     </button>
                   }
                 />
+
+            {allQuizzes && displayQuizzes && (
+              <div>
+
                 <div>
                   <div className="col-xs-12 col-sm-12 col-md-12">
                     <Title
