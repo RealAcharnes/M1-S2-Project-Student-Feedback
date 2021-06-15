@@ -768,14 +768,15 @@ export default class BoardAdmin extends Component {
 
         {(displayQuizzes===false || displayQuizzes) && 
           <div className="">
+            <SnackbarContent 
+            style={{backgroundColor: "white", position:"sticky", top: "0", "z-index": "999"}}
+            message="" 
+            action={<button className="btnn" 
+            onClick={this.createQuiz}>Créer un nouveau Quiz</button>} 
+            />
             {(allQuizzes && displayQuizzes) && (
                 <div >
-                    <SnackbarContent 
-                    style={{backgroundColor: "white", position:"sticky", top: "0", "z-index": "999"}}
-                    message="" 
-                    action={<button className="btnn" 
-                    onClick={this.createQuiz}>Créer un nouveau Quiz</button>} 
-                    />
+
                     <div >      
                       <div className="col-xs-12 col-sm-12 col-md-12">
                         <Title data={'Quizs Créé par : ' + currentUser.message.firstname + " "+ currentUser.message.lastname} />
@@ -808,10 +809,10 @@ export default class BoardAdmin extends Component {
             )}
             {(displayQuizzes===false) && (
               <div>
-                  <h4>{'Quizs Créé par : '}</h4>
-                  <h4> {currentUser.message.firstname+" "+currentUser.message.lastname}</h4>
+                  {/* <h4>{'Quizs Créé par : '}</h4>
+                  <h4> {currentUser.message.firstname+" "+currentUser.message.lastname}</h4> */}
                   <div className={`quiz`} style={{borderRadius: "10px"}}>
-                      <h4>Vous n'avez pas créé de quiz</h4>
+                      <h4>Pas de quizz crée pour le moment</h4>
                   </div>
               </div>
             )}
