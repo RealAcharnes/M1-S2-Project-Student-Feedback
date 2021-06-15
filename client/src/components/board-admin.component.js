@@ -817,6 +817,8 @@ export default class BoardAdmin extends Component {
 
         {(displayQuizzes === false || displayQuizzes) && (
           <div className="">
+
+
             {allQuizzes && displayQuizzes && (
               <div>
                 <SnackbarContent
@@ -887,15 +889,15 @@ export default class BoardAdmin extends Component {
             )}
             {displayQuizzes === false && (
               <div>
-                <h4>{'Quizs Créé par : '}</h4>
+                {/* <h4>{'Quizs Créé par : '}</h4>
                 <h4>
                   {' '}
                   {currentUser.message.firstname +
                     ' ' +
                     currentUser.message.lastname}
-                </h4>
+                </h4> */}
                 <div className={`quiz`} style={{ borderRadius: '10px' }}>
-                  <h4>Vous n'avez pas créé de quiz</h4>
+                  <h4>Pas de quizz créé pour le moment</h4>
                 </div>
               </div>
             )}
