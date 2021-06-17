@@ -56,7 +56,6 @@ const BoardUser = () => {
     setdisplayCurrentQuiz(false);
   };
 
-
   // CREATE ARRAY CONTAINING ANSWERS OF EACH ATTEMPT
   const getAllAns = (quiz) => {
     let array = [];
@@ -116,7 +115,7 @@ const BoardUser = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-          console.log(resMessage);
+        console.log(resMessage);
       });
   };
 
@@ -269,27 +268,25 @@ const BoardUser = () => {
 
     // this.form.validateAll();
 
-    
-      SearchService.searchQuiz(search)
-        .then((response) => {
-          setdisplayAllAnswered(false);
-          setsuccessful(true);
-          setcurrentQuiz(response.data);
-          setdisplayCurrentQuiz(true);
-        })
-        .catch((error) => {
-          console.log(error.response);
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+    SearchService.searchQuiz(search)
+      .then((response) => {
+        setdisplayAllAnswered(false);
+        setsuccessful(true);
+        setcurrentQuiz(response.data);
+        setdisplayCurrentQuiz(true);
+      })
+      .catch((error) => {
+        console.log(error.response);
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-          setmessage(resMessage);
-          setsuccessful(false);
-        });
-    
+        setmessage(resMessage);
+        setsuccessful(false);
+      });
   };
 
   return (
