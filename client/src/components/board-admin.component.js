@@ -26,7 +26,6 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-
 const required = (value) => {
   if (!value) {
     return (
@@ -252,8 +251,8 @@ export default class BoardAdmin extends Component {
           onclick: () =>
             this.setConfirmDialog(
               'delete',
-              'Are you sure you want to Delete this Quiz?',
-              'Question will be deleted permanently but no with Students Records',
+              'Êtes-vous sûr de vouloir supprimer ce quiz ?',
+              'La question sera supprimée définitivement mais pas avec les dossiers des étudiants',
               this.deleteQuiz
             ),
         },
@@ -437,7 +436,7 @@ export default class BoardAdmin extends Component {
         }
       }
       updated_questions.push({
-        question_id: (i+1),
+        question_id: i + 1,
         question_title: id,
         question_options: expArr,
       });
@@ -522,82 +521,82 @@ export default class BoardAdmin extends Component {
       edit: true,
       displayQuiz: false,
     });
-
   };
 
   addQuestionEdit = () => {
-    this.setState(
-      prevState => ({ currentQuizQuestions: [...prevState.currentQuizQuestions, 
+    this.setState((prevState) => ({
+      currentQuizQuestions: [
+        ...prevState.currentQuizQuestions,
         {
-          question_id: (this.state.currentQuizQuestions.length + 1),
-          question_title : "",
-          question_options: []
-        }
-      
-      ]})
-  )
-  }
+          question_id: this.state.currentQuizQuestions.length + 1,
+          question_title: '',
+          question_options: [],
+        },
+      ],
+    }));
+  };
 
   deleteQuestionEdit = (index) => {
-    let currentQuizQuestions  = [...this.state.currentQuizQuestions];
+    let currentQuizQuestions = [...this.state.currentQuizQuestions];
     if (index !== -1) {
       currentQuizQuestions.splice(index, 1);
       this.setState({
-        currentQuizQuestions
+        currentQuizQuestions,
       });
     }
-  }
+  };
 
   addExplanationEdit = (index) => {
-    let currentQuizQuestions  = [...this.state.currentQuizQuestions];
-    const indexExplanation = currentQuizQuestions[index].question_options.length;
+    let currentQuizQuestions = [...this.state.currentQuizQuestions];
+    const indexExplanation =
+      currentQuizQuestions[index].question_options.length;
     let alphabet = String.fromCharCode(96 + (indexExplanation + 1));
 
     let newExplanation = currentQuizQuestions[index].question_options;
-    newExplanation.push(
-      {
-        options_id : alphabet,
-        options_text : ""
-      }
-    );
-
-    currentQuizQuestions[index].question_options =  newExplanation;
-    this.setState({
-      currentQuizQuestions 
+    newExplanation.push({
+      options_id: alphabet,
+      options_text: '',
     });
-  } 
 
+    currentQuizQuestions[index].question_options = newExplanation;
+    this.setState({
+      currentQuizQuestions,
+    });
+  };
 
   deleteExplanationEdit = (questionIndex, explanationIndex) => {
-    let currentQuizQuestions  = [...this.state.currentQuizQuestions];
+    let currentQuizQuestions = [...this.state.currentQuizQuestions];
 
     if (explanationIndex !== -1) {
-      currentQuizQuestions[questionIndex].question_options.splice(explanationIndex, 1);
+      currentQuizQuestions[questionIndex].question_options.splice(
+        explanationIndex,
+        1
+      );
       this.setState({
-        currentQuizQuestions
+        currentQuizQuestions,
       });
     }
-  }
+  };
 
-  handleOnchangeExpEdit=(questionIndex, explanationIndex,e)=>{
-    let currentQuizQuestions  = [...this.state.currentQuizQuestions]; 
+  handleOnchangeExpEdit = (questionIndex, explanationIndex, e) => {
+    let currentQuizQuestions = [...this.state.currentQuizQuestions];
 
-    currentQuizQuestions[questionIndex].question_options[explanationIndex].options_text =  e.target.value;
+    currentQuizQuestions[questionIndex].question_options[
+      explanationIndex
+    ].options_text = e.target.value;
     this.setState({
-      currentQuizQuestions 
+      currentQuizQuestions,
     });
-    
-}
+  };
 
-handleOnchangeQuesEdit=(questionIndex,e)=>{
-  let currentQuizQuestions  = [...this.state.currentQuizQuestions]; 
+  handleOnchangeQuesEdit = (questionIndex, e) => {
+    let currentQuizQuestions = [...this.state.currentQuizQuestions];
 
-  currentQuizQuestions[questionIndex].question_title =  e.target.value;
-  this.setState({
-    currentQuizQuestions 
-  });
-  
-}
+    currentQuizQuestions[questionIndex].question_title = e.target.value;
+    this.setState({
+      currentQuizQuestions,
+    });
+  };
 
   handleClose = () => {
     this.setState({
@@ -773,9 +772,8 @@ handleOnchangeQuesEdit=(questionIndex,e)=>{
     const currentQuiz = this.state.currentQuiz;
     const currentQuizQuestions = this.state.currentQuizQuestions;
 
-
     // redirect to post/SubmitForm
-    if (this.state.submitted === true) { 
+    if (this.state.submitted === true) {
       return (
         <Redirect
           to={{
@@ -811,24 +809,23 @@ handleOnchangeQuesEdit=(questionIndex,e)=>{
 
         {(displayQuizzes === false || displayQuizzes) && (
           <div className="">
-                <SnackbarContent
-                  style={{
-                    backgroundColor: 'white',
-                    position: 'sticky',
-                    top: '0',
-                    'zIndex': '999',
-                  }}
-                  message=""
-                  action={
-                    <button className="btnn" onClick={this.createQuiz}>
-                      Créer un nouveau Quiz
-                    </button>
-                  }
-                />
+            <SnackbarContent
+              style={{
+                backgroundColor: 'white',
+                position: 'sticky',
+                top: '0',
+                zIndex: '999',
+              }}
+              message=""
+              action={
+                <button className="btnn" onClick={this.createQuiz}>
+                  Créer un nouveau Quiz
+                </button>
+              }
+            />
 
             {allQuizzes && displayQuizzes && (
               <div>
-
                 <div>
                   <div className="col-xs-12 col-sm-12 col-md-12">
                     <Title
@@ -950,28 +947,36 @@ handleOnchangeQuesEdit=(questionIndex,e)=>{
                         currentQuizQuestions.map((questions, indexx) => (
                           <div key={indexx}>
                             <label htmlFor={'Q' + indexx}>
-                              <strong>
-                                {'Question : ' + (indexx + 1)}
-                              </strong>
-                              <span style={{float: "right"}}>
-                              <Tooltip title="Adjouter une explication">
-                                <IconButton
-                                  onClick={this.addExplanationEdit.bind(this, indexx)}
-                                  style={{ color: '#4257b2', float: 'left', marginBottom: '15px' }} 
-                                >
-                                  <QueueIcon />
-                                </IconButton>
-                              </Tooltip>
-                              
-                              <Tooltip title="Supprimer cette question">
-                                <IconButton
-                                  className="deleteQuestion"
-                                  onClick={this.deleteQuestionEdit.bind(this, indexx)}
-                                  style={{ float: 'right' }}
-                                >
-                                  <DeleteForeverIcon />
-                                </IconButton>
-                              </Tooltip>
+                              <strong>{'Question : ' + (indexx + 1)}</strong>
+                              <span style={{ float: 'right' }}>
+                                <Tooltip title="Adjouter une explication">
+                                  <IconButton
+                                    onClick={this.addExplanationEdit.bind(
+                                      this,
+                                      indexx
+                                    )}
+                                    style={{
+                                      color: '#4257b2',
+                                      float: 'left',
+                                      marginBottom: '15px',
+                                    }}
+                                  >
+                                    <QueueIcon />
+                                  </IconButton>
+                                </Tooltip>
+
+                                <Tooltip title="Supprimer cette question">
+                                  <IconButton
+                                    className="deleteQuestion"
+                                    onClick={this.deleteQuestionEdit.bind(
+                                      this,
+                                      indexx
+                                    )}
+                                    style={{ float: 'right' }}
+                                  >
+                                    <DeleteForeverIcon />
+                                  </IconButton>
+                                </Tooltip>
                               </span>
                             </label>
                             <input
@@ -980,7 +985,10 @@ handleOnchangeQuesEdit=(questionIndex,e)=>{
                               name={'Q' + indexx}
                               id={'Q' + indexx}
                               value={questions.question_title}
-                              onChange = {this.handleOnchangeQuesEdit.bind(this,indexx)}
+                              onChange={this.handleOnchangeQuesEdit.bind(
+                                this,
+                                indexx
+                              )}
                               validations={[required]}
                               autoComplete="off"
                             />
@@ -988,60 +996,63 @@ handleOnchangeQuesEdit=(questionIndex,e)=>{
                             {questions.question_options &&
                               questions.question_options.map(
                                 (options, index) => (
-                                  <div  className="form-group">
-                                    <label
-                                      htmlFor={
-                                        'Q' +
-                                        indexx +
-                                        'E' +
-                                        index
-                                      }
-                                    >
+                                  <div className="form-group">
+                                    <label htmlFor={'Q' + indexx + 'E' + index}>
                                       <strong>
-                                        {'Explanation : ' + String.fromCharCode(96 + (index + 1))}
+                                        {'Explanation : ' +
+                                          String.fromCharCode(96 + (index + 1))}
                                       </strong>
                                     </label>
 
-                                    
                                     <div class="input-group">
-                                     <div style={{width: "85%"}}> 
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      name={
-                                        'Q' +
-                                        indexx +
-                                        'E' +
-                                        String.fromCharCode(96 + (index + 1))
-                                      }
-                                      id={
-                                        'Q' +
-                                        indexx +
-                                        'E' +
-                                        String.fromCharCode(96 + (index + 1))
-                                      }
-                                      value={options.options_text}
-                                      onChange = {this.handleOnchangeExpEdit.bind(this, indexx,index)}
-                                      // validations={[required]}
-                                      // autoComplete="off"
-                                    />
-                                    </div>
-                                    <div>  
-                                    <Tooltip title="Supprimer cette explication">
-                                      <button
-                                        type="button"
-                                        id="buttonExp"
-                                        className="form-control"
-                                        onClick={this.deleteExplanationEdit.bind(
-                                          this,
-                                          indexx,
-                                          index
-                                        )}
-                                      >
-                                        <DeleteForeverIcon style={{ color: 'red' }} />{' '}
-                                      </button>
-                                    </Tooltip>
-                                    </div>
+                                      <div style={{ width: '85%' }}>
+                                        <input
+                                          type="text"
+                                          className="form-control"
+                                          name={
+                                            'Q' +
+                                            indexx +
+                                            'E' +
+                                            String.fromCharCode(
+                                              96 + (index + 1)
+                                            )
+                                          }
+                                          id={
+                                            'Q' +
+                                            indexx +
+                                            'E' +
+                                            String.fromCharCode(
+                                              96 + (index + 1)
+                                            )
+                                          }
+                                          value={options.options_text}
+                                          onChange={this.handleOnchangeExpEdit.bind(
+                                            this,
+                                            indexx,
+                                            index
+                                          )}
+                                          // validations={[required]}
+                                          // autoComplete="off"
+                                        />
+                                      </div>
+                                      <div>
+                                        <Tooltip title="Supprimer cette explication">
+                                          <button
+                                            type="button"
+                                            id="buttonExp"
+                                            className="form-control"
+                                            onClick={this.deleteExplanationEdit.bind(
+                                              this,
+                                              indexx,
+                                              index
+                                            )}
+                                          >
+                                            <DeleteForeverIcon
+                                              style={{ color: 'red' }}
+                                            />{' '}
+                                          </button>
+                                        </Tooltip>
+                                      </div>
                                     </div>
                                   </div>
                                 )
@@ -1052,8 +1063,13 @@ handleOnchangeQuesEdit=(questionIndex,e)=>{
                   </div>
                 </Form>
 
-                <button  className="btnn" style={{backgroundColor: "gray"}} onClick={this.addQuestionEdit}>Ajouter une question</button>
-
+                <button
+                  className="btnn"
+                  style={{ backgroundColor: 'gray' }}
+                  onClick={this.addQuestionEdit}
+                >
+                  Ajouter une question
+                </button>
 
                 <button
                   className="btnn"
@@ -1135,7 +1151,7 @@ handleOnchangeQuesEdit=(questionIndex,e)=>{
                     backgroundColor: 'white',
                     position: 'sticky',
                     top: '0',
-                    'zIndex': '999',
+                    zIndex: '999',
                   }}
                   message="Création de nouvelles questions"
                   action={
