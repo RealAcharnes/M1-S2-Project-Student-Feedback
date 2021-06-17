@@ -1,32 +1,15 @@
 import React, { Component } from "react";
 import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
 import AuthService from "../services/auth.service";
 import FormCard from './formCard'
-import TextField from '@material-ui/core/TextField';
-import FormLabel from '@material-ui/core/FormLabel';
-import { useHistory } from "react-router-dom"
-
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
-
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-
-const required = value => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Ce champ est obligatoire !
-      </div>
-    );
-  }
-};
 
 export default class Login extends Component {
   constructor(props) {

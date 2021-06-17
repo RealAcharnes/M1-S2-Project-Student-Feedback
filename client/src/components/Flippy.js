@@ -1,14 +1,5 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
-import IconButton from '@material-ui/core/IconButton';
-import NoteCard from "./NoteCard";
-import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import Tooltip from '@material-ui/core/Tooltip'; 
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-
-
-
-
 
 const FlippyItems = ({frontSide, backSide}) => {
     return (

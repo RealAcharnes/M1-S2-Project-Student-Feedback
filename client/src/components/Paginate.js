@@ -1,7 +1,7 @@
 import React from 'react';
 import '../paginate.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { List, ListItem, ListItemText, ListItemAvatar, Avatar, Button, IconButton } from '@material-ui/core';
+import {  Avatar, Button} from '@material-ui/core';
 import { useState } from 'react';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';

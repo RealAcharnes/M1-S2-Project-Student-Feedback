@@ -1,21 +1,13 @@
 import {useState, useEffect} from 'react'
 import AuthService from "../services/auth.service";
 import FormCard from './formCard'
-import MuiAlert from '@material-ui/lab/Alert';
-import Snackbar from '@material-ui/core/Snackbar';
 import { useHistory } from "react-router";
 
-
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 
 
 const VerifyAccount = ({match: { params }} ) => {
     const [message, setmessage] = useState('');
-    const [successful, setsuccessful] = useState(false);
     const history = useHistory();
 
 
@@ -24,12 +16,10 @@ const VerifyAccount = ({match: { params }} ) => {
         AuthService.verifyAccount(params.token)
         .then(response=>{
             setmessage(response.data.message);
-            setsuccessful(true);
         })
         .catch(error=>{
             console.log(error)
             setmessage(error.response.data.message|| error.response.data);
-            setsuccessful(false);
         })
     }, [params.token])
 

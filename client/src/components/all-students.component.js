@@ -1,8 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { Avatar, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
-import BookOutlined from '@material-ui/icons/BookOutlined';
-import MoreVert from '@material-ui/icons/MoreVert';
+import { Card, CardContent, CardHeader, Grid, IconButton, Typography } from '@material-ui/core';
 import LineChart from './LineChart';
 import LineLabels from './LineLabels';
 import SearchService from "../services/search.service";
@@ -71,7 +69,7 @@ const AllStudents = () => {
 
       // SET SELECTED(CLICKED) QUIZ
     const setActiveQuiz = (quiz, index) => {
-        setdisplayActiveQuiz(true);
+        // setdisplayActiveQuiz(true);
         setcurrentQuiz(quiz);
         let tempLineArray = [];
         quiz.quiz_answers.forEach((quiz, index) => {
@@ -88,11 +86,11 @@ const AllStudents = () => {
             })
             .catch(
             error => {
-            //   console.log(error.response);
             const resMessage =
                 (error.response && error.response.data && error.response.data.message) 
                 || error.message || error.toString();
 
+            console.log(resMessage);
 
             }
         );
@@ -102,10 +100,6 @@ const AllStudents = () => {
         setcurrentStudent(name);
     };
 
-    const backToAllQuizzes = () => {
-        setdisplayQuizzes(true);
-        setdisplayActiveQuiz(false);
-    }
 
     const evolution = () => {
         if(displayMain===true && displayEvolution===false){

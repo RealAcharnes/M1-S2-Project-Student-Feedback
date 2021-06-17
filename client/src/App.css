@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+
 body {
   background:hsl(210, 36%, 96%);
   height: 100%;
@@ -5,11 +8,25 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   width: 100%;
+  font-family: 'Roboto', 'Poppins', sans-serif;
 }
 
 label {
   display: block;
-  margin-top: 10px;
+  margin-top: 5pxpx;
+}
+
+.menu-background {
+  backdrop-filter: blur(2px);
+  color: #4257b2;
+  font-weight: bold;
+}
+
+.menu-item {
+  font-family: 'Roboto', 'Poppins', sans-serif;
+  color: #4257b2;
+  font-weight: bold;
+  background-color: red;
 }
 
 .card-container.card {

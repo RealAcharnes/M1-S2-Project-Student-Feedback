@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-import { Button, Snackbar, Switch } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { Snackbar, Switch } from '@material-ui/core';
 import PostForm from '../services/admin-submit-form';
 import AuthService from '../services/auth.service';
 import { Redirect } from 'react-router-dom';
@@ -14,10 +12,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import MenuOption from './menu';
 import EditIcon from '@material-ui/icons/Edit';
-import NoteCard from './NoteCard';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import QueueIcon from '@material-ui/icons/Queue';
-import { TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Card from '@material-ui/core/Card';
@@ -30,86 +26,6 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-// Here is 5 constants related to the visual of our custom button
-const StyledButtonAddExplanation = withStyles({
-  root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    borderRadius: 15,
-    border: 0,
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    margin: '5px 15px',
-  },
-  label: {
-    textTransform: 'none',
-  },
-})(Button);
-
-const StyledButtonAddQuestion = withStyles({
-  root: {
-    background: '#4257b2',
-    borderRadius: 15,
-    border: 0,
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-    // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    margin: '5px 15px',
-  },
-  label: {
-    textTransform: 'none',
-  },
-})(Button);
-
-const StyledButtonDelExplanation = withStyles({
-  root: {
-    background: 'linear-gradient(45deg, #FF8700 30%, #FF1E1E 90%)',
-    borderRadius: 15,
-    border: 0,
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    margin: '5px 15px',
-  },
-  label: {
-    textTransform: 'none',
-  },
-})(Button);
-
-const StyledButtonDelQuestion = withStyles({
-  root: {
-    background: 'linear-gradient(45deg, #FF1D1D 30%, #4C4C4C 90%)',
-    borderRadius: 15,
-    border: 0,
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    margin: '5px 15px',
-  },
-  label: {
-    textTransform: 'none',
-  },
-})(Button);
-
-const StyledButtonSubmit = withStyles({
-  root: {
-    background: 'linear-gradient(45deg, #11FF00 30%, #00FF82 90%)',
-    borderRadius: 15,
-    border: 0,
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    margin: '5px 15px',
-  },
-  label: {
-    textTransform: 'none',
-  },
-})(Button);
 
 const required = (value) => {
   if (!value) {
@@ -322,17 +238,17 @@ export default class BoardAdmin extends Component {
       menuOptions: [
         {
           title: 'Retourner',
-          icon: <ArrowBackIcon fontsize="large" />,
+          icon: <ArrowBackIcon fontSize="large" />,
           onclick: this.backToQuizzes,
         },
         {
           title: 'Éditer',
-          icon: <EditIcon fontsize="large" />,
+          icon: <EditIcon fontSize="large" />,
           onclick: this.editQuiz,
         },
         {
           title: 'Effacer',
-          icon: <DeleteForeverIcon fontsize="large" />,
+          icon: <DeleteForeverIcon fontSize="large" />,
           onclick: () =>
             this.setConfirmDialog(
               'delete',
@@ -374,6 +290,7 @@ export default class BoardAdmin extends Component {
           displayQuiz: true,
           laststate: this.state.displayQuizzes,
           currentQuiz: response.data,
+          currentQuizQuestions: response.data.questions,
           toggle: response.data.allow,
           displayQuizzes: null,
           displayCreate: false,
@@ -498,7 +415,7 @@ export default class BoardAdmin extends Component {
     event.preventDefault();
     let updated_questions = [];
 
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 0; i <= 100; i++) {
       if (document.getElementById('Q' + i) === null) {
         break;
       }
@@ -520,7 +437,7 @@ export default class BoardAdmin extends Component {
         }
       }
       updated_questions.push({
-        question_id: i,
+        question_id: (i+1),
         question_title: id,
         question_options: expArr,
       });
@@ -605,7 +522,82 @@ export default class BoardAdmin extends Component {
       edit: true,
       displayQuiz: false,
     });
+
   };
+
+  addQuestionEdit = () => {
+    this.setState(
+      prevState => ({ currentQuizQuestions: [...prevState.currentQuizQuestions, 
+        {
+          question_id: (this.state.currentQuizQuestions.length + 1),
+          question_title : "",
+          question_options: []
+        }
+      
+      ]})
+  )
+  }
+
+  deleteQuestionEdit = (index) => {
+    let currentQuizQuestions  = [...this.state.currentQuizQuestions];
+    if (index !== -1) {
+      currentQuizQuestions.splice(index, 1);
+      this.setState({
+        currentQuizQuestions
+      });
+    }
+  }
+
+  addExplanationEdit = (index) => {
+    let currentQuizQuestions  = [...this.state.currentQuizQuestions];
+    const indexExplanation = currentQuizQuestions[index].question_options.length;
+    let alphabet = String.fromCharCode(96 + (indexExplanation + 1));
+
+    let newExplanation = currentQuizQuestions[index].question_options;
+    newExplanation.push(
+      {
+        options_id : alphabet,
+        options_text : ""
+      }
+    );
+
+    currentQuizQuestions[index].question_options =  newExplanation;
+    this.setState({
+      currentQuizQuestions 
+    });
+  } 
+
+
+  deleteExplanationEdit = (questionIndex, explanationIndex) => {
+    let currentQuizQuestions  = [...this.state.currentQuizQuestions];
+
+    if (explanationIndex !== -1) {
+      currentQuizQuestions[questionIndex].question_options.splice(explanationIndex, 1);
+      this.setState({
+        currentQuizQuestions
+      });
+    }
+  }
+
+  handleOnchangeExpEdit=(questionIndex, explanationIndex,e)=>{
+    let currentQuizQuestions  = [...this.state.currentQuizQuestions]; 
+
+    currentQuizQuestions[questionIndex].question_options[explanationIndex].options_text =  e.target.value;
+    this.setState({
+      currentQuizQuestions 
+    });
+    
+}
+
+handleOnchangeQuesEdit=(questionIndex,e)=>{
+  let currentQuizQuestions  = [...this.state.currentQuizQuestions]; 
+
+  currentQuizQuestions[questionIndex].question_title =  e.target.value;
+  this.setState({
+    currentQuizQuestions 
+  });
+  
+}
 
   handleClose = () => {
     this.setState({
@@ -779,9 +771,11 @@ export default class BoardAdmin extends Component {
     const displayCreate = this.state.displayCreate;
     const displayQuiz = this.state.displayQuiz;
     const currentQuiz = this.state.currentQuiz;
+    const currentQuizQuestions = this.state.currentQuizQuestions;
+
 
     // redirect to post/SubmitForm
-    if (this.state.submitted === true) {
+    if (this.state.submitted === true) { 
       return (
         <Redirect
           to={{
@@ -822,7 +816,7 @@ export default class BoardAdmin extends Component {
                     backgroundColor: 'white',
                     position: 'sticky',
                     top: '0',
-                    'z-index': '999',
+                    'zIndex': '999',
                   }}
                   message=""
                   action={
@@ -952,21 +946,41 @@ export default class BoardAdmin extends Component {
                         value={currentQuiz.quiz_id}
                         readOnly
                       />
-                      {currentQuiz.questions &&
-                        currentQuiz.questions.map((questions, indexx) => (
-                          <div key={questions.question_id}>
-                            <label htmlFor={'Q' + questions.question_id}>
+                      {currentQuizQuestions &&
+                        currentQuizQuestions.map((questions, indexx) => (
+                          <div key={indexx}>
+                            <label htmlFor={'Q' + indexx}>
                               <strong>
-                                {'Question : ' + questions.question_id}
+                                {'Question : ' + (indexx + 1)}
                               </strong>
+                              <span style={{float: "right"}}>
+                              <Tooltip title="Adjouter une explication">
+                                <IconButton
+                                  onClick={this.addExplanationEdit.bind(this, indexx)}
+                                  style={{ color: '#4257b2', float: 'left', marginBottom: '15px' }} 
+                                >
+                                  <QueueIcon />
+                                </IconButton>
+                              </Tooltip>
+                              
+                              <Tooltip title="Supprimer cette question">
+                                <IconButton
+                                  className="deleteQuestion"
+                                  onClick={this.deleteQuestionEdit.bind(this, indexx)}
+                                  style={{ float: 'right' }}
+                                >
+                                  <DeleteForeverIcon />
+                                </IconButton>
+                              </Tooltip>
+                              </span>
                             </label>
                             <input
                               type="text"
                               className="form-control"
-                              name={'Q' + questions.question_id}
-                              id={'Q' + questions.question_id}
+                              name={'Q' + indexx}
+                              id={'Q' + indexx}
                               value={questions.question_title}
-                              // onChange = {this.onChangeTitle}
+                              onChange = {this.handleOnchangeQuesEdit.bind(this,indexx)}
                               validations={[required]}
                               autoComplete="off"
                             />
@@ -974,39 +988,61 @@ export default class BoardAdmin extends Component {
                             {questions.question_options &&
                               questions.question_options.map(
                                 (options, index) => (
-                                  <div>
+                                  <div  className="form-group">
                                     <label
                                       htmlFor={
                                         'Q' +
-                                        questions.question_id +
+                                        indexx +
                                         'E' +
-                                        options.options_id
+                                        index
                                       }
                                     >
                                       <strong>
-                                        {'Explanation : ' + options.options_id}
+                                        {'Explanation : ' + String.fromCharCode(96 + (index + 1))}
                                       </strong>
                                     </label>
+
+                                    
+                                    <div class="input-group">
+                                     <div style={{width: "85%"}}> 
                                     <input
                                       type="text"
                                       className="form-control"
                                       name={
                                         'Q' +
-                                        questions.question_id +
+                                        indexx +
                                         'E' +
-                                        options.options_id
+                                        String.fromCharCode(96 + (index + 1))
                                       }
                                       id={
                                         'Q' +
-                                        questions.question_id +
+                                        indexx +
                                         'E' +
-                                        options.options_id
+                                        String.fromCharCode(96 + (index + 1))
                                       }
                                       value={options.options_text}
-                                      // onChange = {this.onChangeTitle}
-                                      validations={[required]}
-                                      autoComplete="off"
+                                      onChange = {this.handleOnchangeExpEdit.bind(this, indexx,index)}
+                                      // validations={[required]}
+                                      // autoComplete="off"
                                     />
+                                    </div>
+                                    <div>  
+                                    <Tooltip title="Supprimer cette explication">
+                                      <button
+                                        type="button"
+                                        id="buttonExp"
+                                        className="form-control"
+                                        onClick={this.deleteExplanationEdit.bind(
+                                          this,
+                                          indexx,
+                                          index
+                                        )}
+                                      >
+                                        <DeleteForeverIcon style={{ color: 'red' }} />{' '}
+                                      </button>
+                                    </Tooltip>
+                                    </div>
+                                    </div>
                                   </div>
                                 )
                               )}
@@ -1015,18 +1051,22 @@ export default class BoardAdmin extends Component {
                     </div>
                   </div>
                 </Form>
+
+                <button  className="btnn" style={{backgroundColor: "gray"}} onClick={this.addQuestionEdit}>Ajouter une question</button>
+
+
                 <button
                   className="btnn"
                   onClick={() =>
                     this.setConfirmDialog(
                       'update',
-                      'Do you want to Edit this Quiz?',
-                      'You can edit again',
+                      'Voulez-vous modifier ce questionnaire ?',
+                      'Vous pouvez modifier à nouveau',
                       this.updateQuiz
                     )
                   }
                 >
-                  Update
+                  Modifier
                 </button>
               </div>
             )}
@@ -1095,7 +1135,7 @@ export default class BoardAdmin extends Component {
                     backgroundColor: 'white',
                     position: 'sticky',
                     top: '0',
-                    'z-index': '999',
+                    'zIndex': '999',
                   }}
                   message="Création de nouvelles questions"
                   action={

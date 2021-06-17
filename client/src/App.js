@@ -34,6 +34,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -46,6 +49,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
+    this.moveToProfile = this.moveToProfile.bind(this);
 
     this.state = {
       showAdminBoard: false,
@@ -173,6 +177,26 @@ class App extends Component {
     }
   }
 
+  handleClick = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget
+    })
+  };
+
+  handleClose = (event) => {
+    this.setState({
+      anchorEl: null
+    })
+  };
+
+  moveToProfile = () => {
+    if(this.state.currentUser){
+      console.log('kwaku')
+      return <Redirect to="/home" />;
+    }
+    // return <div>Please login Again</div> 
+  }
+
   render() {
     const {
       currentUser,
@@ -204,7 +228,7 @@ class App extends Component {
             {currentUser ? (
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link to={'/profile'} className="nav-link">
+                  {/* <Link to={'/profile'} className="nav-link">
                     <Button color="primary" style={{ textTransform: 'none' }}>
                       <AccountCircleIcon
                         style={{ color: 'white', float: 'right' }}
@@ -212,7 +236,26 @@ class App extends Component {
                       />
                       {currentUser.message.firstname}
                     </Button>
-                  </Link>
+                  </Link> */}
+
+                  <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick} color="primary">
+                    <AccountCircleIcon
+                      style={{ color: 'white', float: 'right' }}
+                      fontSize="large"
+                    />
+                    {currentUser.message.firstname}
+                  </Button>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={this.state.anchorEl}
+                    keepMounted
+                    open={Boolean(this.state.anchorEl)}
+                    onClose={this.handleClose}
+                    className="menu-background" 
+                  >
+                    <MenuItem  onClick={this.moveToProfile} style={{color:'#4257b2', fontWeight: "bold", fontFamily: "'Roboto', 'Poppins', sans-serif"}}>Profile</MenuItem>
+                    <MenuItem onClick={this.logOut} style={{color:'#4257b2', fontWeight: "bold", fontFamily: "'Roboto', 'Poppins', sans-serif"}}>Deconnexion</MenuItem>
+                  </Menu>
                 </li>
               </div>
             ) : (

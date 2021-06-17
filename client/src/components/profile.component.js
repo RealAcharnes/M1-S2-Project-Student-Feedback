@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import AuthService from "../services/auth.service";
 import ModifyPassword from "./modifyPassword.component";
-import FormCard2 from './formCard2'
-import TextField from '@material-ui/core/TextField';
+import { Redirect } from "react-router-dom"
 
 
 export default class Profile extends Component {
@@ -14,13 +13,27 @@ export default class Profile extends Component {
     };
   }
 
+  logOut() {
+    AuthService.logout();
+    this.setState({
+      currentUser: undefined,
+      showAdminBoard: false,
+      showTeacherBoard: false,
+    });
+    if (!this.state.currentUser) {
+      return <Redirect to="/home" />;
+    }
+  }
+
 
   render() {
     const { currentUser } = this.state;
 
+
+
     return (
       <div className="container">
-        <ModifyPassword currentuser={currentUser} email={currentUser.message.email}/>        
+        <ModifyPassword currentuser={currentUser} email={currentUser.message.email} logOut={this.logOut}/>        
       </div>
     );
   }

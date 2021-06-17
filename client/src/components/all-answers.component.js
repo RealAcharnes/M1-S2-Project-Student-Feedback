@@ -8,14 +8,10 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import SwapHorizRounded from '@material-ui/icons/SwapHorizRounded';
 import BarChart from './BarChart';
-import { Container, List, ListItem, ListItemText } from '@material-ui/core';
+import { Container} from '@material-ui/core';
 import DoughnutChart from './DoughnutChart';
-import BookOutlined from '@material-ui/icons/BookOutlined';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import NoteCard from './NoteCard';
 import Tooltip from '@material-ui/core/Tooltip';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchService from '../services/search.service';
@@ -37,8 +33,6 @@ const AllAnswers = () => {
   const [allExplanations, setAllExplanations] = useState([]);
   const [pieData, setPieData] = useState('Doughnut');
   const [barData, setBarData] = useState('Bar');
-  const [pieTitle, setPieTitle] = useState('Graphique en anneau');
-  const [barTitle, setBarTitle] = useState('Diagramme à bandes');
   const [displayAllQuizzes, setdisplayAllQuizzes] = useState(true);
   const [displayStudentList, setdisplayStudentList] = useState(false);
   const [displayStats, setdisplayStats] = useState(false);
@@ -60,21 +54,21 @@ const AllAnswers = () => {
   const handlePieChartChange = () => {
     if (pieData === 'Doughnut') {
       setPieData('Pie');
-      setPieTitle('Diagramme circulaire');
+      // setPieTitle('Diagramme circulaire');
     }
     if (pieData === 'Pie') {
       setPieData('Doughnut');
-      setPieTitle('Graphique en anneau');
+      // setPieTitle('Graphique en anneau');
     }
   };
   const handleBarChartChange = () => {
     if (barData === 'Bar') {
       setBarData('Horizontal Bar');
-      setBarTitle('Graphique à barres horizontales');
+      // setBarTitle('Graphique à barres horizontales');
     }
     if (barData === 'Horizontal Bar') {
       setBarData('Bar');
-      setBarTitle('Diagramme à bandes');
+      // setBarTitle('Diagramme à bandes');
     }
   };
 
@@ -102,13 +96,14 @@ const AllAnswers = () => {
         setactualQuiz(response.data);
       })
       .catch((error) => {
-        console.log(error.response);
         const resMessage =
           (error.response &&
             error.response.data &&
             error.response.data.message) ||
           error.message ||
           error.toString();
+          console.log(resMessage);
+
       });
   };
 

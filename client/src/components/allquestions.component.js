@@ -1,8 +1,7 @@
 import {useState, useEffect} from 'react';
 import Axios from 'axios';
 // import {FaTimes} from 'react-icons/fa'
-import { List, ListItem, ListItemText, Button, ListItemIcon } from '@material-ui/core';
-import BookOutlined from '@material-ui/icons/BookOutlined';
+import { Button} from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -12,8 +11,6 @@ import { Avatar, Typography } from '@material-ui/core';
 import FlippyItems from './Flippy';
 
 
-import NoteCard from "./NoteCard";
-import Flippy from 'react-flippy/dist/Flippy';
 import {Title} from './Title';
 
 

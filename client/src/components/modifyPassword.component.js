@@ -22,7 +22,8 @@ const ModifyPassword = (props) =>{
     const [email] = useState(props.email)
     const currentUser = props.currentuser;
     const [errors, seterrors] = useState(null);
-    const [open, setopen] = useState(false)
+    const [open, setopen] = useState(false);
+    const logOut = props.logOut
 
 
     const validate = (email, newPw, confirmNewPw) => {
@@ -81,7 +82,7 @@ const ModifyPassword = (props) =>{
 return (
     <div >
         <form
-          onSubmit={(e) => ApplyModifications(e)}
+          onSubmit={(e) => ApplyModifications(e)} 
         >
           <FormCard2
           content={
@@ -93,7 +94,8 @@ return (
               </Snackbar>
               <header className="jumbotron">
                 <h3>
-                    Profile : <strong>{currentUser.message.firstname}{' '}{currentUser.message.lastname}</strong> 
+                    Profile : <strong>{currentUser.message.firstname}{' '}{currentUser.message.lastname}</strong>
+                    <span style={{float: "right"}}><button className="btnn" onClick={logOut}>Deconnexion</button></span> 
                 </h3>
               </header>
 

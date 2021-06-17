@@ -90,9 +90,15 @@ code {
   justify-content: center;
   }
 
+
 #inputExp {
   width: 100%;
 }
+
+.inputExp {
+  width: 100%;
+}
+
 #buttonExp {
   width: 40px;
   border-radius: 0;

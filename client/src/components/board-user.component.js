@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from '@material-ui/core/Card';
@@ -24,23 +23,6 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const useStyles = makeStyles((theme) => ({
-  //makeStyles returns to us a hook, the hook subsequently gives us the object. NB: react hooks must begin with the word 'use'
-  field: {
-    marginTop: 20,
-    marginBottom: 20,
-    display: 'block',
-  },
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-}));
 
 const BoardUser = () => {
   const [search, setsearch] = useState('');
@@ -74,7 +56,6 @@ const BoardUser = () => {
     setdisplayCurrentQuiz(false);
   };
 
-  const classes = useStyles();
 
   // CREATE ARRAY CONTAINING ANSWERS OF EACH ATTEMPT
   const getAllAns = (quiz) => {
@@ -135,6 +116,7 @@ const BoardUser = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
+          console.log(resMessage);
       });
   };
 
@@ -287,7 +269,7 @@ const BoardUser = () => {
 
     // this.form.validateAll();
 
-    {
+    
       SearchService.searchQuiz(search)
         .then((response) => {
           setdisplayAllAnswered(false);
@@ -307,7 +289,7 @@ const BoardUser = () => {
           setmessage(resMessage);
           setsuccessful(false);
         });
-    }
+    
   };
 
   return (
