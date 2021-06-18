@@ -30,7 +30,7 @@ const NoteCard = ({ note, handleDelete,color, avatar, subHeader, content, mouseo
                </CardContent>
            </Card>
         </div>
-     );
+     ); 
 }
  
 export default NoteCard;

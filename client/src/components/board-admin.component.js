@@ -21,6 +21,8 @@ import CardContent from '@material-ui/core/CardContent';
 import { Avatar, Typography } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import { Title } from './Title';
+import Axios from 'axios';
+
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -197,6 +199,7 @@ export default class BoardAdmin extends Component {
       },
       updateTitle: 'Are you sure you want to update?',
       updateSubTitle: 'You will be able to edit again',
+      protect: null
     };
   }
 
@@ -245,17 +248,17 @@ export default class BoardAdmin extends Component {
           icon: <EditIcon fontSize="large" />,
           onclick: this.editQuiz,
         },
-        {
-          title: 'Effacer',
-          icon: <DeleteForeverIcon fontSize="large" />,
-          onclick: () =>
-            this.setConfirmDialog(
-              'delete',
-              'Êtes-vous sûr de vouloir supprimer ce quiz ?',
-              'La question sera supprimée définitivement mais pas avec les dossiers des étudiants',
-              this.deleteQuiz
-            ),
-        },
+        // {
+        //   title: 'Effacer',
+        //   icon: <DeleteForeverIcon fontSize="large" />,
+        //   onclick: () =>
+        //     this.setConfirmDialog(
+        //       'delete',
+        //       'Êtes-vous sûr de vouloir supprimer ce quiz ?',
+        //       'La question sera supprimée définitivement mais pas avec les dossiers des étudiants',
+        //       this.deleteQuiz
+        //     ),
+        // },
       ],
     });
   }
@@ -266,6 +269,7 @@ export default class BoardAdmin extends Component {
       displayQuizzes: null,
       displayCreate: true,
       displayQuiz: false,
+      protectEvolution : false
     });
   };
 
@@ -275,6 +279,7 @@ export default class BoardAdmin extends Component {
       displayCreate: false,
       displayQuiz: false,
       edit: false,
+      protectEvolution : false
     });
   };
 
@@ -308,6 +313,33 @@ export default class BoardAdmin extends Component {
           successful: false,
         });
       });
+
+
+      Axios.get(
+        `https://neuroeducation-feedback.herokuapp.com/api/findOneAnswered/${quiz_idd}`
+      )
+        .then((resp) => {
+          if( resp.data === ""){
+            this.setState({
+              protect : false,
+              showEditInfo: true,
+            })
+
+          }
+          else{
+            this.setState({
+              protectEvolution : true,
+              protect : true,
+            })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          this.setState({
+            protectEvolution : true,
+            protect : true,
+          })
+        });
   };
 
   setConfirmDialog = (type, title, subtitle, onconfirm) => {
@@ -412,6 +444,13 @@ export default class BoardAdmin extends Component {
 
   updateQuiz = (event) => {
     event.preventDefault();
+
+    if(this.state.protect){
+      this.setState({ 
+        protectEvolution : true
+      })
+      return
+    }
     let updated_questions = [];
 
     for (let i = 0; i <= 100; i++) {
@@ -517,6 +556,13 @@ export default class BoardAdmin extends Component {
   };
 
   editQuiz = () => {
+    if(this.state.protect){
+      this.setState({ 
+        protectEvolution : true
+      })
+      return
+    }
+
     this.setState({
       edit: true,
       displayQuiz: false,
@@ -601,6 +647,12 @@ export default class BoardAdmin extends Component {
   handleClose = () => {
     this.setState({
       open: false,
+    });
+  };
+
+  handleEditClose = () => {
+    this.setState({
+      protectEvolution: false,
     });
   };
 
@@ -789,7 +841,7 @@ export default class BoardAdmin extends Component {
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={this.state.open}
-          autoHideDuration={6000}
+          autoHideDuration={60000}
           onClose={() => this.handleClose()}
         >
           <Alert
@@ -799,6 +851,42 @@ export default class BoardAdmin extends Component {
             {this.state.message}
           </Alert>
         </Snackbar>
+
+        {this.state.protectEvolution && (
+          <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={this.state.protectEvolution}
+          autoHideDuration={60000}
+          onClose={() => this.handleEditClose()}
+          >
+            <Alert
+              onClose={() => this.handleEditClose()}
+              severity="warning"
+            >
+              {"Vous ne pouvez pas modifier les questions à ce stade car certains élèves ont déjà répondu au quiz et l'évolution doit être cohérente. Vous pouvez créer un autre quiz avec la nouvelle modification"}
+            </Alert>
+          </Snackbar>
+        )
+        }
+
+        {!this.state.protect && 
+          (
+            <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={(this.state.showEditInfo )}
+            autoHideDuration={60000}
+            onClose={() => this.setState({showEditInfo : false})}
+            >
+              <Alert
+                onClose={() => this.setState({showEditInfo : false})}
+                severity="success"
+              >
+                {"Vous pouvez modifier ce quiz avant d'autoriser les élèves à le faire. Remarque : vous ne pouvez pas modifier les questions une fois qu'au moins un élève a participé au test, afin d'éviter toute incohérence dans l'évolution."}
+              </Alert>
+            </Snackbar>
+          )
+        }
+
 
         {this.state.confirmDialog.isOpen && (
           <ConfirmDialogue

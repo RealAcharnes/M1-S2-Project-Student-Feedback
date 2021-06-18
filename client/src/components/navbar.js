@@ -13,11 +13,21 @@ import MenuIcon from '@material-ui/icons/Menu';
 // import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles({
+  listItemText:{
+    fontSize:'0.9em',//Insert your required size
+    fontFamily: "'Roboto', 'Poppins', sans-serif"
+  },
   list: {
     width: 250,
+    color:'#4257b2', 
+    fontWeight: "bold", 
+    fontFamily: "'Roboto', 'Poppins', sans-serif"
   },
   fullList: {
     width: 'auto',
+        color:'#4257b2', 
+    fontWeight: "bold", 
+    fontFamily: "'Roboto', 'Poppins', sans-serif"
   },
 });
 
@@ -49,22 +59,21 @@ export default function TemporaryDrawer(props) {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
-      // style={{background:"#e6e6d5"}}
     >
 
     <List style={{"paddingTop": "30px", background: "#4257b2"}}>
         <ListItem button key={"home"} style={{color: 'white'}}>
             <ListItemIcon> <MenuIcon style={{color: 'white'}}fontsize="large"/></ListItemIcon>
-            <ListItemText primary={"MENU"} />   
+            <ListItemText primary={"MENU"} classes={{primary:classes.listItemText}}/>   
           </ListItem>
  
       </List>
-      <List >
+      <List>
         {props.lists && (props.lists).map((text, index) => (
          <Link to={text.link} style={{color: '#4257b2', textDecoration: 'none'}}>   
           <ListItem button key={text.title}>
             <ListItemIcon>{text.icon}</ListItemIcon>
-            <ListItemText primary={text.title} />   
+            <ListItemText primary={text.title} classes={{primary:classes.listItemText}}/>   
           </ListItem>
          </Link> 
         ))}
@@ -75,7 +84,7 @@ export default function TemporaryDrawer(props) {
          <Link to={text.link} onClick={text.onclick} style={{color: '#4257b2', textDecoration: 'none'}}>   
             <ListItem button key={text.title}>
                 <ListItemIcon>{text.icon}</ListItemIcon>
-                <ListItemText primary={text.title} />   
+                <ListItemText primary={text.title} classes={{primary:classes.listItemText}}/>   
             </ListItem>
         </Link>
         ))}

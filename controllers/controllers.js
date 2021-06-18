@@ -33,6 +33,21 @@ exports.findAllAnsweredQuizzes = (req, res) => {
     });
 };
 
+exports.findOneAnsweredQuiz = async (req, res) => {
+  const quiz_id = req.params.id;
+  // var condition = answer ? { answer: { $regex: new RegExp(answer), $options: "i" } } : {};
+  console.log(quiz_id)
+  History.findOne({quiz_id : quiz_id})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:  "Une erreur s'est produite lors de la récupération des Quiz Réponses." 
+      });
+    });
+};
+
 // Find a single Quiz with an id
 exports.searchQuiz = async (req, res) => {
 const id = req.params.id;

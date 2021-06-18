@@ -44,6 +44,7 @@ const AllAnswers = () => {
       'https://neuroeducation-feedback.herokuapp.com/api/findAllAnswered'
     )
       .then((response) => {
+        console.log(response.data)
         setallAnswers(response.data);
         setShowSpinner(false);
       })

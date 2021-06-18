@@ -6,6 +6,7 @@ const { signup, signin, question, findAll, deleteQuiz, findAllQ,findStats,
     findStudentQuizzes, changePassword,findAllStudents, studentAnswers, 
     findTeachersQuizzes, updateQuiz, allowQuiz, verifyAccount } 
     = require('../controllers/auth.controller');
+const { findOneAnsweredQuiz } = require('../controllers/controllers');
 
 // POST REQUESTS
 router.post('/signup', signup);
@@ -22,6 +23,7 @@ router.post('/allowQuiz/:id', allowQuiz);
 router.get('/findAllQ', findAllQ);
 router.get('/searchQuiz/:id', searchQuiz);
 router.get('/findAllAnswered', findAllAnsweredQuizzes);
+router.get('/findOneAnswered/:id', findOneAnsweredQuiz);
 router.get('/findAllStudents', findAllStudents);
 router.get('/findStats/:id', findStats);
 router.get('/groupStats/:id', groupStats);

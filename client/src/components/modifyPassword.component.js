@@ -95,7 +95,6 @@ return (
               <header className="jumbotron">
                 <h3>
                     Profile : <strong>{currentUser.message.firstname}{' '}{currentUser.message.lastname}</strong>
-                    <span style={{float: "right"}}><button className="btnn" onClick={logOut}>Deconnexion</button></span> 
                 </h3>
               </header>
 

@@ -37,6 +37,7 @@ const BoardUser = () => {
   const [allQuizzes, setallQuizzes] = useState([]);
   const [displayAllAnswered, setdisplayAllAnswered] = useState(false);
   const [validate, setvalidate] = useState(false);
+  const [validateMessage, setvalidateMessage] = useState('')
   const [lineArray, setLineArray] = useState([]);
   const [actualQuiz, setactualQuiz] = useState([]);
   const [displayMain, setdisplayMain] = useState(true);
@@ -228,6 +229,15 @@ const BoardUser = () => {
       currentQuiz.questions.length !==
       answers.quiz_answers.student_answers.length
     ) {
+      setvalidateMessage("Veuillez répondre à toutes les questions");
+      setvalidate(true);
+      return setvalidate(true);
+    }
+    if (
+      currentUser.message.roles.includes("ROLE_ADMIN")
+    ) {
+      
+      setvalidateMessage("Les administrateurs ne peuvent pas participer au quiz, ils ne peuvent qu'avoir un aperçu de la page des élèves.");
       setvalidate(true);
       return setvalidate(true);
     }
@@ -480,7 +490,7 @@ const BoardUser = () => {
                 onClose={() => handleClose()}
               >
                 <Alert onClose={() => handleClose()} severity="error">
-                  {'Please answer all questions'}
+                  {validateMessage}
                 </Alert>
               </Snackbar>
             )}
