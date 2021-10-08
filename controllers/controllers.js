@@ -5,8 +5,6 @@ const History = require('../models/history');
 //FIND ALL QUIZZES
 exports.findAllQ = (req, res) => {
   const quiz = req.query.quiz;
-  var condition = quiz ? { quiz: { $regex: new RegExp(quiz), $options: "i" } } : {};
-
   Quiz.find(quiz)
     .then(data => {
       res.send(data);
@@ -20,7 +18,6 @@ exports.findAllQ = (req, res) => {
 
 exports.findAllAnsweredQuizzes = (req, res) => {
   const answer = req.query.quiz_id;
-  var condition = answer ? { answer: { $regex: new RegExp(answer), $options: "i" } } : {};
 
   History.find(answer)
     .then(data => {
@@ -35,7 +32,6 @@ exports.findAllAnsweredQuizzes = (req, res) => {
 
 exports.findOneAnsweredQuiz = async (req, res) => {
   const quiz_id = req.params.id;
-  // var condition = answer ? { answer: { $regex: new RegExp(answer), $options: "i" } } : {};
   console.log(quiz_id)
   History.findOne({quiz_id : quiz_id})
     .then(data => {
@@ -69,12 +65,7 @@ Quiz.findOne({quiz_id : id})
 exports.findStats = (req, res) => {
 const id = req.params.id;
 
-History.find({quiz_id : id}
-  // , {
-  // "quiz_answers.student_answers.question_answer_id" : 1,
-  // "quiz_answers.student_answers.answer" : 1
-  // }
-  )
+History.find({quiz_id : id})
   .then(data => {
     if (!data)
       res.status(404).send({ message: "Non trouvé Réponse avec id " + id });
@@ -106,7 +97,7 @@ User.find(
     else {
       res.send(data)
         
-    };
+    }
   })
   .catch(err => {
     res
@@ -144,7 +135,7 @@ History.aggregate(
     else {
       res.send(data)
         
-    };
+    }
   })
   .catch(err => {
     res
@@ -336,7 +327,7 @@ let checkExisting = await User.findOne({"email" : student_id, "quizzes.quiz_id" 
 if(allow === null){
   return res.status(500).json({
     // QUIZ NOT OPENED
-  message: "Le questionnaire n'est pas ouvert pour répondre... Veuillez contacter "+ teacher.created_by
+  message: "Le questionnaire n'est pas ouvert pour répondre."
   })
 }
 else{
